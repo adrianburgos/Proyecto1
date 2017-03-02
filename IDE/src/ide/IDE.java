@@ -8,7 +8,9 @@ public class IDE {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //GenerarArchivos.generarLexico("src/Analisis/LexicoHaskell.jflex");
+        GenerarArchivos.generarLexico("src/Analisis/LexicoHaskell.jflex");
+        Principal principal = new Principal();
+        principal.setVisible(true);
     }
     
 }
