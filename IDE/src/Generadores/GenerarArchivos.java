@@ -21,10 +21,10 @@ public class GenerarArchivos {
         cadena[0] = "-destdir";
         cadena[1] = "src/Analisis";
         cadena[2] = "-symbols";
-        cadena[3] = "SimbolosHaskell";
+        cadena[3] = "SimbolosHaskellTerminal";
         cadena[4] = "-parser";
-        cadena[5] = "SintacticoHaskell";
-        cadena[6] = "src/Analisis/SintacticoHaskell.cup";
+        cadena[5] = "SintacticoHaskellTerminal";
+        cadena[6] = "src/Analisis/SintacticoHaskellTerminal.cup";
         try {
             java_cup.Main.main(cadena);
         } catch (Exception e) {

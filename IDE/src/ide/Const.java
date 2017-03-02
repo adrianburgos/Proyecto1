@@ -48,4 +48,7 @@ public class Const {
             aparentesis = "(",
             cparentesis = ")",
             coma = ",";
+    
+    public static String 
+            publico = "publico";
 }

@@ -5,7 +5,14 @@
  */
 package ide;
 
+import Analisis.LexicoHaskellTerminal;
+import Analisis.SintacticoHaskellTerminal;
 import com.sun.glass.events.KeyEvent;
+import fabrica.*;
+import java.io.BufferedReader;
+import java.io.StringReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -97,6 +104,16 @@ public class Principal extends javax.swing.JFrame {
         if(evt.getKeyCode() == KeyEvent.VK_ENTER)
         {
             taConsola.append(">" + tfEntradaConsola.getText() + "\n");
+            String texto = tfEntradaConsola.getText();
+            LexicoHaskellTerminal lhaskell = new LexicoHaskellTerminal(new BufferedReader(new StringReader(texto)));
+            SintacticoHaskellTerminal shaskell = new SintacticoHaskellTerminal(lhaskell);
+            Nodo raiz = null;
+            try {
+                shaskell.parse();
+                raiz = shaskell.raiz;
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
             tfEntradaConsola.setText("");
         }
     }//GEN-LAST:event_tfEntradaConsolaKeyPressed
