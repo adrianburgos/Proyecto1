@@ -11,15 +11,34 @@ public class Nodo {
     public LinkedList<Nodo> hijos = new LinkedList();
     protected int fila, columna;
 
+    public Nodo(int nombre, int tipo, String valor, String visibilidad, int fila, int columna) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.valor = valor;
+        this.visibilidad = visibilidad;
+        this.fila = fila;
+        this.columna = columna;
+    }
+
+    public Nodo(int nombre, int tipo, String valor, int fila, int columna) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.valor = valor;
+        this.visibilidad = Const.publico;
+        this.fila = fila;
+        this.columna = columna;
+    }
+
+    
+    
     public Nodo() {
         nombre = 0;
+        tipo = 0;
         valor = "";
         visibilidad = Const.publico;
         fila = 0;
         columna = 0;
     }
-    
-    
     
     public int getNombre() {
         return nombre;

@@ -44,16 +44,16 @@ INICIO          ::= {:System.out.println("inicio");:}CALCULAR:t1 {: raiz = t1; S
 
 CALCULAR        ::= dolar calcular E:t1 dolar {: RESULT = t1; System.out.println("Calcular");:};
 
-E               ::= E:t1 mas E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                |   E:t1 menos E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                |   E:t1 por E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                |   E:t1 dividido E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                |   E:t1 mod E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                |   E:t1 pot E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                |   E:t1 sqrt E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
+E               ::= E:t1 mas E:t2 {: RESULT = new Nodo(Const.mas, 1, t1, t2); :}
+                |   E:t1 menos E:t2 {: RESULT = new Nodo(Const.menos, 1, t1, t2); :}
+                |   E:t1 por E:t2 {: RESULT = new Nodo(Const.por, 1, t1, t2); :}
+                |   E:t1 dividido E:t2 {: RESULT = new Nodo(Const.dividido, 1, t1, t2); :}
+                |   E:t1 mod E:t2 {: RESULT = new Nodo(Const.mod, 1, t1, t2); :}
+                |   E:t1 pot E:t2 {: RESULT = new Nodo(Const.pot, 1, t1, t2); :}
+                |   E:t1 sqrt E:t2 {: RESULT = new Nodo(Const.sqrt, 1, t1, t2); :}
                 |   aparentesis E:t1 cparentesis {: RESULT = t1; :}
-                |   numero:t1 {: RESULT = new Nodo("numero", t1, 1, 1); :}
-                |   iden:t1 {: RESULT = new Nodo("id", t1, 1, 1); :};
+                |   numero:t1 {: RESULT = new Nodo(Const.tNumero, t1, 1, 1); :}
+                |   iden:t1 {: RESULT = new Nodo(Const.tId, t1, 1, 1); :};
 
 
 
