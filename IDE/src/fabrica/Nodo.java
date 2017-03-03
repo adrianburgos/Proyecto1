@@ -4,32 +4,15 @@ import ide.Const;
 import java.util.LinkedList;
 
 public class Nodo {
-    protected String nombre;
-    protected String valor;
-    protected String visibilidad;
+    private int nombre;
+    private int tipo; //cadena numero booleano
+    private String valor;
+    private String visibilidad;
     public LinkedList<Nodo> hijos = new LinkedList();
     protected int fila, columna;
-    
-    public Nodo (String nombre, String valor, int fila, int columna) {
-        this.nombre = nombre;
-        this.valor = valor;
-        this.visibilidad = Const.publico;
-        this.fila = fila;
-        this.columna = columna;
-    }
-    
-        public Nodo(int fila, int columna, Nodo op1, Nodo op2) {
-        this.nombre = Const.mas;
-        this.valor = Const.mas;
-        this.visibilidad = Const.publico;
-        this.fila = fila;
-        this.columna = columna;
-        this.hijos.add(op1);
-        this.hijos.add(op2);
-    }
 
     public Nodo() {
-        nombre = "";
+        nombre = 0;
         valor = "";
         visibilidad = Const.publico;
         fila = 0;
@@ -38,11 +21,11 @@ public class Nodo {
     
     
     
-    public String getNombre() {
+    public int getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
+    public void setNombre(int nombre) {
         this.nombre = nombre;
     }
 

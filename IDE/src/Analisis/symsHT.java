@@ -6,7 +6,7 @@
 package Analisis;
 
 /** CUP generated class containing symbol constants. */
-public class SimbolosHaskellTerminal {
+public class symsHT {
   /* terminals */
   public static final int decc = 5;
   public static final int ccorchete = 43;

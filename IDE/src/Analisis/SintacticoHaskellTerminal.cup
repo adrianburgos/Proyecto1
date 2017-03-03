@@ -31,11 +31,12 @@ terminal String numero, iden;
 non terminal Nodo INICIO, CALCULAR, E;
 
 //precedencia menor a mayor
+precedence left or;
+precedence left and;
+precedence left menor, mayor, menorigual, mayorigual, diferente, igualigual;
 precedence left mas, menos;
 precedence left por, dividido, mod;
 precedence left pot, sqrt;
-precedence left menor, mayor, menorigual, mayorigual, diferente, igualigual;
-precedence left and, or;
 start with INICIO;
 //-------------------reglas sintacticas----------------
 
@@ -43,24 +44,16 @@ INICIO          ::= {:System.out.println("inicio");:}CALCULAR:t1 {: raiz = t1; S
 
 CALCULAR        ::= dolar calcular E:t1 dolar {: RESULT = t1; System.out.println("Calcular");:};
 
-E               ::= E:t1 and E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                | E:t1 or E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :} 
-                | E:t1 menor E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                | E:t1 mayor E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                | E:t1 menorigual E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                | E:t1 mayorigual E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                | E:t1 diferente E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                | E:t1 igualigual E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                | E:t1 mas E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                | E:t1 menos E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                | E:t1 por E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                | E:t1 dividido E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                | E:t1 mod E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                | E:t1 pot E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                | E:t1 sqrt E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
-                | aparentesis E:t1 cparentesis {: RESULT = t1; :}
-                | numero:t1 {: RESULT = new Nodo("numero", t1, 1, 1); :}
-                | iden:t1 {: RESULT = new Nodo("id", t1, 1, 1); :};
+E               ::= E:t1 mas E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
+                |   E:t1 menos E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
+                |   E:t1 por E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
+                |   E:t1 dividido E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
+                |   E:t1 mod E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
+                |   E:t1 pot E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
+                |   E:t1 sqrt E:t2 {: RESULT = new Nodo(1, 1, t1, t2); :}
+                |   aparentesis E:t1 cparentesis {: RESULT = t1; :}
+                |   numero:t1 {: RESULT = new Nodo("numero", t1, 1, 1); :}
+                |   iden:t1 {: RESULT = new Nodo("id", t1, 1, 1); :};
 
 
 

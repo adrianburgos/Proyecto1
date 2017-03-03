@@ -16,7 +16,7 @@ import java_cup.runtime.XMLElement;
 public class SintacticoHaskellTerminal extends java_cup.runtime.lr_parser {
 
  public final Class getSymbolContainer() {
-    return SimbolosHaskellTerminal.class;
+    return symsHT.class;
 }
 
   /** Default constructor. */

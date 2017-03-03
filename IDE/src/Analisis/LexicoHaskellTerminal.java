@@ -722,16 +722,16 @@ public class LexicoHaskellTerminal implements java_cup.runtime.Scanner {
       if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
         zzAtEOF = true;
             zzDoEOF();
-          { return new java_cup.runtime.Symbol(SimbolosHaskellTerminal.EOF); }
+          { return new java_cup.runtime.Symbol(symsHT.EOF); }
       }
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { return new Symbol(SimbolosHaskellTerminal.numero, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.numero, yycolumn, yyline, yytext());
             }
           case 50: break;
           case 2: 
-            { return new Symbol(SimbolosHaskellTerminal.iden, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.iden, yycolumn, yyline, yytext());
             }
           case 51: break;
           case 3: 
@@ -739,19 +739,19 @@ public class LexicoHaskellTerminal implements java_cup.runtime.Scanner {
             }
           case 52: break;
           case 4: 
-            { return new Symbol(SimbolosHaskellTerminal.mas, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.mas, yycolumn, yyline, yytext());
             }
           case 53: break;
           case 5: 
-            { return new Symbol(SimbolosHaskellTerminal.menos, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.menos, yycolumn, yyline, yytext());
             }
           case 54: break;
           case 6: 
-            { return new Symbol(SimbolosHaskellTerminal.por, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.por, yycolumn, yyline, yytext());
             }
           case 55: break;
           case 7: 
-            { return new Symbol(SimbolosHaskellTerminal.dividido, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.dividido, yycolumn, yyline, yytext());
             }
           case 56: break;
           case 8: 
@@ -759,167 +759,167 @@ public class LexicoHaskellTerminal implements java_cup.runtime.Scanner {
             }
           case 57: break;
           case 9: 
-            { return new Symbol(SimbolosHaskellTerminal.menor, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.menor, yycolumn, yyline, yytext());
             }
           case 58: break;
           case 10: 
-            { return new Symbol(SimbolosHaskellTerminal.igual, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.igual, yycolumn, yyline, yytext());
             }
           case 59: break;
           case 11: 
-            { return new Symbol(SimbolosHaskellTerminal.mayor, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.mayor, yycolumn, yyline, yytext());
             }
           case 60: break;
           case 12: 
-            { return new Symbol(SimbolosHaskellTerminal.dolar, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.dolar, yycolumn, yyline, yytext());
             }
           case 61: break;
           case 13: 
-            { return new Symbol(SimbolosHaskellTerminal.porcentaje, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.porcentaje, yycolumn, yyline, yytext());
             }
           case 62: break;
           case 14: 
-            { return new Symbol(SimbolosHaskellTerminal.allave, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.allave, yycolumn, yyline, yytext());
             }
           case 63: break;
           case 15: 
-            { return new Symbol(SimbolosHaskellTerminal.cllave, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.cllave, yycolumn, yyline, yytext());
             }
           case 64: break;
           case 16: 
-            { return new Symbol(SimbolosHaskellTerminal.acorchete, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.acorchete, yycolumn, yyline, yytext());
             }
           case 65: break;
           case 17: 
-            { return new Symbol(SimbolosHaskellTerminal.ccorchete, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.ccorchete, yycolumn, yyline, yytext());
             }
           case 66: break;
           case 18: 
-            { return new Symbol(SimbolosHaskellTerminal.aparentesis, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.aparentesis, yycolumn, yyline, yytext());
             }
           case 67: break;
           case 19: 
-            { return new Symbol(SimbolosHaskellTerminal.cparentesis, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.cparentesis, yycolumn, yyline, yytext());
             }
           case 68: break;
           case 20: 
-            { return new Symbol(SimbolosHaskellTerminal.coma, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.coma, yycolumn, yyline, yytext());
             }
           case 69: break;
           case 21: 
-            { return new Symbol(SimbolosHaskellTerminal._if, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT._if, yycolumn, yyline, yytext());
             }
           case 70: break;
           case 22: 
-            { return new Symbol(SimbolosHaskellTerminal.masmas, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.masmas, yycolumn, yyline, yytext());
             }
           case 71: break;
           case 23: 
-            { return new Symbol(SimbolosHaskellTerminal.or, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.or, yycolumn, yyline, yytext());
             }
           case 72: break;
           case 24: 
-            { return new Symbol(SimbolosHaskellTerminal.and, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.and, yycolumn, yyline, yytext());
             }
           case 73: break;
           case 25: 
-            { return new Symbol(SimbolosHaskellTerminal.menorigual, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.menorigual, yycolumn, yyline, yytext());
             }
           case 74: break;
           case 26: 
-            { return new Symbol(SimbolosHaskellTerminal.igualigual, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.igualigual, yycolumn, yyline, yytext());
             }
           case 75: break;
           case 27: 
-            { return new Symbol(SimbolosHaskellTerminal.mayorigual, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.mayorigual, yycolumn, yyline, yytext());
             }
           case 76: break;
           case 28: 
-            { return new Symbol(SimbolosHaskellTerminal.diferente, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.diferente, yycolumn, yyline, yytext());
             }
           case 77: break;
           case 29: 
-            { return new Symbol(SimbolosHaskellTerminal.asc, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.asc, yycolumn, yyline, yytext());
             }
           case 78: break;
           case 30: 
-            { return new Symbol(SimbolosHaskellTerminal.let, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.let, yycolumn, yyline, yytext());
             }
           case 79: break;
           case 31: 
-            { return new Symbol(SimbolosHaskellTerminal._end, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT._end, yycolumn, yyline, yytext());
             }
           case 80: break;
           case 32: 
-            { return new Symbol(SimbolosHaskellTerminal.sum, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.sum, yycolumn, yyline, yytext());
             }
           case 81: break;
           case 33: 
-            { return new Symbol(SimbolosHaskellTerminal.max, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.max, yycolumn, yyline, yytext());
             }
           case 82: break;
           case 34: 
-            { return new Symbol(SimbolosHaskellTerminal.min, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.min, yycolumn, yyline, yytext());
             }
           case 83: break;
           case 35: 
-            { return new Symbol(SimbolosHaskellTerminal.par, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.par, yycolumn, yyline, yytext());
             }
           case 84: break;
           case 36: 
-            { return new Symbol(SimbolosHaskellTerminal._case, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT._case, yycolumn, yyline, yytext());
             }
           case 85: break;
           case 37: 
-            { return new Symbol(SimbolosHaskellTerminal._else, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT._else, yycolumn, yyline, yytext());
             }
           case 86: break;
           case 38: 
-            { return new Symbol(SimbolosHaskellTerminal._then, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT._then, yycolumn, yyline, yytext());
             }
           case 87: break;
           case 39: 
-            { return new Symbol(SimbolosHaskellTerminal.succ, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.succ, yycolumn, yyline, yytext());
             }
           case 88: break;
           case 40: 
-            { return new Symbol(SimbolosHaskellTerminal.decc, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.decc, yycolumn, yyline, yytext());
             }
           case 89: break;
           case 41: 
-            { return new Symbol(SimbolosHaskellTerminal.desc, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.desc, yycolumn, yyline, yytext());
             }
           case 90: break;
           case 42: 
-            { return new Symbol(SimbolosHaskellTerminal.impr, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.impr, yycolumn, yyline, yytext());
             }
           case 91: break;
           case 43: 
-            { return new Symbol(SimbolosHaskellTerminal.mod, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.mod, yycolumn, yyline, yytext());
             }
           case 92: break;
           case 44: 
-            { return new Symbol(SimbolosHaskellTerminal.pot, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.pot, yycolumn, yyline, yytext());
             }
           case 93: break;
           case 45: 
-            { return new Symbol(SimbolosHaskellTerminal.length, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.length, yycolumn, yyline, yytext());
             }
           case 94: break;
           case 46: 
-            { return new Symbol(SimbolosHaskellTerminal.revers, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.revers, yycolumn, yyline, yytext());
             }
           case 95: break;
           case 47: 
-            { return new Symbol(SimbolosHaskellTerminal.sqrt, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.sqrt, yycolumn, yyline, yytext());
             }
           case 96: break;
           case 48: 
-            { return new Symbol(SimbolosHaskellTerminal.product, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.product, yycolumn, yyline, yytext());
             }
           case 97: break;
           case 49: 
-            { return new Symbol(SimbolosHaskellTerminal.calcular, yycolumn, yyline, yytext());
+            { return new Symbol(symsHT.calcular, yycolumn, yyline, yytext());
             }
           case 98: break;
           default:
