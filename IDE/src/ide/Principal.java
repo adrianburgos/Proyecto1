@@ -7,6 +7,7 @@ package ide;
 
 import Analisis.LexicoHaskellTerminal;
 import Analisis.SintacticoHaskellTerminal;
+import Reportes.Arbol;
 import com.sun.glass.events.KeyEvent;
 import fabrica.*;
 import java.io.BufferedReader;
@@ -115,6 +116,8 @@ public class Principal extends javax.swing.JFrame {
                 System.out.println(ex.getMessage());
             }
             tfEntradaConsola.setText("");
+            Arbol.getGrafo(raiz);
+            Arbol.dibujar();
         }
     }//GEN-LAST:event_tfEntradaConsolaKeyPressed
 

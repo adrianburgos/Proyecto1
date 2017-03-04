@@ -20,6 +20,7 @@ public class symsHT {
   public static final int asc = 13;
   public static final int igual = 37;
   public static final int calcular = 2;
+  public static final int caracter = 50;
   public static final int let = 3;
   public static final int succ = 4;
   public static final int dividido = 25;
@@ -57,6 +58,7 @@ public class symsHT {
   public static final int _case = 20;
   public static final int dolar = 38;
   public static final int min = 6;
+  public static final int cadena = 49;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -106,7 +108,9 @@ public class symsHT {
   "cparentesis",
   "coma",
   "numero",
-  "iden"
+  "iden",
+  "cadena",
+  "caracter"
   };
 }
 

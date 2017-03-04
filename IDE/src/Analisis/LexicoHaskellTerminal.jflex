@@ -8,7 +8,7 @@ import Reportes.*;
 %%
 %{
     //Codigo de usuario en sitaxis java por ejemplo una variable global
-    public static String x;
+    StringBuffer string = new StringBuffer();
 %}
 %public
 %class LexicoHaskellTerminal
@@ -24,8 +24,13 @@ import Reportes.*;
 //expresiones regulares
 numero = [0-9]+
 iden = [A-Za-z_][A-Za-z_0-9]*
+caracter = "'"."'"
+cadena = \"(\\.|[^\"])*\"
 finLinea = \r|\n|\r\n
 enBlanco = {finLinea} | [ \t\f]
+
+
+%state STRING
 %%
 
 //reglas lexicas
@@ -82,12 +87,14 @@ enBlanco = {finLinea} | [ \t\f]
 ","         { return new Symbol(symsHT.coma, yycolumn, yyline, yytext()); }
 
 //-----------------expresiones regulares-----------------------
-{numero}         { return new Symbol(symsHT.numero, yycolumn, yyline, yytext()); }
-{iden}           { return new Symbol(symsHT.iden, yycolumn, yyline, yytext()); }
+{caracter}          { return new Symbol(symsHT.caracter, yycolumn, yyline, yytext()); }
+{cadena}            { return new Symbol(symsHT.cadena, yycolumn, yyline, yytext()); }
+{numero}            { return new Symbol(symsHT.numero, yycolumn, yyline, yytext()); }
+{iden}              { return new Symbol(symsHT.iden, yycolumn, yyline, yytext()); }
 
-{enBlanco}       { /* ignore */ }
+{enBlanco}  { /* ignore */ }
 }
 
 
 //-----------------errores lexicos-----------------------------
-[^]                            {ErroresHaskell.agregarError("Error Lexico", "El caracter [" + yytext() + "] no es valido", yyline, yycolumn);}
+[^]         {ErroresHaskell.agregarError("Error Lexico", "El caracter [" + yytext() + "] no es valido", yyline, yycolumn);}

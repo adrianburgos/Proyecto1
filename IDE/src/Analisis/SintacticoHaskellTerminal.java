@@ -8,6 +8,7 @@ package Analisis;
 import java_cup.runtime.Symbol;
 import Reportes.*;
 import fabrica.*;
+import ide.Const;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -33,13 +34,12 @@ public class SintacticoHaskellTerminal extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\026\000\002\002\004\000\002\005\002\000\002\002" +
+    "\000\020\000\002\002\004\000\002\005\002\000\002\002" +
     "\004\000\002\003\006\000\002\004\005\000\002\004\005" +
     "\000\002\004\005\000\002\004\005\000\002\004\005\000" +
     "\002\004\005\000\002\004\005\000\002\004\005\000\002" +
-    "\004\005\000\002\004\005\000\002\004\005\000\002\004" +
-    "\005\000\002\004\005\000\002\004\005\000\002\004\005" +
-    "\000\002\004\005\000\002\004\003\000\002\004\003" });
+    "\004\003\000\002\004\003\000\002\004\003\000\002\004" +
+    "\003" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -47,81 +47,43 @@ public class SintacticoHaskellTerminal extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\054\000\004\050\000\001\002\000\004\050\007\001" +
+    "\000\036\000\004\050\000\001\002\000\004\050\007\001" +
     "\002\000\004\002\006\001\002\000\004\002\001\001\002" +
     "\000\004\004\011\001\002\000\004\002\uffff\001\002\000" +
-    "\010\056\013\061\012\062\014\001\002\000\044\030\uffed" +
-    "\031\uffed\032\uffed\033\uffed\034\uffed\035\uffed\036\uffed\037" +
-    "\uffed\040\uffed\041\uffed\042\uffed\043\uffed\044\uffed\045\uffed" +
-    "\046\uffed\050\uffed\057\uffed\001\002\000\010\056\013\061" +
-    "\012\062\014\001\002\000\044\030\uffec\031\uffec\032\uffec" +
-    "\033\uffec\034\uffec\035\uffec\036\uffec\037\uffec\040\uffec\041" +
-    "\uffec\042\uffec\043\uffec\044\uffec\045\uffec\046\uffec\050\uffec" +
-    "\057\uffec\001\002\000\042\030\034\031\023\032\031\033" +
-    "\017\034\030\035\032\036\027\037\021\040\022\041\033" +
-    "\042\020\043\024\044\035\045\026\046\025\050\016\001" +
-    "\002\000\004\002\ufffe\001\002\000\010\056\013\061\012" +
-    "\062\014\001\002\000\010\056\013\061\012\062\014\001" +
-    "\002\000\010\056\013\061\012\062\014\001\002\000\010" +
-    "\056\013\061\012\062\014\001\002\000\010\056\013\061" +
-    "\012\062\014\001\002\000\010\056\013\061\012\062\014" +
-    "\001\002\000\010\056\013\061\012\062\014\001\002\000" +
-    "\010\056\013\061\012\062\014\001\002\000\010\056\013" +
-    "\061\012\062\014\001\002\000\010\056\013\061\012\062" +
-    "\014\001\002\000\010\056\013\061\012\062\014\001\002" +
-    "\000\010\056\013\061\012\062\014\001\002\000\010\056" +
-    "\013\061\012\062\014\001\002\000\010\056\013\061\012" +
-    "\062\014\001\002\000\010\056\013\061\012\062\014\001" +
-    "\002\000\044\030\ufffa\031\ufffa\032\ufffa\033\ufffa\034\ufffa" +
-    "\035\ufffa\036\ufffa\037\021\040\022\041\ufffa\042\ufffa\043" +
-    "\ufffa\044\ufffa\045\ufffa\046\ufffa\050\ufffa\057\ufffa\001\002" +
-    "\000\044\030\ufff5\031\ufff5\032\031\033\017\034\030\035" +
-    "\032\036\027\037\021\040\022\041\033\042\020\043\024" +
-    "\044\035\045\026\046\025\050\ufff5\057\ufff5\001\002\000" +
-    "\044\030\ufff9\031\ufff9\032\ufff9\033\ufff9\034\ufff9\035\ufff9" +
-    "\036\ufff9\037\021\040\022\041\ufff9\042\ufff9\043\ufff9\044" +
-    "\ufff9\045\ufff9\046\ufff9\050\ufff9\057\ufff9\001\002\000\044" +
-    "\030\uffef\031\uffef\032\uffef\033\uffef\034\uffef\035\uffef\036" +
-    "\uffef\037\021\040\022\041\033\042\020\043\024\044\035" +
-    "\045\026\046\025\050\uffef\057\uffef\001\002\000\044\030" +
-    "\ufff3\031\ufff3\032\ufff3\033\ufff3\034\ufff3\035\032\036\027" +
-    "\037\021\040\022\041\033\042\020\043\024\044\035\045" +
-    "\026\046\025\050\ufff3\057\ufff3\001\002\000\044\030\ufff1" +
-    "\031\ufff1\032\ufff1\033\ufff1\034\ufff1\035\032\036\027\037" +
-    "\021\040\022\041\033\042\020\043\024\044\035\045\026" +
-    "\046\025\050\ufff1\057\ufff1\001\002\000\044\030\ufff0\031" +
-    "\ufff0\032\ufff0\033\ufff0\034\ufff0\035\ufff0\036\ufff0\037\021" +
-    "\040\022\041\033\042\020\043\024\044\035\045\026\046" +
-    "\025\050\ufff0\057\ufff0\001\002\000\044\030\ufff7\031\ufff7" +
-    "\032\ufff7\033\ufff7\034\ufff7\035\ufff7\036\ufff7\037\021\040" +
-    "\022\041\ufff7\042\ufff7\043\ufff7\044\ufff7\045\ufff7\046\ufff7" +
-    "\050\ufff7\057\ufff7\001\002\000\044\030\ufff6\031\ufff6\032" +
-    "\ufff6\033\ufff6\034\ufff6\035\ufff6\036\ufff6\037\021\040\022" +
-    "\041\ufff6\042\ufff6\043\ufff6\044\ufff6\045\ufff6\046\ufff6\050" +
-    "\ufff6\057\ufff6\001\002\000\044\030\ufffb\031\ufffb\032\ufffb" +
-    "\033\ufffb\034\ufffb\035\ufffb\036\ufffb\037\021\040\022\041" +
-    "\ufffb\042\ufffb\043\ufffb\044\ufffb\045\ufffb\046\ufffb\050\ufffb" +
-    "\057\ufffb\001\002\000\044\030\ufff4\031\ufff4\032\031\033" +
-    "\017\034\030\035\032\036\027\037\021\040\022\041\033" +
-    "\042\020\043\024\044\035\045\026\046\025\050\ufff4\057" +
-    "\ufff4\001\002\000\044\030\ufffd\031\ufffd\032\ufffd\033\ufffd" +
-    "\034\ufffd\035\ufffd\036\ufffd\037\ufffd\040\ufffd\041\ufffd\042" +
-    "\ufffd\043\ufffd\044\ufffd\045\ufffd\046\ufffd\050\ufffd\057\ufffd" +
-    "\001\002\000\044\030\ufffc\031\ufffc\032\ufffc\033\ufffc\034" +
-    "\ufffc\035\ufffc\036\ufffc\037\ufffc\040\ufffc\041\ufffc\042\ufffc" +
-    "\043\ufffc\044\ufffc\045\ufffc\046\ufffc\050\ufffc\057\ufffc\001" +
-    "\002\000\044\030\ufff8\031\ufff8\032\ufff8\033\ufff8\034\ufff8" +
-    "\035\ufff8\036\ufff8\037\021\040\022\041\ufff8\042\ufff8\043" +
-    "\ufff8\044\ufff8\045\ufff8\046\ufff8\050\ufff8\057\ufff8\001\002" +
-    "\000\044\030\ufff2\031\ufff2\032\ufff2\033\ufff2\034\ufff2\035" +
-    "\032\036\027\037\021\040\022\041\033\042\020\043\024" +
-    "\044\035\045\026\046\025\050\ufff2\057\ufff2\001\002\000" +
-    "\042\030\034\031\023\032\031\033\017\034\030\035\032" +
-    "\036\027\037\021\040\022\041\033\042\020\043\024\044" +
-    "\035\045\026\046\025\057\056\001\002\000\044\030\uffee" +
-    "\031\uffee\032\uffee\033\uffee\034\uffee\035\uffee\036\uffee\037" +
-    "\uffee\040\uffee\041\uffee\042\uffee\043\uffee\044\uffee\045\uffee" +
-    "\046\uffee\050\uffee\057\uffee\001\002" });
+    "\014\056\015\061\012\062\014\063\013\064\017\001\002" +
+    "\000\024\030\ufff5\031\ufff5\032\ufff5\033\ufff5\034\ufff5\035" +
+    "\ufff5\036\ufff5\050\ufff5\057\ufff5\001\002\000\024\030\ufff3" +
+    "\031\ufff3\032\ufff3\033\ufff3\034\ufff3\035\ufff3\036\ufff3\050" +
+    "\ufff3\057\ufff3\001\002\000\024\030\ufff4\031\ufff4\032\ufff4" +
+    "\033\ufff4\034\ufff4\035\ufff4\036\ufff4\050\ufff4\057\ufff4\001" +
+    "\002\000\014\056\015\061\012\062\014\063\013\064\017" +
+    "\001\002\000\022\030\023\031\024\032\020\033\027\034" +
+    "\022\035\025\036\026\050\021\001\002\000\024\030\ufff2" +
+    "\031\ufff2\032\ufff2\033\ufff2\034\ufff2\035\ufff2\036\ufff2\050" +
+    "\ufff2\057\ufff2\001\002\000\014\056\015\061\012\062\014" +
+    "\063\013\064\017\001\002\000\004\002\ufffe\001\002\000" +
+    "\014\056\015\061\012\062\014\063\013\064\017\001\002" +
+    "\000\014\056\015\061\012\062\014\063\013\064\017\001" +
+    "\002\000\014\056\015\061\012\062\014\063\013\064\017" +
+    "\001\002\000\014\056\015\061\012\062\014\063\013\064" +
+    "\017\001\002\000\014\056\015\061\012\062\014\063\013" +
+    "\064\017\001\002\000\014\056\015\061\012\062\014\063" +
+    "\013\064\017\001\002\000\024\030\ufffa\031\ufffa\032\ufffa" +
+    "\033\ufffa\034\ufffa\035\025\036\026\050\ufffa\057\ufffa\001" +
+    "\002\000\024\030\ufff8\031\ufff8\032\ufff8\033\ufff8\034\ufff8" +
+    "\035\ufff8\036\ufff8\050\ufff8\057\ufff8\001\002\000\024\030" +
+    "\ufff7\031\ufff7\032\ufff7\033\ufff7\034\ufff7\035\ufff7\036\ufff7" +
+    "\050\ufff7\057\ufff7\001\002\000\024\030\ufffc\031\ufffc\032" +
+    "\020\033\027\034\022\035\025\036\026\050\ufffc\057\ufffc" +
+    "\001\002\000\024\030\ufffd\031\ufffd\032\020\033\027\034" +
+    "\022\035\025\036\026\050\ufffd\057\ufffd\001\002\000\024" +
+    "\030\ufff9\031\ufff9\032\ufff9\033\ufff9\034\ufff9\035\025\036" +
+    "\026\050\ufff9\057\ufff9\001\002\000\024\030\ufffb\031\ufffb" +
+    "\032\ufffb\033\ufffb\034\ufffb\035\025\036\026\050\ufffb\057" +
+    "\ufffb\001\002\000\022\030\023\031\024\032\020\033\027" +
+    "\034\022\035\025\036\026\057\040\001\002\000\024\030" +
+    "\ufff6\031\ufff6\032\ufff6\033\ufff6\034\ufff6\035\ufff6\036\ufff6" +
+    "\050\ufff6\057\ufff6\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -129,23 +91,18 @@ public class SintacticoHaskellTerminal extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\054\000\006\002\004\005\003\001\001\000\004\003" +
+    "\000\036\000\006\002\004\005\003\001\001\000\004\003" +
     "\007\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\004\004\014\001\001\000" +
-    "\002\001\001\000\004\004\054\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\004\004\053\001" +
-    "\001\000\004\004\052\001\001\000\004\004\051\001\001" +
-    "\000\004\004\050\001\001\000\004\004\047\001\001\000" +
-    "\004\004\046\001\001\000\004\004\045\001\001\000\004" +
-    "\004\044\001\001\000\004\004\043\001\001\000\004\004" +
-    "\042\001\001\000\004\004\041\001\001\000\004\004\040" +
-    "\001\001\000\004\004\037\001\001\000\004\004\036\001" +
-    "\001\000\004\004\035\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\001\000\002\001\001\000\004\004\015\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\004" +
+    "\004\036\001\001\000\002\001\001\000\002\001\001\000" +
+    "\004\004\035\001\001\000\002\001\001\000\004\004\034" +
+    "\001\001\000\004\004\033\001\001\000\004\004\032\001" +
+    "\001\000\004\004\031\001\001\000\004\004\030\001\001" +
+    "\000\004\004\027\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001" });
+    "\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -268,13 +225,13 @@ System.out.println("inicio");
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-1)).left;
 		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-1)).right;
 		Nodo t1 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-1)).value;
-		 RESULT = t1; System.out.println("Calcular");
+		 RESULT = NodoGeneral.crearCalcular(t1); System.out.println("Calcular");
               CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("CALCULAR",1, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-3)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // E ::= E and E 
+          case 4: // E ::= E mas E 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
@@ -283,13 +240,13 @@ System.out.println("inicio");
 		int t2left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
 		int t2right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
 		Nodo t2 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = new Nodo(1, 1, t1, t2); 
+		 RESULT = NodoOperacion.crearNodo(Const.mas, t1, t2); 
               CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // E ::= E or E 
+          case 5: // E ::= E menos E 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
@@ -298,13 +255,13 @@ System.out.println("inicio");
 		int t2left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
 		int t2right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
 		Nodo t2 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = new Nodo(1, 1, t1, t2); 
+		 RESULT = NodoOperacion.crearNodo(Const.menos, t1, t2); 
               CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // E ::= E menor E 
+          case 6: // E ::= E por E 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
@@ -313,13 +270,13 @@ System.out.println("inicio");
 		int t2left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
 		int t2right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
 		Nodo t2 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = new Nodo(1, 1, t1, t2); 
+		 RESULT = NodoOperacion.crearNodo(Const.por, t1, t2); 
               CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // E ::= E mayor E 
+          case 7: // E ::= E dividido E 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
@@ -328,13 +285,13 @@ System.out.println("inicio");
 		int t2left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
 		int t2right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
 		Nodo t2 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = new Nodo(1, 1, t1, t2); 
+		 RESULT = NodoOperacion.crearNodo(Const.dividido, t1, t2); 
               CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // E ::= E menorigual E 
+          case 8: // E ::= E mod E 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
@@ -343,13 +300,13 @@ System.out.println("inicio");
 		int t2left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
 		int t2right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
 		Nodo t2 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = new Nodo(1, 1, t1, t2); 
+		 RESULT = NodoOperacion.crearNodo(Const.mod, t1, t2); 
               CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // E ::= E mayorigual E 
+          case 9: // E ::= E pot E 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
@@ -358,13 +315,13 @@ System.out.println("inicio");
 		int t2left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
 		int t2right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
 		Nodo t2 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = new Nodo(1, 1, t1, t2); 
+		 RESULT = NodoOperacion.crearNodo(Const.pot, t1, t2); 
               CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // E ::= E diferente E 
+          case 10: // E ::= E sqrt E 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
@@ -373,133 +330,13 @@ System.out.println("inicio");
 		int t2left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
 		int t2right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
 		Nodo t2 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = new Nodo(1, 1, t1, t2); 
+		 RESULT = NodoOperacion.crearNodo(Const.sqrt, t1, t2); 
               CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // E ::= E igualigual E 
-            {
-              Nodo RESULT =null;
-		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
-		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).right;
-		Nodo t1 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).value;
-		int t2left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
-		int t2right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
-		Nodo t2 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = new Nodo(1, 1, t1, t2); 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
-            }
-          return CUP$SintacticoHaskellTerminal$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 12: // E ::= E mas E 
-            {
-              Nodo RESULT =null;
-		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
-		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).right;
-		Nodo t1 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).value;
-		int t2left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
-		int t2right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
-		Nodo t2 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = new Nodo(1, 1, t1, t2); 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
-            }
-          return CUP$SintacticoHaskellTerminal$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // E ::= E menos E 
-            {
-              Nodo RESULT =null;
-		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
-		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).right;
-		Nodo t1 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).value;
-		int t2left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
-		int t2right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
-		Nodo t2 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = new Nodo(1, 1, t1, t2); 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
-            }
-          return CUP$SintacticoHaskellTerminal$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // E ::= E por E 
-            {
-              Nodo RESULT =null;
-		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
-		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).right;
-		Nodo t1 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).value;
-		int t2left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
-		int t2right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
-		Nodo t2 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = new Nodo(1, 1, t1, t2); 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
-            }
-          return CUP$SintacticoHaskellTerminal$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 15: // E ::= E dividido E 
-            {
-              Nodo RESULT =null;
-		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
-		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).right;
-		Nodo t1 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).value;
-		int t2left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
-		int t2right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
-		Nodo t2 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = new Nodo(1, 1, t1, t2); 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
-            }
-          return CUP$SintacticoHaskellTerminal$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 16: // E ::= E mod E 
-            {
-              Nodo RESULT =null;
-		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
-		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).right;
-		Nodo t1 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).value;
-		int t2left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
-		int t2right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
-		Nodo t2 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = new Nodo(1, 1, t1, t2); 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
-            }
-          return CUP$SintacticoHaskellTerminal$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 17: // E ::= E pot E 
-            {
-              Nodo RESULT =null;
-		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
-		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).right;
-		Nodo t1 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).value;
-		int t2left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
-		int t2right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
-		Nodo t2 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = new Nodo(1, 1, t1, t2); 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
-            }
-          return CUP$SintacticoHaskellTerminal$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 18: // E ::= E sqrt E 
-            {
-              Nodo RESULT =null;
-		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
-		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).right;
-		Nodo t1 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).value;
-		int t2left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
-		int t2right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
-		Nodo t2 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = new Nodo(1, 1, t1, t2); 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
-            }
-          return CUP$SintacticoHaskellTerminal$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 19: // E ::= aparentesis E cparentesis 
+          case 11: // E ::= aparentesis E cparentesis 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-1)).left;
@@ -511,25 +348,49 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 20: // E ::= numero 
+          case 12: // E ::= numero 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
 		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
 		String t1 = (String)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = new Nodo("numero", t1, 1, 1); 
+		 RESULT = new Nodo(Const.numero, t1, 1, 1, 1); 
               CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 21: // E ::= iden 
+          case 13: // E ::= iden 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
 		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
 		String t1 = (String)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = new Nodo("id", t1, 1, 1); 
+		 RESULT = new Nodo(Const.id, t1, 1, 1, 1); 
+              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
+            }
+          return CUP$SintacticoHaskellTerminal$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 14: // E ::= cadena 
+            {
+              Nodo RESULT =null;
+		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
+		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
+		String t1 = (String)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
+		 RESULT = new Nodo(Const.cadena, t1, 1, 1, 1); 
+              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
+            }
+          return CUP$SintacticoHaskellTerminal$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 15: // E ::= caracter 
+            {
+              Nodo RESULT =null;
+		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
+		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
+		String t1 = (String)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
+		 RESULT = new Nodo(Const.caracter, t1, 1, 1, 1); 
               CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;

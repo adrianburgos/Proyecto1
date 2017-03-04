@@ -1,6 +1,6 @@
 package ide;
 public class Const {
-    public static String 
+    public static final String 
             calcular = "calcular",
             let = "let",
             succ = "succ",
@@ -39,10 +39,14 @@ public class Const {
             porcentaje = "%",
             masmas = "++";
     
-    public static String 
+    public static final String 
             publico = "publico",
             privado = "privado",
             protegido = "protegido",
             asignacion = "asignacion",
-            declaracion = "declaracion";
+            declaracion = "declaracion",
+            numero = "numero",
+            id = "id",
+            cadena = "cadena",
+            caracter = "caracter";
 }

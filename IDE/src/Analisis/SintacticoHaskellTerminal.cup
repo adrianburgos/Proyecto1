@@ -3,6 +3,7 @@ package Analisis;
 import java_cup.runtime.Symbol;
 import Reportes.*;
 import fabrica.*;
+import ide.Const;
 parser code
 {:
     public Nodo raiz = new Nodo(); 
@@ -26,7 +27,7 @@ action code
 terminal calcular,let,succ,decc,min,max,sum,product,revers,impr,par,asc,desc,length,_if,_then,_else,_end,_case,masmas;
 terminal mas,menos,por,dividido,mod,sqrt,pot,or,and,menorigual,mayorigual,menor,mayor,diferente,igualigual;
 terminal igual,dolar,porcentaje,allave,cllave,acorchete,ccorchete,aparentesis,cparentesis,coma;
-terminal String numero, iden;
+terminal String numero, iden, cadena, caracter;
 
 non terminal Nodo INICIO, CALCULAR, E;
 
@@ -42,18 +43,21 @@ start with INICIO;
 
 INICIO          ::= {:System.out.println("inicio");:}CALCULAR:t1 {: raiz = t1; System.out.println("FINALIZO"); :};
 
-CALCULAR        ::= dolar calcular E:t1 dolar {: RESULT = t1; System.out.println("Calcular");:};
+CALCULAR        ::= dolar calcular E:t1 dolar {: RESULT = NodoGeneral.crearCalcular(t1); System.out.println("Calcular");:};
 
-E               ::= E:t1 mas E:t2 {: RESULT = new Nodo(Const.mas, 1, t1, t2); :}
-                |   E:t1 menos E:t2 {: RESULT = new Nodo(Const.menos, 1, t1, t2); :}
-                |   E:t1 por E:t2 {: RESULT = new Nodo(Const.por, 1, t1, t2); :}
-                |   E:t1 dividido E:t2 {: RESULT = new Nodo(Const.dividido, 1, t1, t2); :}
-                |   E:t1 mod E:t2 {: RESULT = new Nodo(Const.mod, 1, t1, t2); :}
-                |   E:t1 pot E:t2 {: RESULT = new Nodo(Const.pot, 1, t1, t2); :}
-                |   E:t1 sqrt E:t2 {: RESULT = new Nodo(Const.sqrt, 1, t1, t2); :}
+E               ::= E:t1 mas E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mas, t1, t2); :}
+                |   E:t1 menos E:t2 {: RESULT = NodoOperacion.crearNodo(Const.menos, t1, t2); :}
+                |   E:t1 por E:t2 {: RESULT = NodoOperacion.crearNodo(Const.por, t1, t2); :}
+                |   E:t1 dividido E:t2 {: RESULT = NodoOperacion.crearNodo(Const.dividido, t1, t2); :}
+                |   E:t1 mod E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mod, t1, t2); :}
+                |   E:t1 pot E:t2 {: RESULT = NodoOperacion.crearNodo(Const.pot, t1, t2); :}
+                |   E:t1 sqrt E:t2 {: RESULT = NodoOperacion.crearNodo(Const.sqrt, t1, t2); :}
                 |   aparentesis E:t1 cparentesis {: RESULT = t1; :}
-                |   numero:t1 {: RESULT = new Nodo(Const.tNumero, t1, 1, 1); :}
-                |   iden:t1 {: RESULT = new Nodo(Const.tId, t1, 1, 1); :};
+                |   numero:t1 {: RESULT = new Nodo(Const.numero, t1, 1, 1, 1); :}
+                |   iden:t1 {: RESULT = new Nodo(Const.id, t1, 1, 1, 1); :}
+                |   cadena:t1 {: RESULT = new Nodo(Const.cadena, t1, 1, 1, 1); :}
+                |   caracter:t1 {: RESULT = new Nodo(Const.caracter, t1, 1, 1, 1); :};
+
 
 
 
