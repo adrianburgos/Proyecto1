@@ -26,10 +26,11 @@ action code
 //-------------------declaraciones---------------------
 terminal calcular,let,succ,decc,min,max,sum,product,revers,impr,par,asc,desc,length,_if,_then,_else,_end,_case,masmas;
 terminal mas,menos,por,dividido,mod,sqrt,pot,or,and,menorigual,mayorigual,menor,mayor,diferente,igualigual;
-terminal igual,dolar,porcentaje,allave,cllave,acorchete,ccorchete,aparentesis,cparentesis,coma;
+terminal igual,dolar,porcentaje,allave,cllave,acorchete,ccorchete,aparentesis,cparentesis,coma, poslista;
 terminal String numero, iden, cadena, caracter;
 
-non terminal Nodo INICIO, CALCULAR, E;
+non terminal Nodo INICIO, LIST, CUERPO, CALCULAR, SUCC, DECC, MIN, MAX, CONCATLISTAS, OPLIST, E, LLAMADO;
+non terminal Nodo LISTA, L, LCORCHETES, LVAL, VAL, PARLIST, LEXP;
 
 //precedencia menor a mayor
 precedence left or;
@@ -38,12 +39,57 @@ precedence left menor, mayor, menorigual, mayorigual, diferente, igualigual;
 precedence left mas, menos;
 precedence left por, dividido, mod;
 precedence left pot, sqrt;
+
+precedence left masmas, poslista;
 start with INICIO;
 //-------------------reglas sintacticas----------------
 
-INICIO          ::= {:System.out.println("inicio");:}CALCULAR:t1 {: raiz = t1; System.out.println("FINALIZO"); :};
+INICIO          ::= {:System.out.println("inicio");:} CUERPO:t1 {: raiz = new Nodo(); System.out.println("FINALIZO"); :};
+
+CUERPO          ::= LIST:t {: RESULT = t; :}
+                |   CALCULAR:t {: RESULT = t; :}
+                |   SUCC:t {: RESULT = t; :}
+                |   DECC:t {: RESULT = t; :}
+                |   MIN:t {: RESULT = t; :}
+                |   MAX:t {: RESULT = t; :}
+                |   CONCATLISTAS:t {: RESULT = t; :}
+                |   OPLIST:t {: RESULT = t; :}
+                |   LLAMADO:t {: RESULT = t; :};
+
+LIST            ::= let iden igual LISTA;
+LISTA           ::= CONCATLISTAS
+                |   acorchete L ccorchete
+                |   cadena;
+L               ::= LCORCHETES
+                |   LVAL;
+LCORCHETES      ::= LCORCHETES coma acorchete LVAL ccorchete
+                |   acorchete LVAL ccorchete;
+LVAL            ::= LVAL coma VAL
+                |   VAL
+                |   ;
+VAL             ::= CALCULAR
+                |   caracter;
 
 CALCULAR        ::= dolar calcular E:t1 dolar {: RESULT = NodoGeneral.crearCalcular(t1); System.out.println("Calcular");:};
+
+SUCC            ::= dolar succ E dolar;
+
+DECC            ::= dolar decc E dolar;
+
+MIN             ::= dolar min aparentesis PARLIST cparentesis dolar;
+
+MAX             ::= dolar max aparentesis PARLIST cparentesis dolar;
+
+PARLIST         ::= LISTA
+                |   LLAMADO
+                |   iden;
+
+LLAMADO         ::= dolar iden allave LEXP cllave dolar;
+LEXP            ::= LEXP coma E
+                |   E
+                |   ;
+
+CONCATLISTAS    ::= PARLIST masmas PARLIST; 
 
 E               ::= E:t1 mas E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mas, t1, t2); :}
                 |   E:t1 menos E:t2 {: RESULT = NodoOperacion.crearNodo(Const.menos, t1, t2); :}
@@ -55,8 +101,11 @@ E               ::= E:t1 mas E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mas,
                 |   aparentesis E:t1 cparentesis {: RESULT = t1; :}
                 |   numero:t1 {: RESULT = new Nodo(Const.numero, t1, 1, 1, 1); :}
                 |   iden:t1 {: RESULT = new Nodo(Const.id, t1, 1, 1, 1); :}
-                |   cadena:t1 {: RESULT = new Nodo(Const.cadena, t1, 1, 1, 1); :}
-                |   caracter:t1 {: RESULT = new Nodo(Const.caracter, t1, 1, 1, 1); :};
+                |   cadena:t1 {: RESULT = new Nodo(Const.cadena, t1.replace("\"",""), 1, 1, 1); :}
+                |   caracter:t1 {: RESULT = new Nodo(Const.caracter, t1.replace("'",""), 1, 1, 1); :}
+                |   LLAMADO
+                |   PARLIST poslista
+                |   porcentaje;
 
 
 

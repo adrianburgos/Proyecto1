@@ -74,6 +74,7 @@ enBlanco = {finLinea} | [ \t\f]
 ">"         { return new Symbol(symsHT.mayor, yycolumn, yyline, yytext()); }
 "!="        { return new Symbol(symsHT.diferente, yycolumn, yyline, yytext()); }
 "=="        { return new Symbol(symsHT.igualigual, yycolumn, yyline, yytext()); }
+"!!"        { return new Symbol(symsHT.poslista, yycolumn, yyline, yytext()); }
 
 "="         { return new Symbol(symsHT.igual, yycolumn, yyline, yytext()); }
 "$"         { return new Symbol(symsHT.dolar, yycolumn, yyline, yytext()); }

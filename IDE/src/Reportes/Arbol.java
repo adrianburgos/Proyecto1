@@ -33,7 +33,7 @@ public class Arbol {
             String nombreHijo = "nodo" + contador;
             String label = "";
             if(hijo.getNombre().equals(Const.numero) || hijo.getNombre().equals(Const.id) || hijo.getNombre().equals(Const.cadena) || hijo.getNombre().equals(Const.caracter))
-                label += hijo.getValor() + "[" + agregarComillas(hijo.getNombre()) + "]";
+                label += agregarComillas(hijo.getValor()) + "[" + agregarComillas(hijo.getNombre()) + "]";
             else
                 label = agregarComillas(hijo.getNombre());
             grafo += nombreHijo + " [label=\"" + label + "\"];\n";
@@ -72,6 +72,8 @@ public class Arbol {
             //Ejecuta el proceso
             pbuilder.start();
 
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace(); 
+        }
     }
 }

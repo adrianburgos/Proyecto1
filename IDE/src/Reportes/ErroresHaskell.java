@@ -1,5 +1,8 @@
 package Reportes;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
+
 public class ErroresHaskell {
     public static String html;
     private static String errores = "";
@@ -11,7 +14,7 @@ public class ErroresHaskell {
         html += "<head>\n";
         html += "<title> Errores </title>\n";
         html += "</head>\n";
-        html += "<body style=\"background - color: black; \">\n";
+        html += "<body style=\"background-color: black; \">\n";
         html += "<div align = \"center\"  style=\"color:white\">\n";
         html += "<h1> Errores </h1>\n";
         html += "<table border = \"1\" style=\"color:white\">\n";
@@ -60,5 +63,18 @@ public class ErroresHaskell {
         cierres();
         errores = "";
         return html;
+    }
+    
+    public static void generarErrores(){
+        try
+        {
+            FileWriter fw = new FileWriter("C:\\Users\\AdrianFernando\\Desktop\\erroresHaskell.html");
+            PrintWriter pw = new PrintWriter(fw);
+            pw.print(getHTML());
+            fw.close();
+
+        } catch (Exception e) {
+            e.printStackTrace(); 
+        }
     }
 }

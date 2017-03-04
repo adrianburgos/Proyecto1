@@ -8,6 +8,7 @@ package ide;
 import Analisis.LexicoHaskellTerminal;
 import Analisis.SintacticoHaskellTerminal;
 import Reportes.Arbol;
+import Reportes.ErroresHaskell;
 import com.sun.glass.events.KeyEvent;
 import fabrica.*;
 import java.io.BufferedReader;
@@ -118,6 +119,10 @@ public class Principal extends javax.swing.JFrame {
             tfEntradaConsola.setText("");
             Arbol.getGrafo(raiz);
             Arbol.dibujar();
+            if(ErroresHaskell.contErrores > 0)
+            {
+                ErroresHaskell.generarErrores();
+            }
         }
     }//GEN-LAST:event_tfEntradaConsolaKeyPressed
 
