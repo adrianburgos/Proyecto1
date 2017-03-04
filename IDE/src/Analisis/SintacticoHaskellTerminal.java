@@ -34,23 +34,24 @@ public class SintacticoHaskellTerminal extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\065\000\002\002\004\000\002\025\002\000\002\002" +
+    "\000\070\000\002\002\004\000\002\026\002\000\002\002" +
     "\004\000\002\004\003\000\002\004\003\000\002\004\003" +
     "\000\002\004\003\000\002\004\003\000\002\004\003\000" +
     "\002\004\003\000\002\004\003\000\002\004\003\000\002" +
     "\003\006\000\002\016\003\000\002\016\005\000\002\016" +
     "\003\000\002\017\003\000\002\017\003\000\002\020\007" +
-    "\000\002\020\005\000\002\021\005\000\002\021\003\000" +
-    "\002\021\002\000\002\022\003\000\002\022\003\000\002" +
-    "\005\006\000\002\006\006\000\002\007\006\000\002\010" +
-    "\010\000\002\011\010\000\002\023\003\000\002\023\003" +
-    "\000\002\023\003\000\002\015\010\000\002\024\005\000" +
-    "\002\024\003\000\002\024\002\000\002\012\005\000\002" +
-    "\014\005\000\002\014\005\000\002\014\005\000\002\014" +
+    "\000\002\020\005\000\002\021\003\000\002\021\003\000" +
+    "\002\021\002\000\002\022\005\000\002\022\003\000\002" +
+    "\023\005\000\002\023\003\000\002\005\006\000\002\005" +
+    "\003\000\002\006\006\000\002\007\006\000\002\010\006" +
+    "\000\002\011\006\000\002\024\003\000\002\024\003\000" +
+    "\002\024\003\000\002\015\010\000\002\025\005\000\002" +
+    "\025\003\000\002\025\002\000\002\012\005\000\002\014" +
     "\005\000\002\014\005\000\002\014\005\000\002\014\005" +
-    "\000\002\014\005\000\002\014\003\000\002\014\003\000" +
-    "\002\014\003\000\002\014\003\000\002\014\003\000\002" +
-    "\014\004\000\002\014\003" });
+    "\000\002\014\005\000\002\014\005\000\002\014\005\000" +
+    "\002\014\005\000\002\014\003\000\002\014\003\000\002" +
+    "\014\003\000\002\014\003\000\002\014\003\000\002\014" +
+    "\004\000\002\014\003" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -58,111 +59,107 @@ public class SintacticoHaskellTerminal extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\142\000\014\005\000\050\000\054\000\063\000\064" +
-    "\000\001\002\000\014\005\011\050\010\054\027\063\015" +
-    "\064\014\001\002\000\004\002\006\001\002\000\004\002" +
-    "\001\001\002\000\004\002\ufffb\001\002\000\016\004\050" +
-    "\006\125\007\130\010\127\011\126\063\111\001\002\000" +
-    "\004\063\122\001\002\000\004\002\ufff9\001\002\000\012" +
-    "\002\uffe3\027\uffe3\057\uffe3\061\uffe3\001\002\000\012\002" +
-    "\ufff2\027\ufff2\057\ufff2\061\ufff2\001\002\000\012\002\uffe1" +
-    "\027\uffe1\057\uffe1\061\uffe1\001\002\000\004\002\ufffe\001" +
-    "\002\000\004\027\106\001\002\000\004\002\uffff\001\002" +
-    "\000\004\002\ufffc\001\002\000\006\002\ufff8\027\ufff4\001" +
-    "\002\000\006\002\ufff6\027\uffe2\001\002\000\004\002\ufff7" +
-    "\001\002\000\004\002\ufffd\001\002\000\004\002\ufffa\001" +
-    "\002\000\014\050\031\054\035\055\uffeb\060\uffeb\065\037" +
-    "\001\002\000\004\055\121\001\002\000\004\004\050\001" +
-    "\002\000\006\055\uffec\060\uffec\001\002\000\006\055\uffea" +
-    "\060\uffea\001\002\000\006\055\ufff1\060\044\001\002\000" +
-    "\012\050\031\055\uffeb\060\uffeb\065\037\001\002\000\006" +
-    "\055\ufff0\060\040\001\002\000\006\055\uffe9\060\uffe9\001" +
-    "\002\000\006\050\031\065\037\001\002\000\006\055\uffed" +
-    "\060\uffed\001\002\000\006\055\043\060\040\001\002\000" +
-    "\006\055\uffee\060\uffee\001\002\000\004\054\045\001\002" +
-    "\000\012\050\031\055\uffeb\060\uffeb\065\037\001\002\000" +
-    "\006\055\047\060\040\001\002\000\006\055\uffef\060\uffef" +
-    "\001\002\000\022\050\051\051\053\054\027\056\060\062" +
-    "\057\063\054\064\052\065\055\001\002\000\004\063\111" +
-    "\001\002\000\034\027\ufff2\030\uffd1\031\uffd1\032\uffd1\033" +
-    "\uffd1\034\uffd1\035\uffd1\036\uffd1\050\uffd1\053\uffd1\057\uffd1" +
-    "\060\uffd1\061\ufff2\001\002\000\030\030\uffcd\031\uffcd\032" +
-    "\uffcd\033\uffcd\034\uffcd\035\uffcd\036\uffcd\050\uffcd\053\uffcd" +
-    "\057\uffcd\060\uffcd\001\002\000\034\027\uffe1\030\uffd2\031" +
-    "\uffd2\032\uffd2\033\uffd2\034\uffd2\035\uffd2\036\uffd2\050\uffd2" +
-    "\053\uffd2\057\uffd2\060\uffd2\061\uffe1\001\002\000\030\030" +
-    "\uffd0\031\uffd0\032\uffd0\033\uffd0\034\uffd0\035\uffd0\036\uffd0" +
-    "\050\uffd0\053\uffd0\057\uffd0\060\uffd0\001\002\000\006\027" +
-    "\106\061\105\001\002\000\030\030\uffd3\031\uffd3\032\uffd3" +
-    "\033\uffd3\034\uffd3\035\uffd3\036\uffd3\050\uffd3\053\uffd3\057" +
-    "\uffd3\060\uffd3\001\002\000\022\050\051\051\053\054\027" +
-    "\056\060\062\057\063\054\064\052\065\055\001\002\000" +
-    "\012\002\ufff4\027\ufff4\057\ufff4\061\ufff4\001\002\000\034" +
-    "\027\uffe2\030\uffcf\031\uffcf\032\uffcf\033\uffcf\034\uffcf\035" +
-    "\uffcf\036\uffcf\050\uffcf\053\uffcf\057\uffcf\060\uffcf\061\uffe2" +
-    "\001\002\000\022\030\067\031\070\032\064\033\073\034" +
-    "\066\035\071\036\072\050\065\001\002\000\022\050\051" +
-    "\051\053\054\027\056\060\062\057\063\054\064\052\065" +
-    "\055\001\002\000\010\002\uffe8\055\uffe8\060\uffe8\001\002" +
-    "\000\022\050\051\051\053\054\027\056\060\062\057\063" +
-    "\054\064\052\065\055\001\002\000\022\050\051\051\053" +
-    "\054\027\056\060\062\057\063\054\064\052\065\055\001" +
-    "\002\000\022\050\051\051\053\054\027\056\060\062\057" +
-    "\063\054\064\052\065\055\001\002\000\022\050\051\051" +
-    "\053\054\027\056\060\062\057\063\054\064\052\065\055" +
-    "\001\002\000\022\050\051\051\053\054\027\056\060\062" +
-    "\057\063\054\064\052\065\055\001\002\000\022\050\051" +
-    "\051\053\054\027\056\060\062\057\063\054\064\052\065" +
-    "\055\001\002\000\030\030\uffd8\031\uffd8\032\uffd8\033\uffd8" +
-    "\034\uffd8\035\071\036\072\050\uffd8\053\uffd8\057\uffd8\060" +
-    "\uffd8\001\002\000\030\030\uffd6\031\uffd6\032\uffd6\033\uffd6" +
-    "\034\uffd6\035\uffd6\036\uffd6\050\uffd6\053\uffd6\057\uffd6\060" +
-    "\uffd6\001\002\000\030\030\uffd5\031\uffd5\032\uffd5\033\uffd5" +
-    "\034\uffd5\035\uffd5\036\uffd5\050\uffd5\053\uffd5\057\uffd5\060" +
-    "\uffd5\001\002\000\030\030\uffda\031\uffda\032\064\033\073" +
-    "\034\066\035\071\036\072\050\uffda\053\uffda\057\uffda\060" +
-    "\uffda\001\002\000\030\030\uffdb\031\uffdb\032\064\033\073" +
-    "\034\066\035\071\036\072\050\uffdb\053\uffdb\057\uffdb\060" +
-    "\uffdb\001\002\000\030\030\uffd7\031\uffd7\032\uffd7\033\uffd7" +
-    "\034\uffd7\035\071\036\072\050\uffd7\053\uffd7\057\uffd7\060" +
-    "\uffd7\001\002\000\030\030\uffd9\031\uffd9\032\uffd9\033\uffd9" +
-    "\034\uffd9\035\071\036\072\050\uffd9\053\uffd9\057\uffd9\060" +
-    "\uffd9\001\002\000\022\030\067\031\070\032\064\033\073" +
-    "\034\066\035\071\036\072\057\104\001\002\000\030\030" +
-    "\uffd4\031\uffd4\032\uffd4\033\uffd4\034\uffd4\035\uffd4\036\uffd4" +
-    "\050\uffd4\053\uffd4\057\uffd4\060\uffd4\001\002\000\030\030" +
+    "\000\142\000\016\005\000\050\000\051\000\054\000\063" +
+    "\000\064\000\001\002\000\016\005\020\050\017\051\015" +
+    "\054\012\063\030\064\010\001\002\000\004\002\006\001" +
+    "\002\000\004\002\001\001\002\000\004\002\ufff7\001\002" +
+    "\000\012\002\ufff2\027\ufff2\050\ufff2\061\ufff2\001\002\000" +
+    "\004\002\ufffe\001\002\000\014\050\107\051\015\054\131" +
+    "\055\uffeb\065\123\001\002\000\004\002\uffff\001\002\000" +
+    "\006\002\ufff8\027\ufff4\001\002\000\012\002\uffe5\050\uffe5" +
+    "\055\uffe5\060\uffe5\001\002\000\004\027\074\001\002\000" +
+    "\016\004\105\006\102\007\106\010\104\011\103\063\037" +
+    "\001\002\000\004\063\031\001\002\000\004\002\ufffb\001" +
+    "\002\000\006\002\ufff6\027\uffdf\001\002\000\004\002\ufffc" +
+    "\001\002\000\004\002\ufffa\001\002\000\004\002\ufffd\001" +
+    "\002\000\004\002\ufff9\001\002\000\012\002\uffe0\027\uffe0" +
+    "\050\uffe0\061\uffe0\001\002\000\012\002\uffde\027\uffde\050" +
+    "\uffde\061\uffde\001\002\000\004\047\032\001\002\000\012" +
+    "\050\033\054\012\063\030\064\010\001\002\000\004\063" +
+    "\037\001\002\000\006\002\ufff5\027\uffe0\001\002\000\012" +
+    "\002\uffdf\027\uffdf\050\uffdf\061\uffdf\001\002\000\012\002" +
+    "\ufff4\027\ufff4\050\ufff4\061\ufff4\001\002\000\004\052\040" +
+    "\001\002\000\026\050\033\051\043\053\uffda\054\012\056" +
+    "\050\060\uffda\062\047\063\044\064\042\065\045\001\002" +
+    "\000\006\053\076\060\077\001\002\000\034\027\ufff2\030" +
     "\uffce\031\uffce\032\uffce\033\uffce\034\uffce\035\uffce\036\uffce" +
-    "\050\uffce\053\uffce\057\uffce\060\uffce\001\002\000\012\050" +
-    "\051\054\027\063\015\064\014\001\002\000\012\002\uffdc" +
-    "\027\uffdc\057\uffdc\061\uffdc\001\002\000\012\002\uffe2\027" +
-    "\uffe2\057\uffe2\061\uffe2\001\002\000\004\052\112\001\002" +
-    "\000\026\050\051\051\053\053\uffdd\054\027\056\060\060" +
-    "\uffdd\062\057\063\054\064\052\065\055\001\002\000\006" +
-    "\053\115\060\116\001\002\000\024\030\067\031\070\032" +
-    "\064\033\073\034\066\035\071\036\072\053\uffde\060\uffde" +
-    "\001\002\000\004\050\120\001\002\000\022\050\051\051" +
-    "\053\054\027\056\060\062\057\063\054\064\052\065\055" +
-    "\001\002\000\024\030\067\031\070\032\064\033\073\034" +
-    "\066\035\071\036\072\053\uffdf\060\uffdf\001\002\000\036" +
-    "\002\uffe0\027\uffe0\030\uffe0\031\uffe0\032\uffe0\033\uffe0\034" +
-    "\uffe0\035\uffe0\036\uffe0\050\uffe0\053\uffe0\057\uffe0\060\uffe0" +
-    "\061\uffe0\001\002\000\012\002\ufff3\027\ufff3\057\ufff3\061" +
-    "\ufff3\001\002\000\004\047\123\001\002\000\012\050\051" +
-    "\054\027\063\015\064\014\001\002\000\006\002\ufff5\027" +
-    "\uffe3\001\002\000\022\050\051\051\053\054\027\056\060" +
-    "\062\057\063\054\064\052\065\055\001\002\000\004\056" +
-    "\137\001\002\000\004\056\133\001\002\000\022\050\051" +
-    "\051\053\054\027\056\060\062\057\063\054\064\052\065" +
-    "\055\001\002\000\022\030\067\031\070\032\064\033\073" +
-    "\034\066\035\071\036\072\050\132\001\002\000\004\002" +
-    "\uffe6\001\002\000\012\050\051\054\027\063\015\064\014" +
-    "\001\002\000\006\027\106\057\135\001\002\000\004\050" +
-    "\136\001\002\000\004\002\uffe5\001\002\000\012\050\051" +
-    "\054\027\063\015\064\014\001\002\000\006\027\106\057" +
-    "\141\001\002\000\004\050\142\001\002\000\004\002\uffe4" +
-    "\001\002\000\022\030\067\031\070\032\064\033\073\034" +
-    "\066\035\071\036\072\050\144\001\002\000\004\002\uffe7" +
-    "\001\002" });
+    "\050\uffce\053\uffce\057\uffce\060\uffce\061\ufff2\001\002\000" +
+    "\030\030\uffca\031\uffca\032\uffca\033\uffca\034\uffca\035\uffca" +
+    "\036\uffca\050\uffca\053\uffca\057\uffca\060\uffca\001\002\000" +
+    "\034\027\uffde\030\uffcf\031\uffcf\032\uffcf\033\uffcf\034\uffcf" +
+    "\035\uffcf\036\uffcf\050\uffcf\053\uffcf\057\uffcf\060\uffcf\061" +
+    "\uffde\001\002\000\030\030\uffcd\031\uffcd\032\uffcd\033\uffcd" +
+    "\034\uffcd\035\uffcd\036\uffcd\050\uffcd\053\uffcd\057\uffcd\060" +
+    "\uffcd\001\002\000\006\027\074\061\073\001\002\000\030" +
+    "\030\uffd0\031\uffd0\032\uffd0\033\uffd0\034\uffd0\035\uffd0\036" +
+    "\uffd0\050\uffd0\053\uffd0\057\uffd0\060\uffd0\001\002\000\022" +
+    "\050\033\051\043\054\012\056\050\062\047\063\044\064" +
+    "\042\065\045\001\002\000\034\027\uffdf\030\uffcc\031\uffcc" +
+    "\032\uffcc\033\uffcc\034\uffcc\035\uffcc\036\uffcc\050\uffcc\053" +
+    "\uffcc\057\uffcc\060\uffcc\061\uffdf\001\002\000\024\030\055" +
+    "\031\056\032\053\033\061\034\054\035\057\036\060\053" +
+    "\uffdb\060\uffdb\001\002\000\022\050\033\051\043\054\012" +
+    "\056\050\062\047\063\044\064\042\065\045\001\002\000" +
+    "\022\050\033\051\043\054\012\056\050\062\047\063\044" +
+    "\064\042\065\045\001\002\000\022\050\033\051\043\054" +
+    "\012\056\050\062\047\063\044\064\042\065\045\001\002" +
+    "\000\022\050\033\051\043\054\012\056\050\062\047\063" +
+    "\044\064\042\065\045\001\002\000\022\050\033\051\043" +
+    "\054\012\056\050\062\047\063\044\064\042\065\045\001" +
+    "\002\000\022\050\033\051\043\054\012\056\050\062\047" +
+    "\063\044\064\042\065\045\001\002\000\022\050\033\051" +
+    "\043\054\012\056\050\062\047\063\044\064\042\065\045" +
+    "\001\002\000\030\030\uffd5\031\uffd5\032\uffd5\033\uffd5\034" +
+    "\uffd5\035\057\036\060\050\uffd5\053\uffd5\057\uffd5\060\uffd5" +
+    "\001\002\000\030\030\uffd3\031\uffd3\032\uffd3\033\uffd3\034" +
+    "\uffd3\035\uffd3\036\uffd3\050\uffd3\053\uffd3\057\uffd3\060\uffd3" +
+    "\001\002\000\030\030\uffd2\031\uffd2\032\uffd2\033\uffd2\034" +
+    "\uffd2\035\uffd2\036\uffd2\050\uffd2\053\uffd2\057\uffd2\060\uffd2" +
+    "\001\002\000\030\030\uffd7\031\uffd7\032\053\033\061\034" +
+    "\054\035\057\036\060\050\uffd7\053\uffd7\057\uffd7\060\uffd7" +
+    "\001\002\000\030\030\uffd8\031\uffd8\032\053\033\061\034" +
+    "\054\035\057\036\060\050\uffd8\053\uffd8\057\uffd8\060\uffd8" +
+    "\001\002\000\030\030\uffd4\031\uffd4\032\uffd4\033\uffd4\034" +
+    "\uffd4\035\057\036\060\050\uffd4\053\uffd4\057\uffd4\060\uffd4" +
+    "\001\002\000\030\030\uffd6\031\uffd6\032\uffd6\033\uffd6\034" +
+    "\uffd6\035\057\036\060\050\uffd6\053\uffd6\057\uffd6\060\uffd6" +
+    "\001\002\000\022\030\055\031\056\032\053\033\061\034" +
+    "\054\035\057\036\060\057\072\001\002\000\030\030\uffd1" +
+    "\031\uffd1\032\uffd1\033\uffd1\034\uffd1\035\uffd1\036\uffd1\050" +
+    "\uffd1\053\uffd1\057\uffd1\060\uffd1\001\002\000\030\030\uffcb" +
+    "\031\uffcb\032\uffcb\033\uffcb\034\uffcb\035\uffcb\036\uffcb\050" +
+    "\uffcb\053\uffcb\057\uffcb\060\uffcb\001\002\000\012\050\033" +
+    "\054\012\063\030\064\010\001\002\000\012\002\uffd9\027" +
+    "\uffd9\050\uffd9\061\uffd9\001\002\000\004\050\101\001\002" +
+    "\000\022\050\033\051\043\054\012\056\050\062\047\063" +
+    "\044\064\042\065\045\001\002\000\024\030\055\031\056" +
+    "\032\053\033\061\034\054\035\057\036\060\053\uffdc\060" +
+    "\uffdc\001\002\000\036\002\uffdd\027\uffdd\030\uffdd\031\uffdd" +
+    "\032\uffdd\033\uffdd\034\uffdd\035\uffdd\036\uffdd\050\uffdd\053" +
+    "\uffdd\057\uffdd\060\uffdd\061\uffdd\001\002\000\006\050\107" +
+    "\051\015\001\002\000\012\050\033\054\012\063\030\064" +
+    "\010\001\002\000\012\050\033\054\012\063\030\064\010" +
+    "\001\002\000\022\050\033\051\043\054\012\056\050\062" +
+    "\047\063\044\064\042\065\045\001\002\000\006\050\107" +
+    "\051\015\001\002\000\004\004\105\001\002\000\004\050" +
+    "\111\001\002\000\004\002\uffe3\001\002\000\022\030\055" +
+    "\031\056\032\053\033\061\034\054\035\057\036\060\050" +
+    "\113\001\002\000\012\002\uffe6\050\uffe6\055\uffe6\060\uffe6" +
+    "\001\002\000\006\027\074\050\115\001\002\000\004\002" +
+    "\uffe2\001\002\000\006\027\074\050\117\001\002\000\004" +
+    "\002\uffe1\001\002\000\004\050\121\001\002\000\004\002" +
+    "\uffe4\001\002\000\006\055\ufff1\060\141\001\002\000\006" +
+    "\055\uffe9\060\uffe9\001\002\000\006\055\uffed\060\137\001" +
+    "\002\000\006\055\uffec\060\135\001\002\000\004\055\134" +
+    "\001\002\000\006\055\uffe7\060\uffe7\001\002\000\004\055" +
+    "\ufff0\001\002\000\012\050\107\051\015\055\uffeb\065\123" +
+    "\001\002\000\004\055\133\001\002\000\006\055\uffee\060" +
+    "\uffee\001\002\000\012\002\ufff3\027\ufff3\050\ufff3\061\ufff3" +
+    "\001\002\000\006\050\107\051\015\001\002\000\006\055" +
+    "\uffe8\060\uffe8\001\002\000\004\065\140\001\002\000\006" +
+    "\055\uffea\060\uffea\001\002\000\004\054\142\001\002\000" +
+    "\012\050\107\051\015\055\uffeb\065\123\001\002\000\004" +
+    "\055\144\001\002\000\006\055\uffef\060\uffef\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -170,54 +167,53 @@ public class SintacticoHaskellTerminal extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\142\000\006\002\004\025\003\001\001\000\032\003" +
-    "\015\004\017\005\024\006\020\007\006\010\025\011\011" +
-    "\012\021\013\023\015\022\016\012\023\016\001\001\000" +
+    "\000\142\000\006\002\004\026\003\001\001\000\032\003" +
+    "\010\004\012\005\024\006\022\007\020\010\023\011\025" +
+    "\012\013\013\006\015\021\016\026\024\015\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\016\005\126\017\125\020" +
+    "\121\021\127\022\123\023\124\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\012\012\035\015\034\016\033\024" +
+    "\015\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\016\012" +
+    "\035\014\051\015\050\016\026\024\045\025\040\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\014\012\035\014\070\015\050\016\026\024" +
+    "\045\001\001\000\002\001\001\000\002\001\001\000\014" +
+    "\012\035\014\067\015\050\016\026\024\045\001\001\000" +
+    "\014\012\035\014\066\015\050\016\026\024\045\001\001" +
+    "\000\014\012\035\014\065\015\050\016\026\024\045\001" +
+    "\001\000\014\012\035\014\064\015\050\016\026\024\045" +
+    "\001\001\000\014\012\035\014\063\015\050\016\026\024" +
+    "\045\001\001\000\014\012\035\014\062\015\050\016\026" +
+    "\024\045\001\001\000\014\012\035\014\061\015\050\016" +
+    "\026\024\045\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\012\012\035\015\034\016" +
+    "\026\024\074\001\001\000\002\001\001\000\002\001\001" +
+    "\000\014\012\035\014\077\015\050\016\026\024\045\001" +
+    "\001\000\002\001\001\000\002\001\001\000\004\005\117" +
+    "\001\001\000\012\012\035\015\034\016\026\024\115\001" +
+    "\001\000\012\012\035\015\034\016\026\024\113\001\001" +
+    "\000\014\012\035\014\111\015\050\016\026\024\045\001" +
+    "\001\000\004\005\107\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\014\005\032\017\027\020" +
-    "\033\021\035\022\031\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\010\005\032\021\041\022\031\001\001\000\002" +
-    "\001\001\000\002\001\001\000\006\005\032\022\040\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\010\005\032\021\045\022\031\001" +
-    "\001\000\002\001\001\000\002\001\001\000\014\012\060" +
-    "\014\062\015\061\016\012\023\055\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\001\000\012\005\126\021\131\022\123\023\124\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\014\012\060\014\102\015\061\016\012\023\055\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\014\012\060\014\101\015\061\016\012\023\055\001\001" +
-    "\000\002\001\001\000\014\012\060\014\100\015\061\016" +
-    "\012\023\055\001\001\000\014\012\060\014\077\015\061" +
-    "\016\012\023\055\001\001\000\014\012\060\014\076\015" +
-    "\061\016\012\023\055\001\001\000\014\012\060\014\075" +
-    "\015\061\016\012\023\055\001\001\000\014\012\060\014" +
-    "\074\015\061\016\012\023\055\001\001\000\014\012\060" +
-    "\014\073\015\061\016\012\023\055\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\012" +
-    "\012\060\015\107\016\012\023\106\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\016\012\060" +
-    "\014\113\015\061\016\012\023\055\024\112\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\014" +
-    "\012\060\014\116\015\061\016\012\023\055\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\012\012\060\015\107\016\123\023\016\001" +
-    "\001\000\002\001\001\000\014\012\060\014\142\015\061" +
-    "\016\012\023\055\001\001\000\002\001\001\000\002\001" +
-    "\001\000\014\012\060\014\130\015\061\016\012\023\055" +
-    "\001\001\000\002\001\001\000\002\001\001\000\012\012" +
-    "\060\015\107\016\012\023\133\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\012\012\060\015" +
-    "\107\016\012\023\137\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001" });
+    "\004\005\135\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\012\005\126\021" +
+    "\142\022\123\023\124\001\001\000\002\001\001\000\002" +
+    "\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -259,7 +255,7 @@ public class SintacticoHaskellTerminal extends java_cup.runtime.lr_parser {
     public Nodo raiz = new Nodo(); 
     public void syntax_error(Symbol s)
     {
-        ErroresHaskell.agregarError("Error sintactico", s.value.toString(), s.right, s.left);
+        ErroresHaskell.agregarError("Error sintactico", s.value.toString() + " no debe de ir en esa posicion", s.right, s.left);
     }
 
     public void unrecovered_syntax_error(Symbol s)
@@ -315,7 +311,7 @@ class CUP$SintacticoHaskellTerminal$actions {
             {
               Nodo RESULT =null;
 System.out.println("inicio");
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("NT$0",19, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
+              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("NT$0",20, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
@@ -514,16 +510,16 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 20: // LVAL ::= LVAL coma VAL 
+          case 20: // LVAL ::= LCAR 
             {
               Nodo RESULT =null;
 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("LVAL",15, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
+              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("LVAL",15, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 21: // LVAL ::= VAL 
+          case 21: // LVAL ::= LCALC 
             {
               Nodo RESULT =null;
 
@@ -541,25 +537,43 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 23: // VAL ::= CALCULAR 
+          case 23: // LCAR ::= LCAR coma caracter 
             {
               Nodo RESULT =null;
 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("VAL",16, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
+              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("LCAR",16, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 24: // VAL ::= caracter 
+          case 24: // LCAR ::= caracter 
             {
               Nodo RESULT =null;
 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("VAL",16, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
+              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("LCAR",16, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 25: // CALCULAR ::= dolar calcular E dolar 
+          case 25: // LCALC ::= LCALC coma CALCULAR 
+            {
+              Nodo RESULT =null;
+
+              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("LCALC",17, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
+            }
+          return CUP$SintacticoHaskellTerminal$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 26: // LCALC ::= CALCULAR 
+            {
+              Nodo RESULT =null;
+
+              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("LCALC",17, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
+            }
+          return CUP$SintacticoHaskellTerminal$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 27: // CALCULAR ::= dolar calcular E dolar 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-1)).left;
@@ -571,7 +585,16 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 26: // SUCC ::= dolar succ E dolar 
+          case 28: // CALCULAR ::= porcentaje 
+            {
+              Nodo RESULT =null;
+		RESULT = new Nodo(); RESULT.setNombre(Const.porcentaje); System.out.println("Porcentaje"); 
+              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("CALCULAR",3, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
+            }
+          return CUP$SintacticoHaskellTerminal$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 29: // SUCC ::= dolar succ CALCULAR dolar 
             {
               Nodo RESULT =null;
 
@@ -580,7 +603,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 27: // DECC ::= dolar decc E dolar 
+          case 30: // DECC ::= dolar decc CALCULAR dolar 
             {
               Nodo RESULT =null;
 
@@ -589,52 +612,52 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 28: // MIN ::= dolar min aparentesis PARLIST cparentesis dolar 
+          case 31: // MIN ::= dolar min PARLIST dolar 
             {
               Nodo RESULT =null;
 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("MIN",6, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-5)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
+              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("MIN",6, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-3)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 29: // MAX ::= dolar max aparentesis PARLIST cparentesis dolar 
+          case 32: // MAX ::= dolar max PARLIST dolar 
             {
               Nodo RESULT =null;
 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("MAX",7, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-5)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
+              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("MAX",7, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-3)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 30: // PARLIST ::= LISTA 
+          case 33: // PARLIST ::= LISTA 
             {
               Nodo RESULT =null;
 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("PARLIST",17, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
+              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("PARLIST",18, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 31: // PARLIST ::= LLAMADO 
+          case 34: // PARLIST ::= LLAMADO 
             {
               Nodo RESULT =null;
 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("PARLIST",17, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
+              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("PARLIST",18, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 32: // PARLIST ::= iden 
+          case 35: // PARLIST ::= iden 
             {
               Nodo RESULT =null;
 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("PARLIST",17, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
+              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("PARLIST",18, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 33: // LLAMADO ::= dolar iden allave LEXP cllave dolar 
+          case 36: // LLAMADO ::= dolar iden allave LEXP cllave dolar 
             {
               Nodo RESULT =null;
 
@@ -643,34 +666,34 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 34: // LEXP ::= LEXP coma E 
+          case 37: // LEXP ::= LEXP coma E 
             {
               Nodo RESULT =null;
 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("LEXP",18, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
+              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("LEXP",19, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 35: // LEXP ::= E 
+          case 38: // LEXP ::= E 
             {
               Nodo RESULT =null;
 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("LEXP",18, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
+              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("LEXP",19, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 36: // LEXP ::= 
+          case 39: // LEXP ::= 
             {
               Nodo RESULT =null;
 
-              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("LEXP",18, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
+              CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("LEXP",19, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 37: // CONCATLISTAS ::= PARLIST masmas PARLIST 
+          case 40: // CONCATLISTAS ::= PARLIST masmas PARLIST 
             {
               Nodo RESULT =null;
 
@@ -679,7 +702,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 38: // E ::= E mas E 
+          case 41: // E ::= E mas E 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
@@ -694,7 +717,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 39: // E ::= E menos E 
+          case 42: // E ::= E menos E 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
@@ -709,7 +732,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 40: // E ::= E por E 
+          case 43: // E ::= E por E 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
@@ -724,7 +747,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 41: // E ::= E dividido E 
+          case 44: // E ::= E dividido E 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
@@ -739,7 +762,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 42: // E ::= E mod E 
+          case 45: // E ::= E mod E 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
@@ -754,7 +777,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 43: // E ::= E pot E 
+          case 46: // E ::= E pot E 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
@@ -769,7 +792,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 44: // E ::= E sqrt E 
+          case 47: // E ::= E sqrt E 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)).left;
@@ -784,7 +807,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 45: // E ::= aparentesis E cparentesis 
+          case 48: // E ::= aparentesis E cparentesis 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-1)).left;
@@ -796,7 +819,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 46: // E ::= numero 
+          case 49: // E ::= numero 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
@@ -808,7 +831,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 47: // E ::= iden 
+          case 50: // E ::= iden 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
@@ -820,7 +843,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 48: // E ::= cadena 
+          case 51: // E ::= cadena 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
@@ -832,7 +855,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 49: // E ::= caracter 
+          case 52: // E ::= caracter 
             {
               Nodo RESULT =null;
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
@@ -844,7 +867,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 50: // E ::= LLAMADO 
+          case 53: // E ::= LLAMADO 
             {
               Nodo RESULT =null;
 
@@ -853,7 +876,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 51: // E ::= PARLIST poslista 
+          case 54: // E ::= PARLIST poslista 
             {
               Nodo RESULT =null;
 
@@ -862,7 +885,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskellTerminal$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 52: // E ::= porcentaje 
+          case 55: // E ::= porcentaje 
             {
               Nodo RESULT =null;
 

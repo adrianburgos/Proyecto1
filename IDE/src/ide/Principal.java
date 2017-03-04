@@ -109,7 +109,7 @@ public class Principal extends javax.swing.JFrame {
             String texto = tfEntradaConsola.getText();
             LexicoHaskellTerminal lhaskell = new LexicoHaskellTerminal(new BufferedReader(new StringReader(texto)));
             SintacticoHaskellTerminal shaskell = new SintacticoHaskellTerminal(lhaskell);
-            Nodo raiz = null;
+            Nodo raiz = new Nodo();
             try {
                 shaskell.parse();
                 raiz = shaskell.raiz;
@@ -117,11 +117,12 @@ public class Principal extends javax.swing.JFrame {
                 System.out.println(ex.getMessage());
             }
             tfEntradaConsola.setText("");
-            Arbol.getGrafo(raiz);
-            Arbol.dibujar();
             if(ErroresHaskell.contErrores > 0)
-            {
                 ErroresHaskell.generarErrores();
+            else
+            {
+                Arbol.getGrafo(raiz);
+                Arbol.dibujar();
             }
         }
     }//GEN-LAST:event_tfEntradaConsolaKeyPressed
