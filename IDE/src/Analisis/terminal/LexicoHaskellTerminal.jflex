@@ -1,6 +1,6 @@
 //codigo de usuario
 //paquetes e importaciones
-package Analisis;
+package Analisis.terminal;
 import java_cup.runtime.*;
 import Reportes.*;
 

@@ -5,7 +5,8 @@ import java.io.File;
 public class GenerarArchivos {
     
     public static void main(String[] args) {
-        generarLexico("src/Analisis/LexicoHaskellTerminal.jflex");
+        //generarLexico("src/Analisis/terminal/LexicoHaskellTerminal.jflex");
+        generarLexico("src/Analisis/haskell/LexicoHaskell.jflex");
         generarSintactico();
     }
 
@@ -17,19 +18,36 @@ public class GenerarArchivos {
     
     private static void generarSintactico()
     {
+        //generarSintacticoHaskellTerminal();
         generarSintacticoHaskell();
     }
     
-    private static void generarSintacticoHaskell()
+    private static void generarSintacticoHaskellTerminal()
     {
         String[] cadena = new String[7];
         cadena[0] = "-destdir";
-        cadena[1] = "src/Analisis";
+        cadena[1] = "src/Analisis/terminal";
         cadena[2] = "-symbols";
         cadena[3] = "symsHT";
         cadena[4] = "-parser";
         cadena[5] = "SintacticoHaskellTerminal";
-        cadena[6] = "src/Analisis/SintacticoHaskellTerminal.cup";
+        cadena[6] = "src/Analisis/terminal/SintacticoHaskellTerminal.cup";
+        try {
+            java_cup.Main.main(cadena);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static void generarSintacticoHaskell() {
+        String[] cadena = new String[7];
+        cadena[0] = "-destdir";
+        cadena[1] = "src/Analisis/haskell";
+        cadena[2] = "-symbols";
+        cadena[3] = "symsH";
+        cadena[4] = "-parser";
+        cadena[5] = "SintacticoHaskell";
+        cadena[6] = "src/Analisis/haskell/SintacticoHaskell.cup";
         try {
             java_cup.Main.main(cadena);
         } catch (Exception e) {

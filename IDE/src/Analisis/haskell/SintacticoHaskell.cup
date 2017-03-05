@@ -1,5 +1,5 @@
 //-------------------codigo de usuario-----------------
-package Analisis;
+package Analisis.haskell;
 import java_cup.runtime.Symbol;
 import Reportes.*;
 import fabrica.*;
@@ -26,11 +26,14 @@ action code
 //-------------------declaraciones---------------------
 terminal calcular,let,succ,decc,min,max,sum,product,revers,impr,par,asc,desc,length,_if,_then,_else,_end,_case,masmas;
 terminal mas,menos,por,dividido,mod,sqrt,pot,or,and,menorigual,mayorigual,menor,mayor,diferente,igualigual;
-terminal igual,dolar,porcentaje,allave,cllave,acorchete,ccorchete,aparentesis,cparentesis,coma, poslista;
-terminal String numero, iden, cadena, caracter;
+terminal igual,dolar,allave,cllave,acorchete,ccorchete,aparentesis,cparentesis,coma, poslista, dospuntos, puntoycoma;
+terminal String numero, iden, cadena, caracter, enter;
 
 non terminal Nodo INICIO, LIST, CUERPO, CALCULAR, SUCC, DECC, MIN, MAX, CONCATLISTAS, OPLIST, E, LLAMADO;
+non terminal Nodo SUM, PRODUCT, REVERS, IMPR, PAR, ASC, DESC, LENGTH, IF, CASE;
 non terminal Nodo LISTA, L, LCORCHETES, LVAL, LCAR, LCALC, PARLIST, LEXP;
+non terminal Nodo LFUNCION, DECFUN, LCUERPO, LPAR, COND, LCASOS, CASO;
+non terminal String OP, OPREL;
 
 //precedencia menor a mayor
 precedence left or;
@@ -44,18 +47,35 @@ precedence left masmas, poslista;
 start with INICIO;
 //-------------------reglas sintacticas----------------
 
-INICIO          ::= {:System.out.println("inicio");:} CUERPO:t1 {: raiz = new Nodo(); System.out.println("FINALIZO"); :};
+INICIO          ::= {:System.out.println("inicio");:} LFUNCION {: raiz = new Nodo(); System.out.println("FINALIZO"); :};
 
-CUERPO          ::= LIST:t {: RESULT = t; :}
-                |   CALCULAR:t {: RESULT = t; :}
-                |   SUCC:t {: RESULT = t; :}
-                |   DECC:t {: RESULT = t; :}
-                |   MIN:t {: RESULT = t; :}
-                |   MAX:t {: RESULT = t; :}
-                |   CONCATLISTAS:t {: RESULT = t; :}
-                |   OPLIST:t {: RESULT = t; :}
-                |   LLAMADO:t {: RESULT = t; :};
-                |   porcentaje {:RESULT = new Nodo(); RESULT.setNombre(Const.porcentaje); System.out.println("Porcentaje"); :}
+LFUNCION        ::= LFUNCION DECFUN
+                |   DECFUN;
+
+DECFUN          ::= iden LPAR igual LCUERPO _end;
+LPAR            ::= LPAR coma iden
+                |   iden
+                |   {: RESULT = null; :};
+LCUERPO         ::= LCUERPO CUERPO
+                |   CUERPO;
+
+CUERPO          ::= LIST:t {: RESULT = t; :} enter
+                |   CALCULAR:t {: RESULT = t; :} enter
+                |   SUCC:t {: RESULT = t; :} enter
+                |   DECC:t {: RESULT = t; :} enter
+                |   MIN:t {: RESULT = t; :} enter
+                |   MAX:t {: RESULT = t; :} enter
+                |   CONCATLISTAS:t {: RESULT = t; :} enter
+                |   OPLIST:t {: RESULT = t; :} enter
+                |   PRODUCT:t {: RESULT = t; :} enter
+                |   REVERS:t {: RESULT = t; :} enter
+                |   IMPR:t {: RESULT = t; :} enter
+                |   PAR:t {: RESULT = t; :} enter
+                |   ASC:t {: RESULT = t; :} enter
+                |   DESC:t {: RESULT = t; :} enter
+                |   IF:t {: RESULT = t; :}
+                |   CASE:t {: RESULT = t; :}
+                |   LLAMADO:t {: RESULT = t; :} enter;
 
 LIST            ::= let iden igual LISTA;
 LISTA           ::= CONCATLISTAS
@@ -73,8 +93,8 @@ LCAR            ::= LCAR coma caracter
 LCALC           ::= LCALC coma CALCULAR
                 |   CALCULAR;
 
-CALCULAR        ::= dolar calcular E:t1 dolar {: RESULT = NodoGeneral.crearCalcular(t1); System.out.println("Calcular");:}
-                |   porcentaje {:RESULT = new Nodo(); RESULT.setNombre(Const.porcentaje); System.out.println("Porcentaje"); :};
+CALCULAR        ::= dolar calcular E:t1 dolar {: RESULT = NodoGeneral.crearCalcular(t1); System.out.println("Calcular");:};
+
 SUCC            ::= dolar succ CALCULAR dolar;
 
 DECC            ::= dolar decc CALCULAR dolar;
@@ -86,6 +106,32 @@ MAX             ::= dolar max PARLIST dolar;
 PARLIST         ::= LISTA
                 |   LLAMADO
                 |   iden;
+
+OPLIST          ::= OP PARLIST;
+OP              ::= sum {: RESULT = Const.sum; :}
+                |   product {: RESULT = Const.product; :}
+                |   revers {: RESULT = Const.revers; :}
+                |   impr {: RESULT = Const.impr; :}
+                |   par {: RESULT = Const.par; :}
+                |   asc {: RESULT = Const.asc; :}
+                |   desc {: RESULT = Const.desc; :}
+                |   length {: RESULT = Const.length; :};
+
+IF              ::= _if COND _then LCUERPO _else LCUERPO _end;
+COND            ::= COND or COND
+                |   COND and COND
+                |   E OPREL E;
+OPREL           ::= menor {: RESULT = Const.menor; :}
+                |   mayor {: RESULT = Const.mayor; :}
+                |   menorigual {: RESULT = Const.menorigual; :}
+                |   mayorigual {: RESULT = Const.mayorigual; :}
+                |   igualigual {: RESULT = Const.igualigual; :}
+                |   diferente {: RESULT = Const.diferente; :};
+
+CASE            ::= _case PARLIST LCASOS _end;
+LCASOS          ::= LCASOS CASO
+                |   CASO;
+CASO            ::= PARLIST dospuntos LCUERPO puntoycoma;
 
 LLAMADO         ::= dolar iden allave LEXP cllave dolar;
 LEXP            ::= LEXP coma E
@@ -102,26 +148,7 @@ E               ::= E:t1 mas E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mas,
                 |   E:t1 pot E:t2 {: RESULT = NodoOperacion.crearNodo(Const.pot, t1, t2); :}
                 |   E:t1 sqrt E:t2 {: RESULT = NodoOperacion.crearNodo(Const.sqrt, t1, t2); :}
                 |   aparentesis E:t1 cparentesis {: RESULT = t1; :}
-                |   numero:t1 {: RESULT = new Nodo(Const.numero, t1, 1, 1, 1); :}
-                |   iden:t1 {: RESULT = new Nodo(Const.id, t1, 1, 1, 1); :}
-                |   cadena:t1 {: RESULT = new Nodo(Const.cadena, t1.replace("\"",""), 1, 1, 1); :}
-                |   caracter:t1 {: RESULT = new Nodo(Const.caracter, t1.replace("'",""), 1, 1, 1); :}
+                |   numero:t1 {: RESULT = new Nodo(Const.numero, t1); :}
+                |   iden:t1 {: RESULT = new Nodo(Const.id, t1); :}
                 |   LLAMADO
-                |   PARLIST poslista
-                |   porcentaje;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                |   PARLIST poslista;

@@ -5,8 +5,7 @@
  */
 package ide;
 
-import Analisis.LexicoHaskellTerminal;
-import Analisis.SintacticoHaskellTerminal;
+import Analisis.terminal.*;
 import Reportes.Arbol;
 import Reportes.ErroresHaskell;
 import com.sun.glass.events.KeyEvent;
@@ -121,8 +120,13 @@ public class Principal extends javax.swing.JFrame {
                 ErroresHaskell.generarErrores();
             else
             {
-                Arbol.getGrafo(raiz);
-                Arbol.dibujar();
+                if(raiz != null)
+                {
+                    Arbol.getGrafo(raiz);
+                    Arbol.dibujar();
+                }
+                else
+                    System.out.println("La raiz de haskel terminal es nula");
             }
         }
     }//GEN-LAST:event_tfEntradaConsolaKeyPressed

@@ -54,6 +54,15 @@ public class Nodo {
         this.fila = fila;
         this.columna = columna;
     }
+    
+    public Nodo(String nombre, String valor) {
+        this.nombre = nombre;
+        this.tipo = -1;
+        this.valor = valor;
+        this.visibilidad = Const.publico;
+        this.fila = 0;
+        this.columna = 0;
+    }
 
     public Nodo() {
         nombre = "";
