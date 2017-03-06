@@ -49,5 +49,6 @@ public class Const {
             id = "id",
             cadena = "cadena",
             caracter = "caracter",
-            unario = "unario";
+            unario = "unario",
+            poslista = "poslista";
 }

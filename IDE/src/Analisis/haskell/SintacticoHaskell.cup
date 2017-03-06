@@ -71,7 +71,8 @@ CUERPO          ::= LIST:t {: RESULT = t; :}
                 |   IF:t {: RESULT = t; :}
                 |   CASE:t {: RESULT = t; :}
                 |   LLAMADO:t {: RESULT = t; :}
-                |   enter;
+                |   enter
+                |   error enter;
 
 LIST            ::= let iden igual PARLIST;
 LISTA           ::= CONCATLISTAS
@@ -120,7 +121,7 @@ CASE            ::= _case PARLIST enter LCASOS _end;
 LCASOS          ::= LCASOS CASO enter
                 |   CASO enter;
 CASO            ::= VALCASO dospuntos LCUERPO puntoycoma {:System.out.println("TERMINO CASO");:};
-VALCASO         ::= CALCULAR
+VALCASO         ::= numero
                 |   caracter;
 
 LLAMADO         ::= dolar iden allave LEXP cllave dolar;
@@ -142,6 +143,7 @@ OPREL           ::= menor {: RESULT = Const.menor; :}
                 |   mayorigual {: RESULT = Const.mayorigual; :}
                 |   igualigual {: RESULT = Const.igualigual; :}
                 |   diferente {: RESULT = Const.diferente; :};
+
 E               ::= E:t1 mas E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mas, t1, t2); :}
                 |   E:t1 menos E:t2 {: RESULT = NodoOperacion.crearNodo(Const.menos, t1, t2); :}
                 |   E:t1 por E:t2 {: RESULT = NodoOperacion.crearNodo(Const.por, t1, t2); :}
@@ -153,6 +155,6 @@ E               ::= E:t1 mas E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mas,
                 |   aparentesis E:t1 cparentesis {: RESULT = t1; :}
                 |   numero:t1 {: RESULT = new Nodo(Const.numero, t1); :}
                 |   iden:t1 {: RESULT = new Nodo(Const.id, t1); :}
-                |   LLAMADO
-                |   PARLIST poslista
+                |   LLAMADO:t1 {: RESULT = t1; :}
+                |   PARLIST poslista 
                 |   OPEXP;
