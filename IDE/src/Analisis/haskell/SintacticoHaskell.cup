@@ -30,10 +30,10 @@ terminal igual,dolar,allave,cllave,acorchete,ccorchete,aparentesis,cparentesis,c
 terminal String numero, iden, cadena, caracter, enter;
 
 non terminal Nodo INICIO, LIST, CUERPO, CALCULAR, SUCC, DECC, MIN, MAX, CONCATLISTAS, OPLIST, E, LLAMADO;
-non terminal Nodo SUM, PRODUCT, REVERS, IMPR, PAR, ASC, DESC, LENGTH, IF, CASE;
+non terminal Nodo IF, CASE;
 non terminal Nodo LISTA, L, LCORCHETES, LVAL, LCAR, LCALC, PARLIST, LEXP;
 non terminal Nodo LFUNCION, DECFUN, LCUERPO, LPAR, COND, LCASOS, CASO;
-non terminal String OP, OPREL;
+non terminal String OPLISTA, OPEXP, OPREL, TIPOVALOR, VALCASO;
 
 //precedencia menor a mayor
 precedence left or;
@@ -52,32 +52,28 @@ INICIO          ::= {:System.out.println("inicio");:} LFUNCION {: raiz = new Nod
 LFUNCION        ::= LFUNCION DECFUN
                 |   DECFUN;
 
-DECFUN          ::= iden LPAR igual LCUERPO _end;
+DECFUN          ::= iden LPAR igual LCUERPO _end
+                |   enter;
 LPAR            ::= LPAR coma iden
                 |   iden
                 |   {: RESULT = null; :};
 LCUERPO         ::= LCUERPO CUERPO
                 |   CUERPO;
 
-CUERPO          ::= LIST:t {: RESULT = t; :} enter
-                |   CALCULAR:t {: RESULT = t; :} enter
-                |   SUCC:t {: RESULT = t; :} enter
-                |   DECC:t {: RESULT = t; :} enter
-                |   MIN:t {: RESULT = t; :} enter
-                |   MAX:t {: RESULT = t; :} enter
-                |   CONCATLISTAS:t {: RESULT = t; :} enter
-                |   OPLIST:t {: RESULT = t; :} enter
-                |   PRODUCT:t {: RESULT = t; :} enter
-                |   REVERS:t {: RESULT = t; :} enter
-                |   IMPR:t {: RESULT = t; :} enter
-                |   PAR:t {: RESULT = t; :} enter
-                |   ASC:t {: RESULT = t; :} enter
-                |   DESC:t {: RESULT = t; :} enter
+CUERPO          ::= LIST:t {: RESULT = t; :}
+                |   CALCULAR:t {: RESULT = t; :}
+                |   SUCC:t {: RESULT = t; :}
+                |   DECC:t {: RESULT = t; :}
+                |   MIN:t {: RESULT = t; :}
+                |   MAX:t {: RESULT = t; :}
+                |   CONCATLISTAS:t {: RESULT = t; :}
+                |   OPLIST:t {: RESULT = t; :}
                 |   IF:t {: RESULT = t; :}
                 |   CASE:t {: RESULT = t; :}
-                |   LLAMADO:t {: RESULT = t; :} enter;
+                |   LLAMADO:t {: RESULT = t; :}
+                |   enter;
 
-LIST            ::= let iden igual LISTA;
+LIST            ::= let iden igual PARLIST;
 LISTA           ::= CONCATLISTAS
                 |   acorchete L ccorchete
                 |   cadena;
@@ -86,18 +82,17 @@ L               ::= LCORCHETES
 LCORCHETES      ::= LCORCHETES coma acorchete LVAL ccorchete
                 |   acorchete LVAL ccorchete;
 LVAL            ::= LCAR
-                |   LCALC
-                |   ;
+                |   LCALC;
 LCAR            ::= LCAR coma caracter
                 |   caracter;
-LCALC           ::= LCALC coma CALCULAR
-                |   CALCULAR;
+LCALC           ::= LCALC coma TIPOVALOR
+                |   TIPOVALOR;
 
 CALCULAR        ::= dolar calcular E:t1 dolar {: RESULT = NodoGeneral.crearCalcular(t1); System.out.println("Calcular");:};
 
-SUCC            ::= dolar succ CALCULAR dolar;
+SUCC            ::= dolar succ TIPOVALOR dolar;
 
-DECC            ::= dolar decc CALCULAR dolar;
+DECC            ::= dolar decc TIPOVALOR dolar;
 
 MIN             ::= dolar min PARLIST dolar;
 
@@ -105,19 +100,39 @@ MAX             ::= dolar max PARLIST dolar;
 
 PARLIST         ::= LISTA
                 |   LLAMADO
-                |   iden;
+                |   iden
+                |   OPLISTA;
 
-OPLIST          ::= OP PARLIST;
-OP              ::= sum {: RESULT = Const.sum; :}
-                |   product {: RESULT = Const.product; :}
-                |   revers {: RESULT = Const.revers; :}
-                |   impr {: RESULT = Const.impr; :}
-                |   par {: RESULT = Const.par; :}
-                |   asc {: RESULT = Const.asc; :}
-                |   desc {: RESULT = Const.desc; :}
-                |   length {: RESULT = Const.length; :};
+OPLIST          ::= OPEXP
+                |   OPLISTA;
+OPLISTA         ::= dolar revers PARLIST dolar
+                |   dolar impr PARLIST dolar
+                |   dolar par PARLIST dolar
+                |   dolar asc PARLIST dolar
+                |   dolar desc PARLIST dolar;
+OPEXP           ::= dolar sum PARLIST dolar
+                |   dolar product PARLIST dolar
+                |   dolar length PARLIST dolar;
 
 IF              ::= _if COND _then LCUERPO _else LCUERPO _end;
+
+CASE            ::= _case PARLIST enter LCASOS _end;
+LCASOS          ::= LCASOS CASO enter
+                |   CASO enter;
+CASO            ::= VALCASO dospuntos LCUERPO puntoycoma {:System.out.println("TERMINO CASO");:};
+VALCASO         ::= CALCULAR
+                |   caracter;
+
+LLAMADO         ::= dolar iden allave LEXP cllave dolar;
+LEXP            ::= LEXP coma TIPOVALOR
+                |   TIPOVALOR
+                |   ;
+TIPOVALOR       ::= CALCULAR
+                |   LLAMADO
+                |   iden;
+
+CONCATLISTAS    ::= PARLIST masmas PARLIST; 
+
 COND            ::= COND or COND
                 |   COND and COND
                 |   E OPREL E;
@@ -127,19 +142,6 @@ OPREL           ::= menor {: RESULT = Const.menor; :}
                 |   mayorigual {: RESULT = Const.mayorigual; :}
                 |   igualigual {: RESULT = Const.igualigual; :}
                 |   diferente {: RESULT = Const.diferente; :};
-
-CASE            ::= _case PARLIST LCASOS _end;
-LCASOS          ::= LCASOS CASO
-                |   CASO;
-CASO            ::= PARLIST dospuntos LCUERPO puntoycoma;
-
-LLAMADO         ::= dolar iden allave LEXP cllave dolar;
-LEXP            ::= LEXP coma E
-                |   E
-                |   ;
-
-CONCATLISTAS    ::= PARLIST masmas PARLIST; 
-
 E               ::= E:t1 mas E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mas, t1, t2); :}
                 |   E:t1 menos E:t2 {: RESULT = NodoOperacion.crearNodo(Const.menos, t1, t2); :}
                 |   E:t1 por E:t2 {: RESULT = NodoOperacion.crearNodo(Const.por, t1, t2); :}
@@ -147,8 +149,10 @@ E               ::= E:t1 mas E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mas,
                 |   E:t1 mod E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mod, t1, t2); :}
                 |   E:t1 pot E:t2 {: RESULT = NodoOperacion.crearNodo(Const.pot, t1, t2); :}
                 |   E:t1 sqrt E:t2 {: RESULT = NodoOperacion.crearNodo(Const.sqrt, t1, t2); :}
+                |   menos E:t1 {: RESULT = NodoOperacion.crearNodo(Const.unario, t1, null); :}
                 |   aparentesis E:t1 cparentesis {: RESULT = t1; :}
                 |   numero:t1 {: RESULT = new Nodo(Const.numero, t1); :}
                 |   iden:t1 {: RESULT = new Nodo(Const.id, t1); :}
                 |   LLAMADO
-                |   PARLIST poslista;
+                |   PARLIST poslista
+                |   OPEXP;

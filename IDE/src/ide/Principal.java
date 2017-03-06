@@ -6,6 +6,7 @@
 package ide;
 
 import Analisis.terminal.*;
+import Analisis.haskell.*;
 import Reportes.Arbol;
 import Reportes.ErroresHaskell;
 import com.sun.glass.events.KeyEvent;
@@ -41,8 +42,9 @@ public class Principal extends javax.swing.JFrame {
         taConsola = new javax.swing.JTextArea();
         tfEntradaConsola = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        taEntrada = new javax.swing.JTextArea();
+        bEjecutar = new javax.swing.JButton();
+        bCargar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,12 +63,20 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        taEntrada.setColumns(20);
+        taEntrada.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        taEntrada.setRows(5);
+        taEntrada.setText("IncrementaSegunN n,Val = if n<=1 then\n\t\t$Succ $calcular 1$$\n\telse\n\t\t$Succ $IncrementaSegunN {$Calcular n-1 $,Val}$$\n\tend\nend\n\nConjuntoFuncPolinomial i,x = \n\tCASE i\n\t\t$Calcular 1$: $Polinomial1 {x}$;\n\t\t$Calcular 1$: $Polinomial2 {x}$;\n\t\t$Calcular 1$: $Polinomial3 {x}$;\n\t\t'a': $Polinomial4 {x}$;\n\tend\nend\n\nPolinomial1 x = $Calcular 3 * x'pot'5 - x 'pot'2 + 7 * x -1$\nend\nPolinomial2 x = $Calcular 5 * x'pot'2 - x + 8 * x 'pot'(-1) -1$\nend\nPolinomial3 x = $Calcular x'pot'4 + x 'pot'2 + (9*3) * x +80$\nend\nPolinomial4 x = $Calcular x'pot'3 + x 'pot'2 - 4 * x -4 $\nend\n\nObtenerModa LIST = $Max LIST$\nend\n\nObtenerPromedio LIST = $Calcular $sum LIST$ / $length LIST$ $ \nend");
+        jScrollPane2.setViewportView(taEntrada);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/play.png"))); // NOI18N
+        bEjecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/play.png"))); // NOI18N
+
+        bCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cargar.png"))); // NOI18N
+        bCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCargarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -76,7 +86,9 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1364, Short.MAX_VALUE)
                     .addComponent(tfEntradaConsola)
@@ -87,7 +99,9 @@ public class Principal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bEjecutar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bCargar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -131,6 +145,28 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tfEntradaConsolaKeyPressed
 
+    private void bCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCargarActionPerformed
+        String texto = taEntrada.getText();
+        LexicoHaskell lhaskell = new LexicoHaskell(new BufferedReader(new StringReader(texto)));
+        SintacticoHaskell shaskell = new SintacticoHaskell(lhaskell);
+        Nodo raiz = new Nodo();
+        try {
+            shaskell.parse();
+            raiz = shaskell.raiz;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        if(ErroresHaskell.contErrores > 0)
+            ErroresHaskell.generarErrores();
+        if(raiz != null)
+        {
+            Arbol.getGrafo(raiz);
+            Arbol.dibujar();
+        }
+        else
+            System.out.println("La raiz de haskel terminal es nula");
+    }//GEN-LAST:event_bCargarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -167,11 +203,12 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton bCargar;
+    private javax.swing.JButton bEjecutar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea taConsola;
+    private javax.swing.JTextArea taEntrada;
     private javax.swing.JTextField tfEntradaConsola;
     // End of variables declaration//GEN-END:variables
 }

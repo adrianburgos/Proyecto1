@@ -22,6 +22,8 @@ public class NodoOperacion {
                 return crearPotencia(op1, op2);
             case Const.sqrt:
                 return crearRaiz(op1, op2);
+            case Const.unario:
+                return crearUnario(op1);
         }
         System.out.println("crearNodoOperacion retorno null");
         return null;
@@ -78,6 +80,12 @@ public class NodoOperacion {
         Nodo raiz = new Nodo(Const.sqrt, 1, 0, 0);
         raiz.hijos.add(op1);
         raiz.hijos.add(op2);
+        return (Nodo) raiz;
+    }
+
+    private static Nodo crearUnario(Nodo op1) {
+        Nodo raiz = new Nodo(Const.unario);
+        raiz.hijos.add(op1);
         return (Nodo) raiz;
     }
 }

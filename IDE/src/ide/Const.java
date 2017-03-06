@@ -48,5 +48,6 @@ public class Const {
             numero = "numero",
             id = "id",
             cadena = "cadena",
-            caracter = "caracter";
+            caracter = "caracter",
+            unario = "unario";
 }
