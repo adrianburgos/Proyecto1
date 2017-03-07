@@ -32,8 +32,8 @@ terminal String numero, iden, cadena, caracter, enter;
 non terminal Nodo INICIO, LIST, CUERPO, CALCULAR, SUCC, DECC, MIN, MAX, CONCATLISTAS, OPLIST, E, LLAMADO;
 non terminal Nodo IF, CASE;
 non terminal Nodo LISTA, L, LCORCHETES, LVAL, LCAR, LCALC, PARLIST, LEXP;
-non terminal Nodo LFUNCION, DECFUN, LCUERPO, LPAR, COND, LCASOS, CASO;
-non terminal String OPLISTA, OPEXP, OPREL, TIPOVALOR, VALCASO;
+non terminal Nodo LFUNCION, DECFUN, LCUERPO, LPAR, COND, LCASOS, CASO, TIPOVALOR;
+non terminal String OPLISTA, OPEXP, OPREL, VALCASO;
 
 //precedencia menor a mayor
 precedence left or;
@@ -47,18 +47,37 @@ precedence left masmas, poslista;
 start with INICIO;
 //-------------------reglas sintacticas----------------
 
-INICIO          ::= {:System.out.println("inicio");:} LFUNCION {: raiz = new Nodo(); System.out.println("FINALIZO"); :};
+INICIO          ::= {:System.out.println("inicio");:} LFUNCION:LFUN {: raiz = LFUN; System.out.println("FINALIZO"); :};
 
 LFUNCION        ::= LFUNCION DECFUN
-                |   DECFUN;
+                |   DECFUN:DECFUN
+                    {:
+                        RESULT = new Nodo(Const.decfun);
+                        if(DECFUN != null) 
+                            RESULT = NodoGeneral.crearDecFun(DECFUN);
+                    :};
 
-DECFUN          ::= iden LPAR igual LCUERPO _end
-                |   enter;
-LPAR            ::= LPAR coma iden
-                |   iden
-                |   {: RESULT = null; :};
-LCUERPO         ::= LCUERPO CUERPO
-                |   CUERPO;
+DECFUN          ::= iden LPAR igual LCUERPO _end {::}
+                |   enter {: RESULT = null; :};
+LPAR            ::= LPAR:LPAR coma iden:id
+                    {:
+                        Nodo par = new Nodo(id);
+                        LPAR.hijos.add(par);
+                        RESULT = (Nodo) LPAR;
+                    :}
+                |   iden:id
+                    {:
+                        Nodo par = new Nodo(id);
+                        RESULT = new Nodo(Const.lpar);
+                        RESULT.hijos.add(par);
+                    :}
+                |   {: RESULT = new Nodo(Const.lpar); :};
+LCUERPO         ::= LCUERPO:LCUERPO CUERPO:CUERPO
+                    {:
+                        LCUERPO.hijos.add(CUERPO);
+                        RESULT = (Nodo) LCUERPO;
+                    :}
+                |   CUERPO:CUERPO {: RESULT = NodoGeneral.crearCuerpo(CUERPO); :};
 
 CUERPO          ::= LIST:t {: RESULT = t; :}
                 |   CALCULAR:t {: RESULT = t; :}
@@ -89,7 +108,7 @@ LCAR            ::= LCAR coma caracter
 LCALC           ::= LCALC coma TIPOVALOR
                 |   TIPOVALOR;
 
-CALCULAR        ::= dolar calcular E:t1 dolar {: RESULT = NodoGeneral.crearCalcular(t1); System.out.println("Calcular");:};
+CALCULAR        ::= dolar calcular E:t1 dolar {: RESULT = t1; :};
 
 SUCC            ::= dolar succ TIPOVALOR dolar;
 
@@ -134,9 +153,10 @@ TIPOVALOR       ::= CALCULAR
 
 CONCATLISTAS    ::= PARLIST masmas PARLIST; 
 
-COND            ::= COND or COND
-                |   COND and COND
-                |   E OPREL E;
+COND            ::= COND:t1 or COND:t2 {: RESULT = NodoOperacion.crearNodo(Const.or, t1, t2); :}
+                |   COND:t1 and COND:t2 {: RESULT = NodoOperacion.crearNodo(Const.and, t1, t2); :}
+                |   TIPOVALOR:t1 OPREL:op TIPOVALOR:t2
+                    {: RESULT = NodoOperacion.crearRelacional(op, t1, t2); :};
 OPREL           ::= menor {: RESULT = Const.menor; :}
                 |   mayor {: RESULT = Const.mayor; :}
                 |   menorigual {: RESULT = Const.menorigual; :}

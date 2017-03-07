@@ -50,5 +50,9 @@ public class Const {
             cadena = "cadena",
             caracter = "caracter",
             unario = "unario",
-            poslista = "poslista";
+            poslista = "poslista",
+            valor = "VALOR",
+            lcuerpo = "LCUERPO",
+            decfun = "DECFUN",
+            lpar = "LPAR";
 }
