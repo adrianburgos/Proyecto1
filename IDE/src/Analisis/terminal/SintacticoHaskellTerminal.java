@@ -579,7 +579,6 @@ System.out.println("inicio");
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-1)).left;
 		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-1)).right;
 		Nodo t1 = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-1)).value;
-		 RESULT = NodoGeneral.crearCalcular(t1); System.out.println("Calcular");
               CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("CALCULAR",3, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-3)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;
