@@ -6,7 +6,7 @@ public class NodoGeneral{
     
     public static Nodo crearCalcular(Nodo expresion)
     {
-        Nodo calcular = new Nodo(Const.calcular, 1, 0, 0);
+        Nodo calcular = new Nodo(Const.valor);
         calcular.hijos.add(expresion);
         return (Nodo) calcular;
     }

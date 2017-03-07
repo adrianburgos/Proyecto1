@@ -24,6 +24,10 @@ public class NodoOperacion {
                 return crearRaiz(op1, op2);
             case Const.unario:
                 return crearUnario(op1);
+            case Const.and:
+                return crearAnd(op1, op2);
+            case Const.or:
+                return crearOr(op1, op2);
         }
         System.out.println("crearNodoOperacion retorno null");
         return null;
@@ -86,6 +90,27 @@ public class NodoOperacion {
     private static Nodo crearUnario(Nodo op1) {
         Nodo raiz = new Nodo(Const.unario);
         raiz.hijos.add(op1);
+        return (Nodo) raiz;
+    }
+    
+    private static Nodo crearAnd(Nodo op1, Nodo op2) {
+        Nodo raiz = new Nodo(Const.and);
+        raiz.hijos.add(op1);
+        raiz.hijos.add(op2);
+        return (Nodo) raiz;
+    }
+    
+    private static Nodo crearOr(Nodo op1, Nodo op2) {
+        Nodo raiz = new Nodo(Const.or);
+        raiz.hijos.add(op1);
+        raiz.hijos.add(op2);
+        return (Nodo) raiz;
+    }
+    
+    public static Nodo crearRelacional(String op, Nodo op1, Nodo op2) {
+        Nodo raiz = new Nodo(op);
+        raiz.hijos.add(op1);
+        raiz.hijos.add(op2);
         return (Nodo) raiz;
     }
 }
