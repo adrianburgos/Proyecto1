@@ -17,7 +17,6 @@ public class Const {
             length = "length",
             _if = "if",
             _else = "else",
-            _case = "case",
             
             mas = "+",
             menos = "-",
@@ -51,8 +50,14 @@ public class Const {
             caracter = "caracter",
             unario = "unario",
             poslista = "poslista",
+            llamado = "llamado",
+            caso = "caso",
+            lcasos = "lcasos",
+            _case = "case",
             valor = "VALOR",
             lcuerpo = "LCUERPO",
-            decfun = "DECFUN",
+            ldecfun = "LDECFUN",
+            lvalor = "LVALOR",
+            lcar = "LCAR",
             lpar = "LPAR";
 }

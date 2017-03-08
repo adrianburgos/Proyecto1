@@ -91,7 +91,7 @@ enBlanco = {finLinea} | [ \t\f]
 
 //-----------------expresiones regulares-----------------------
 {caracter}          { return new Symbol(symsH.caracter, yycolumn, yyline, yytext()); }
-{cadena}            { return new Symbol(symsH.cadena, yycolumn, yyline, yytext()); }
+{cadena}            { return new Symbol(symsH.cadena, yycolumn, yyline, yytext().replace("\"", "")); }
 {numero}            { return new Symbol(symsH.numero, yycolumn, yyline, yytext()); }
 {iden}              { return new Symbol(symsH.iden, yycolumn, yyline, yytext()); }
 {enter}              { return new Symbol(symsH.enter, yycolumn, yyline, yytext()); }

@@ -28,6 +28,8 @@ public class NodoOperacion {
                 return crearAnd(op1, op2);
             case Const.or:
                 return crearOr(op1, op2);
+            case Const.masmas:
+                return crearConcatenacion(op1, op2);
         }
         System.out.println("crearNodoOperacion retorno null");
         return null;
@@ -109,6 +111,13 @@ public class NodoOperacion {
     
     public static Nodo crearRelacional(String op, Nodo op1, Nodo op2) {
         Nodo raiz = new Nodo(op);
+        raiz.hijos.add(op1);
+        raiz.hijos.add(op2);
+        return (Nodo) raiz;
+    }
+
+    private static Nodo crearConcatenacion(Nodo op1, Nodo op2) {
+        Nodo raiz = new Nodo(Const.masmas);
         raiz.hijos.add(op1);
         raiz.hijos.add(op2);
         return (Nodo) raiz;
