@@ -823,7 +823,7 @@ public class LexicoHaskell implements java_cup.runtime.Scanner {
             }
           case 76: break;
           case 23: 
-            { return new Symbol(symsH.cadena, yycolumn, yyline, yytext().replace("\"", ""));
+            { return new Symbol(symsH.cadena, yycolumn, yyline, yytext());
             }
           case 77: break;
           case 24: 

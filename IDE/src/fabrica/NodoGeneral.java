@@ -11,19 +11,11 @@ public class NodoGeneral{
         return (Nodo) lcuerpo;
     }
     
-    public static Nodo crearLdecfun(Nodo nodo)
+    public static Nodo crearDecFun(Nodo nodo)
     {
         Nodo ldecfun = new Nodo(Const.ldecfun);
         ldecfun.hijos.add(nodo);
         return (Nodo) ldecfun;
-    }
-    
-    public static Nodo crearFuncion(String id, Nodo parametros, Nodo cuerpo)
-    {
-        Nodo decfun = new Nodo(Const.decfun, id);
-        decfun.hijos.add(parametros);
-        decfun.hijos.add(cuerpo);
-        return (Nodo) decfun;
     }
     
     public static Nodo crearLvalor(Nodo nodo)
@@ -38,13 +30,6 @@ public class NodoGeneral{
         Nodo llamado = new Nodo(Const.llamado, id);
         llamado.hijos.add(nodo);
         return (Nodo) llamado;
-    }
-    
-    public static Nodo crearLista(String id, Nodo nodo)
-    {
-        Nodo lista = new Nodo(Const.list, id);
-        lista.hijos.add(nodo);
-        return (Nodo) lista;
     }
     
     public static Nodo crearCaso(Nodo valor, Nodo lcuerpo)
@@ -84,11 +69,10 @@ public class NodoGeneral{
         return new Nodo(nombre, valor);
     }
     
-    public static Nodo crearPosLista(Nodo nodo, Nodo pos)
+    public static Nodo crearPosLista(Nodo nodo)
     {
         Nodo poslista = new Nodo(Const.poslista);
         poslista.hijos.add(nodo);
-        poslista.hijos.add(pos);
         return (Nodo) poslista;
     }
 
@@ -169,12 +153,5 @@ public class NodoGeneral{
         Nodo lcar = new Nodo(Const.lcar);
         lcar.hijos.add(nodo);
         return (Nodo) lcar;
-    }
-    
-    public static Nodo crearLcorchetes(Nodo nodo)
-    {
-        Nodo lcorchetes = new Nodo(Const.lcorchetes);
-        lcorchetes.hijos.add(nodo);
-        return (Nodo) lcorchetes;
     }
 }

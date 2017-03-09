@@ -31,7 +31,7 @@ terminal String numero, iden, cadena, caracter, enter;
 
 non terminal Nodo INICIO, LIST, CUERPO, CALCULAR, SUCC, DECC, MIN, MAX, CONCATLISTAS, OPLIST, E, LLAMADO;
 non terminal Nodo IF, CASE;
-non terminal Nodo LISTA, L, LCORCHETES, LVAL, LCAR, PARLIST, LVALOR;
+non terminal Nodo LISTA, L, LCORCHETES, LVAL, LCAR, LCALC, PARLIST, LVALOR;
 non terminal Nodo LFUNCION, DECFUN, LCUERPO, LPAR, COND, LCASOS, CASO, VALOR, OPEXP, VALCASO, OPLISTA;
 non terminal String OPREL;
 
@@ -59,10 +59,10 @@ LFUNCION        ::= LFUNCION:LFUNCION DECFUN:DECFUN
                     {:
                         RESULT = new Nodo(Const.ldecfun);
                         if(DECFUN != null) 
-                            RESULT = NodoGeneral.crearLdecfun(DECFUN);
+                            RESULT = NodoGeneral.crearDecFun(DECFUN);
                     :};
 
-DECFUN          ::= iden:id LPAR:LPAR igual LCUERPO:LCUERPO _end {: RESULT = NodoGeneral.crearFuncion(id, LPAR, LCUERPO); :}
+DECFUN          ::= iden LPAR igual LCUERPO:LCUERPO _end {: RESULT = LCUERPO; :}
                 |   enter {: RESULT = null; :};
 LPAR            ::= LPAR:LPAR coma iden:iden
                     {:
@@ -104,18 +104,14 @@ CUERPO          ::= LIST:t {: RESULT = t; :}
                 |   enter {: RESULT = null; :}
                 |   error enter;
 
-LIST            ::= dolar let iden:id igual PARLIST:PARLIST dolar {: RESULT = NodoGeneral.crearLista(id, PARLIST); :};
-LISTA           ::= CONCATLISTAS:CONCAT {: RESULT = CONCAT; :}
-                |   acorchete L:L ccorchete {: RESULT = L; :}
+LIST            ::= dolar let iden igual PARLIST dolar;
+LISTA           ::= CONCATLISTAS
+                |   acorchete L ccorchete
                 |   cadena:t1 {: RESULT = NodoGeneral.crearHoja(Const.cadena, t1); :};
-L               ::= LCORCHETES:LCORCHETES {: RESULT = LCORCHETES; :}
-                |   LVAL:LVAL {: RESULT = LVAL; :};
-LCORCHETES      ::= LCORCHETES:LCORCHETES coma acorchete LVAL:LVAL ccorchete 
-                    {:
-                        LCORCHETES.hijos.add(LVAL);
-                        RESULT = (Nodo) LCORCHETES;
-                    :}
-                |   acorchete LVAL:LVAL ccorchete {: RESULT = NodoGeneral.crearLcorchetes(LVAL); :};
+L               ::= LCORCHETES
+                |   LVAL;
+LCORCHETES      ::= LCORCHETES coma acorchete LVAL ccorchete
+                |   acorchete LVAL ccorchete;
 LVAL            ::= LCAR:LCAR {: RESULT = LCAR; :}
                 |   LVALOR:LVALOR {: RESULT = LVALOR; :}
                 |   cadena:t1 {: RESULT = NodoGeneral.crearHoja(Const.cadena, t1); :};
@@ -201,5 +197,5 @@ E               ::= E:t1 mas E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mas,
                 |   aparentesis E:t1 cparentesis {: RESULT = t1; :}
                 |   numero:t1 {: RESULT = NodoGeneral.crearHoja(Const.numero, t1); :}
                 |   VALOR:t1 {: RESULT = t1; :}
-                |   PARLIST:t1 poslista CALCULAR:CALCULAR {: RESULT = NodoGeneral.crearPosLista(t1, CALCULAR); :}
+                |   PARLIST:t1 poslista {: RESULT = NodoGeneral.crearPosLista(t1); :}
                 |   OPEXP:t1 {: RESULT = t1; :};

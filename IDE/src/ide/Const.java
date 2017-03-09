@@ -55,12 +55,9 @@ public class Const {
             lcasos = "lcasos",
             _case = "case",
             valor = "VALOR",
-            decfun = "DECFUN",
-            list = "LIST",
             lcuerpo = "LCUERPO",
             ldecfun = "LDECFUN",
             lvalor = "LVALOR",
-            lcorchetes = "LCORCHETES",
             lcar = "LCAR",
             lpar = "LPAR";
 }
