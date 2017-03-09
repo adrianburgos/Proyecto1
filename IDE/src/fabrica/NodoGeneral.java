@@ -164,11 +164,11 @@ public class NodoGeneral{
         return (Nodo) succ;
     }
     
-    public static Nodo crearLcar(Nodo nodo)
+    public static Nodo crearLista(Nodo nodo)
     {
-        Nodo lcar = new Nodo(Const.lcar);
-        lcar.hijos.add(nodo);
-        return (Nodo) lcar;
+        Nodo lista = new Nodo(Const.lista);
+        lista.hijos.add(nodo);
+        return (Nodo) lista;
     }
     
     public static Nodo crearLcorchetes(Nodo nodo)

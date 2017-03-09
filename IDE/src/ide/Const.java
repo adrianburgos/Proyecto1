@@ -61,6 +61,6 @@ public class Const {
             ldecfun = "LDECFUN",
             lvalor = "LVALOR",
             lcorchetes = "LCORCHETES",
-            lcar = "LCAR",
+            lista = "LISTA",
             lpar = "LPAR";
 }
