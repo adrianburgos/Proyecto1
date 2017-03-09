@@ -33,7 +33,7 @@ public class Arbol {
             String nombreHijo = "nodo" + contador;
             String label = "";
             
-            if(hijo.getNombre().equals(Const.numero) || hijo.getNombre().equals(Const.id) || hijo.getNombre().equals(Const.cadena) || hijo.getNombre().equals(Const.caracter))
+            if(!hijo.getNombre().equals(hijo.getValor()))
                 label += agregarComillas(hijo.getValor()) + "[" + agregarComillas(hijo.getNombre()) + "]";
             else
                 label = agregarComillas(hijo.getNombre());
