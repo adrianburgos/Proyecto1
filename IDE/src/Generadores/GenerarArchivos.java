@@ -7,6 +7,7 @@ public class GenerarArchivos {
     public static void main(String[] args) {
         //generarLexico("src/Analisis/terminal/LexicoHaskellTerminal.jflex");
         generarLexico("src/Analisis/haskell/LexicoHaskell.jflex");
+        generarLexico("src/Analisis/graphik/LexicoGraphik.jflex");
         generarSintactico();
     }
 
@@ -20,6 +21,7 @@ public class GenerarArchivos {
     {
         //generarSintacticoHaskellTerminal();
         generarSintacticoHaskell();
+        generarSintacticoGraphik();
     }
     
     private static void generarSintacticoHaskellTerminal()
@@ -48,6 +50,22 @@ public class GenerarArchivos {
         cadena[4] = "-parser";
         cadena[5] = "SintacticoHaskell";
         cadena[6] = "src/Analisis/haskell/SintacticoHaskell.cup";
+        try {
+            java_cup.Main.main(cadena);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    private static void generarSintacticoGraphik() {
+        String[] cadena = new String[7];
+        cadena[0] = "-destdir";
+        cadena[1] = "src/Analisis/graphik";
+        cadena[2] = "-symbols";
+        cadena[3] = "symsG";
+        cadena[4] = "-parser";
+        cadena[5] = "SintacticoGraphik";
+        cadena[6] = "src/Analisis/graphik/SintacticoGraphik.cup";
         try {
             java_cup.Main.main(cadena);
         } catch (Exception e) {

@@ -1,1 +1,233 @@
+//-------------------codigo de usuario-----------------
+package Analisis.graphik;
+import java_cup.runtime.Symbol;
+import Reportes.*;
+import fabrica.*;
+import ide.Const;
+parser code
+{:
+    public Nodo raiz = new Nodo(); 
+    public void syntax_error(Symbol s)
+    {
+        ErroresGraphik.agregarError("Error sintactico", s.value.toString() + " no debe de ir en esa posicion", s.right, s.left);
+    }
 
+    public void unrecovered_syntax_error(Symbol s)
+    {
+        ErroresGraphik.agregarError("Error sintactico", "No se pudo recuperar de: " + s.value.toString(), s.right, s.left);
+    }
+:}
+
+//-------------------codigo para acciones gramaticales
+action code
+{:
+
+:}
+//-------------------declaraciones---------------------
+terminal calcular,let,succ,decc,min,max,sum,product,revers,impr,par,asc,desc,length,_if,_then,_else,_end,_case,masmas,menosmenos;
+terminal mas,menos,por,dividido,mod,sqrt,pot,or,and,menorigual,mayorigual,menor,mayor,diferente,igualigual;
+terminal igual,dolar,allave,cllave,acorchete,ccorchete,aparentesis,cparentesis,coma, poslista, dospuntos, puntoycoma;
+terminal String numero, iden, cadena, caracter, enter;
+
+non terminal Nodo INICIO, LIST, CUERPO, CALCULAR, SUCC, DECC, MIN, MAX, CONCATLISTAS, OPLIST, E, LLAMADO;
+non terminal Nodo IF, CASE;
+non terminal Nodo LISTA, L, LCORCHETES, LVAL, LCAR, VALCASE, LVALOR;
+non terminal Nodo LFUNCION, DECFUN, LCUERPO, LPAR, COND, LCASOS, CASO, VALOR, OPEXP, VALCASO, OPLISTA, OPSIST, LEXP, EXP;
+non terminal String OPREL;
+
+//precedencia menor a mayor
+precedence left or;
+precedence left and;
+precedence left menor, mayor, menorigual, mayorigual, diferente, igualigual;
+precedence left mas, menos;
+precedence left por, dividido, mod;
+precedence left pot, sqrt;
+
+precedence left masmas, poslista;
+start with INICIO;
+//-------------------reglas sintacticas----------------
+
+INICIO          ::= {:System.out.println("inicio");:} LFUNCION:LFUN {: raiz = LFUN; System.out.println("FINALIZO"); :};
+
+LFUNCION        ::= LFUNCION:LFUNCION DECFUN:DECFUN
+                    {:
+                        if(DECFUN != null)
+                            LFUNCION.hijos.add(DECFUN);
+                        RESULT = (Nodo) LFUNCION;
+                    :}
+                |   DECFUN:DECFUN
+                    {:
+                        RESULT = new Nodo(Const.ldecfun);
+                        if(DECFUN != null) 
+                            RESULT = NodoGeneral.crearLdecfun(DECFUN);
+                    :};
+
+DECFUN          ::= iden:id LPAR:LPAR igual LCUERPO:LCUERPO _end {: RESULT = NodoGeneral.crearFuncion(id, LPAR, LCUERPO); :}
+                |   enter {: RESULT = null; :};
+LPAR            ::= LPAR:LPAR coma iden:iden
+                    {:
+                        Nodo par = new Nodo(iden);
+                        LPAR.hijos.add(par);
+                        RESULT = (Nodo) LPAR;
+                    :}
+                |   iden:iden
+                    {:
+                        Nodo par = new Nodo(iden);
+                        RESULT = new Nodo(Const.lpar);
+                        RESULT.hijos.add(par);
+                    :}
+                |   {: RESULT = new Nodo(Const.lpar); :};
+LCUERPO         ::= LCUERPO:LCUERPO CUERPO:CUERPO
+                    {:
+                        if(CUERPO != null)
+                            LCUERPO.hijos.add(CUERPO);
+                        RESULT = (Nodo) LCUERPO;
+                    :}
+                |   CUERPO:CUERPO 
+                    {: 
+                        RESULT = new Nodo(Const.lcuerpo);
+                        if(CUERPO != null)
+                            RESULT = NodoGeneral.crearCuerpo(CUERPO);
+                    :};
+
+CUERPO          ::= LIST:t {: RESULT = t; :}
+                |   CALCULAR:t {: RESULT = t; :}
+                |   OPSIST:t {: RESULT = t; :}
+                |   CONCATLISTAS:t {: RESULT = t; :}
+                |   OPLIST:t {: RESULT = t; :}
+                |   IF:t {: RESULT = t; :}
+                |   CASE:t {: RESULT = t; :}
+                |   LLAMADO:t {: RESULT = t; :}
+                |   enter {: RESULT = null; :}
+                |   error enter;
+
+LIST            ::= dolar let iden:id igual LISTA:LISTA dolar {: RESULT = NodoGeneral.crearLista(id, LISTA); :};
+LISTA           ::= CONCATLISTAS:CONCAT {: RESULT = CONCAT; :}
+                |   acorchete L:L ccorchete {: RESULT = L; :}
+                |   cadena:t1 {: RESULT = NodoGeneral.crearHoja(Const.cadena, t1); :}
+                |   OPLISTA:OP {: RESULT = OP; :}
+                |   iden:t1 {: RESULT = NodoGeneral.crearHoja(Const.id, t1); :}
+                |   LLAMADO:t1 {: RESULT = t1; :};
+L               ::= LCORCHETES:LCORCHETES {: RESULT = LCORCHETES; :}
+                |   LVAL:LVAL {: RESULT = LVAL; :};
+LCORCHETES      ::= LCORCHETES:LCORCHETES coma acorchete LVAL:LVAL ccorchete 
+                    {:
+                        LCORCHETES.hijos.add(LVAL);
+                        RESULT = (Nodo) LCORCHETES;
+                    :}
+                |   acorchete LVAL:LVAL ccorchete {: RESULT = NodoGeneral.crearLcorchetes(LVAL); :};
+LVAL            ::= LCAR:LCAR {: RESULT = LCAR; :}
+                |   LEXP:LEXP {: RESULT = LEXP; :}
+                |   cadena:t1 {: RESULT = NodoGeneral.crearHoja(Const.cadena, t1); :};
+LCAR            ::= LCAR:LCAR coma caracter:t1
+                    {:
+                        LCAR.hijos.add(NodoGeneral.crearHoja(Const.caracter, t1));
+                        RESULT = (Nodo) LCAR;
+                    :}
+                |   caracter:t1 {: RESULT = NodoGeneral.crearLista(NodoGeneral.crearHoja(Const.caracter, t1)); :};
+
+LEXP            ::= LEXP:LEXP coma EXP:t1
+                    {:
+                        LEXP.hijos.add(t1);
+                        RESULT = (Nodo) LEXP;
+                    :}
+                |   EXP:t1 {: RESULT = NodoGeneral.crearLista(t1); :};
+
+EXP             ::= CALCULAR:t1 {: RESULT = t1; :}
+                |   LLAMADO:t1 {: RESULT = t1; :}
+                |   iden:t1 {: RESULT = NodoGeneral.crearHoja(Const.id, t1); :}
+                |   OPEXP:OP {: RESULT = OP; :}
+                |   OPSIST:OP {: RESULT = OP; :};
+
+CALCULAR        ::= dolar calcular E:t1 dolar {: RESULT = t1; :};
+
+OPSIST          ::= SUCC:t1 {: RESULT = t1; :}
+                |   DECC:t1 {: RESULT = t1; :}
+                |   MIN:t1 {: RESULT = t1; :}
+                |   MAX:t1 {: RESULT = t1; :};
+
+SUCC            ::= dolar succ VALOR:VALOR dolar {: RESULT = NodoGeneral.crearSucc(VALOR); :};
+
+DECC            ::= dolar decc VALOR:VALOR dolar {: RESULT = NodoGeneral.crearDecc(VALOR); :};
+
+MIN             ::= dolar min LISTA:LISTA dolar {: RESULT = NodoGeneral.crearMin(LISTA); :};
+
+MAX             ::= dolar max LISTA:LISTA dolar {: RESULT = NodoGeneral.crearMax(LISTA); :};
+
+OPLIST          ::= OPEXP:OP {: RESULT = OP; :}
+                |   OPLISTA:OP {: RESULT = OP; :};
+OPLISTA         ::= dolar revers LISTA:LISTA dolar {: RESULT = NodoGeneral.crearRevers(LISTA); :}
+                |   dolar impr LISTA:LISTA dolar {: RESULT = NodoGeneral.crearImpr(LISTA); :}
+                |   dolar par LISTA:LISTA dolar {: RESULT = NodoGeneral.crearPar(LISTA); :}
+                |   dolar asc LISTA:LISTA dolar {: RESULT = NodoGeneral.crearAsc(LISTA); :}
+                |   dolar desc LISTA:LISTA dolar {: RESULT = NodoGeneral.crearDesc(LISTA); :};
+OPEXP           ::= dolar sum LISTA:LISTA dolar {: RESULT = NodoGeneral.crearSum(LISTA); :}
+                |   dolar product LISTA:LISTA dolar {: RESULT = NodoGeneral.crearProduct(LISTA); :}
+                |   dolar length LISTA:LISTA dolar {: RESULT = NodoGeneral.crearLength(LISTA); :};
+
+IF              ::= _if COND:COND _then LCUERPO:LCUERPOV _else LCUERPO:LCUERPOF _end 
+                    {: RESULT = NodoGeneral.crearIf(COND, LCUERPOV, LCUERPOF); :};
+
+CASE            ::= _case VALCASE:VALCASE enter LCASOS:LCASOS _end {: RESULT = NodoGeneral.crearCase(VALCASE, LCASOS); :};
+LCASOS          ::= LCASOS:LCASOS CASO:CASOS enter
+                    {:
+                        LCASOS.hijos.add(CASOS);
+                        RESULT = (Nodo) LCASOS;
+                    :}
+                |   CASO:CASO enter {: RESULT = NodoGeneral.crearLcasos(CASO); :};
+CASO            ::= VALCASO:VALCASO dospuntos LCUERPO:LCUERPO puntoycoma {: RESULT = NodoGeneral.crearCaso(VALCASO, LCUERPO);:};
+VALCASO         ::= numero:t1 {: RESULT = NodoGeneral.crearHoja(Const.numero, t1); :} 
+                |   caracter:t1 {: RESULT = NodoGeneral.crearHoja(Const.caracter, t1); :};
+VALCASE         ::= CALCULAR:t1 {: RESULT = t1; :}
+                |   LLAMADO:t1 {: RESULT = t1; :}
+                |   iden:t1 {: RESULT = NodoGeneral.crearHoja(Const.id, t1); :}
+                |   OPEXP:OP {: RESULT = OP; :}
+                |   OPSIST:OP {: RESULT = OP; :}
+                |   LISTA:t1 poslista CALCULAR:CALCULAR {: RESULT = NodoGeneral.crearPosLista(t1, CALCULAR); :};
+
+LLAMADO         ::= dolar iden:iden allave LVALOR:LVALOR cllave dolar {: RESULT = NodoGeneral.crearLlamado(iden, LVALOR); :};
+LVALOR          ::= LVALOR:LVALOR coma VALOR:VALOR
+                    {:
+                        LVALOR.hijos.add(VALOR);
+                        RESULT = (Nodo) LVALOR;
+                    :}
+                |   VALOR:VALOR {: RESULT = NodoGeneral.crearLvalor(VALOR); :}
+                |   {: RESULT = new Nodo(Const.lvalor); :};
+VALOR           ::= CALCULAR:t1 {: RESULT = t1; :}
+                |   LLAMADO :t1 {: RESULT = t1; :}
+                |   OPSIST :t1 {: RESULT = t1; :}
+                |   CONCATLISTAS:CONCAT {: RESULT = CONCAT; :}
+                |   OPLISTA:OP {: RESULT = OP; :}
+                |   OPEXP:OP {: RESULT = OP; :}
+                |   iden:t1 {: RESULT = NodoGeneral.crearHoja(Const.id, t1); :}
+                |   caracter:t1 {: RESULT = NodoGeneral.crearHoja(Const.caracter, t1); :}
+                |   cadena:t1 {: RESULT = NodoGeneral.crearHoja(Const.cadena, t1); :}
+                |   acorchete L:L ccorchete {: RESULT = L; :}
+                |   LISTA:t1 poslista CALCULAR:CALCULAR {: RESULT = NodoGeneral.crearPosLista(t1, CALCULAR); :};
+
+CONCATLISTAS    ::= LISTA:t1 masmas LISTA:t2 {: RESULT = NodoOperacion.crearNodo(Const.masmas, t1, t2); :}; 
+
+COND            ::= COND:t1 or COND:t2 {: RESULT = NodoOperacion.crearNodo(Const.or, t1, t2); :}
+                |   COND:t1 and COND:t2 {: RESULT = NodoOperacion.crearNodo(Const.and, t1, t2); :}
+                |   VALOR:t1 OPREL:op VALOR:t2 {: RESULT = NodoOperacion.crearRelacional(op, t1, t2); :};
+OPREL           ::= menor {: RESULT = Const.menor; :}
+                |   mayor {: RESULT = Const.mayor; :}
+                |   menorigual {: RESULT = Const.menorigual; :}
+                |   mayorigual {: RESULT = Const.mayorigual; :}
+                |   igualigual {: RESULT = Const.igualigual; :}
+                |   diferente {: RESULT = Const.diferente; :};
+
+E               ::= E:t1 mas E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mas, t1, t2); :}
+                |   E:t1 menos E:t2 {: RESULT = NodoOperacion.crearNodo(Const.menos, t1, t2); :}
+                |   E:t1 por E:t2 {: RESULT = NodoOperacion.crearNodo(Const.por, t1, t2); :}
+                |   E:t1 dividido E:t2 {: RESULT = NodoOperacion.crearNodo(Const.dividido, t1, t2); :}
+                |   E:t1 mod E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mod, t1, t2); :}
+                |   E:t1 pot E:t2 {: RESULT = NodoOperacion.crearNodo(Const.pot, t1, t2); :}
+                |   E:t1 sqrt E:t2 {: RESULT = NodoOperacion.crearNodo(Const.sqrt, t1, t2); :}
+                |   menos E:t1 {: RESULT = NodoOperacion.crearNodo(Const.unario, t1, null); :}
+                |   aparentesis E:t1 cparentesis {: RESULT = t1; :}
+                |   OPSIST:t1 {: RESULT = t1; :}
+                |   numero:t1 {: RESULT = NodoGeneral.crearHoja(Const.numero, t1); :}
+                |   iden:t1 {: RESULT = NodoGeneral.crearHoja(Const.id, t1); :}
+                |   LISTA:t1 poslista CALCULAR:CALCULAR {: RESULT = NodoGeneral.crearPosLista(t1, CALCULAR); :}
+                |   OPEXP:t1 {: RESULT = t1; :};
