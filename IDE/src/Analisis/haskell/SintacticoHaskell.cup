@@ -176,7 +176,8 @@ LVALOR          ::= LVALOR:LVALOR coma VALOR:VALOR
                 |   {: RESULT = new Nodo(Const.lvalor); :};
 VALOR           ::= CALCULAR:t1 {: RESULT = t1; :}
                 |   LLAMADO :t1 {: RESULT = t1; :}
-                |   iden:t1 {: RESULT = NodoGeneral.crearHoja(Const.id, t1); :};
+                |   iden:t1 {: RESULT = NodoGeneral.crearHoja(Const.id, t1); :}
+                |   LISTA;
 
 CONCATLISTAS    ::= PARLIST:t1 masmas PARLIST:t2 {: RESULT = NodoOperacion.crearNodo(Const.masmas, t1, t2); :}; 
 
