@@ -22,14 +22,15 @@ import Reportes.*;
 %unicode
 
 //expresiones regulares
-numero = [0-9]+
+numero = [0-9]+("."[0-9]+)?
 iden = [A-Za-z_][A-Za-z_0-9]*
 caracter = "'"."'"
 cadena = \"(\\.|[^\"])*\"
 enter = \n
 finLinea = \r|\n|\r\n
 enBlanco = {finLinea} | [ \t\f]
-
+comenBloque = #\/(\\.|[^\/#])*\/#
+comenLinea = #(\\.|[^\n])*\n
 
 %state STRING
 %%
