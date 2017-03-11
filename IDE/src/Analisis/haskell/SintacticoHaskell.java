@@ -1440,7 +1440,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskell$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 64: // IF ::= _if COND _then LCUERPO _else LCUERPO _end 
+          case 64: // IF ::= si COND _then LCUERPO sino LCUERPO _end 
             {
               Nodo RESULT =null;
 		int CONDleft = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-5)).left;
@@ -1458,7 +1458,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskell$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 65: // CASE ::= _case VALCASE enter LCASOS _end 
+          case 65: // CASE ::= caso VALCASE enter LCASOS _end 
             {
               Nodo RESULT =null;
 		int VALCASEleft = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-3)).left;

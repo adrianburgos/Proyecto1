@@ -64,7 +64,7 @@ public class NodoGeneral{
     
     public static Nodo crearCase(Nodo valor, Nodo lcasos)
     {
-        Nodo caso = new Nodo(Const._case);
+        Nodo caso = new Nodo(Const.caso);
         caso.hijos.add(valor);
         caso.hijos.add(lcasos);
         return (Nodo) caso;
@@ -72,7 +72,7 @@ public class NodoGeneral{
     
     public static Nodo crearIf(Nodo cond, Nodo lcuerpoverdadero, Nodo lcuerpofalso)
     {
-        Nodo _if = new Nodo(Const._if);
+        Nodo _if = new Nodo(Const.si);
         _if.hijos.add(cond);
         _if.hijos.add(lcuerpoverdadero);
         _if.hijos.add(lcuerpofalso);

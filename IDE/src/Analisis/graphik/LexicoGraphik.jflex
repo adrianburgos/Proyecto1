@@ -55,12 +55,30 @@ comenLinea = #(\\.|[^\n])*\n
 ".gk"           { return new Symbol(symsG.extgk, yycolumn, yyline, yytext()); }
 "als"           { return new Symbol(symsG.als, yycolumn, yyline, yytext()); }
 "hereda"        { return new Symbol(symsG.hereda, yycolumn, yyline, yytext()); }
+"retornar"      { return new Symbol(symsG.retornar, yycolumn, yyline, yytext()); }
+"llamar"        { return new Symbol(symsG.llamar, yycolumn, yyline, yytext()); }
+"llamarhk"      { return new Symbol(symsG.llamarhk, yycolumn, yyline, yytext()); }
+"inicio"        { return new Symbol(symsG.inicio, yycolumn, yyline, yytext()); }
+"incluir_hk"    { return new Symbol(symsG.incluirhk, yycolumn, yyline, yytext()); }
+"si"            { return new Symbol(symsG.si, yycolumn, yyline, yytext()); }
+"sino"          { return new Symbol(symsG.sino, yycolumn, yyline, yytext()); }
 
-"if"            { return new Symbol(symsG._if, yycolumn, yyline, yytext()); }
-"then"          { return new Symbol(symsG._then, yycolumn, yyline, yytext()); }
-"else"          { return new Symbol(symsG._else, yycolumn, yyline, yytext()); }
-"end"           { return new Symbol(symsG._end, yycolumn, yyline, yytext()); }
-"case"          { return new Symbol(symsG._case, yycolumn, yyline, yytext()); }
+"seleccion"     { return new Symbol(symsG.seleccion, yycolumn, yyline, yytext()); }
+"defecto"       { return new Symbol(symsG.defecto, yycolumn, yyline, yytext()); }
+"caso"          { return new Symbol(symsG.caso, yycolumn, yyline, yytext()); }
+"para"          { return new Symbol(symsG.para, yycolumn, yyline, yytext()); }
+"mientras"      { return new Symbol(symsG.mientras, yycolumn, yyline, yytext()); }
+"hacer"         { return new Symbol(symsG.hacer, yycolumn, yyline, yytext()); }
+"continuar"     { return new Symbol(symsG.continuar, yycolumn, yyline, yytext()); }
+"terminar"      { return new Symbol(symsG.terminar, yycolumn, yyline, yytext()); }
+"graphikar_funcion"     { return new Symbol(symsG.graphikarfuncion, yycolumn, yyline, yytext()); }
+"datos"         { return new Symbol(symsG.datos, yycolumn, yyline, yytext()); }
+"columna"       { return new Symbol(symsG.columna, yycolumn, yyline, yytext()); }
+"procesar"      { return new Symbol(symsG.procesar, yycolumn, yyline, yytext()); }
+"donde"         { return new Symbol(symsG.donde, yycolumn, yyline, yytext()); }
+"dondecada"     { return new Symbol(symsG.dondecada, yycolumn, yyline, yytext()); }
+"dondetodo"     { return new Symbol(symsG.dondetodo, yycolumn, yyline, yytext()); }
+"imprimir"      { return new Symbol(symsG.imprimir, yycolumn, yyline, yytext()); }
 
 "++"            { return new Symbol(symsG.masmas, yycolumn, yyline, yytext()); }
 "--"            { return new Symbol(symsG.menosmenos, yycolumn, yyline, yytext()); }
@@ -84,14 +102,14 @@ comenLinea = #(\\.|[^\n])*\n
 "?"             { return new Symbol(symsG.interrogacion, yycolumn, yyline, yytext()); }
 ":"             { return new Symbol(symsG.dospuntos, yycolumn, yyline, yytext()); }
 "="             { return new Symbol(symsG.igual, yycolumn, yyline, yytext()); }
+"."             { return new Symbol(symsG.punto, yycolumn, yyline, yytext()); }
+","             { return new Symbol(symsG.coma, yycolumn, yyline, yytext()); }
 "{"             { return new Symbol(symsG.allave, yycolumn, yyline, yytext()); }
 "}"             { return new Symbol(symsG.cllave, yycolumn, yyline, yytext()); }
 "["             { return new Symbol(symsG.acorchete, yycolumn, yyline, yytext()); }
 "]"             { return new Symbol(symsG.ccorchete, yycolumn, yyline, yytext()); }
 "("             { return new Symbol(symsG.aparentesis, yycolumn, yyline, yytext()); }
 ")"             { return new Symbol(symsG.cparentesis, yycolumn, yyline, yytext()); }
-","             { return new Symbol(symsG.coma, yycolumn, yyline, yytext()); }
-"."             { return new Symbol(symsG.punto, yycolumn, yyline, yytext()); }
 ";"             { return new Symbol(symsG.puntoycoma, yycolumn, yyline, yytext()); }
 
 //-----------------expresiones regulares-----------------------
