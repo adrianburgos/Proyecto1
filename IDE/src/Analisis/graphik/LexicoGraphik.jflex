@@ -26,7 +26,7 @@ numero = [0-9]+
 dec = [0-9]+"."[0-9]+
 iden = [A-Za-z_][A-Za-z_0-9]*
 car = "'"."'"
-cadena = \"(\\.|[^\"])*\"
+cad = \"(\\.|[^\"])*\"
 finLinea = \r|\n|\r\n
 enBlanco = {finLinea} | [ \t\f]
 comenBloque = #\/(\\.|[^\/#])*\/#
@@ -47,7 +47,7 @@ comenLinea = #(\\.|[^\n])*\n
 "caracter"      { return new Symbol(symsG.caracter, yycolumn, yyline, yytext()); }
 "cadena"        { return new Symbol(symsG.cadena, yycolumn, yyline, yytext()); }
 "bool"          { return new Symbol(symsG.bool, yycolumn, yyline, yytext()); }
-"void"          { return new Symbol(symsG.vacio, yycolumn, yyline, yytext()); }
+"vacio"         { return new Symbol(symsG.vacio, yycolumn, yyline, yytext()); }
 "publico"       { return new Symbol(symsG.publico, yycolumn, yyline, yytext()); }
 "protegido"     { return new Symbol(symsG.protegido, yycolumn, yyline, yytext()); }
 "privado"       { return new Symbol(symsG.privado, yycolumn, yyline, yytext()); }
@@ -56,12 +56,12 @@ comenLinea = #(\\.|[^\n])*\n
 "als"           { return new Symbol(symsG.als, yycolumn, yyline, yytext()); }
 "hereda"        { return new Symbol(symsG.hereda, yycolumn, yyline, yytext()); }
 "retornar"      { return new Symbol(symsG.retornar, yycolumn, yyline, yytext()); }
-"llamar"        { return new Symbol(symsG.llamar, yycolumn, yyline, yytext()); }
 "llamarhk"      { return new Symbol(symsG.llamarhk, yycolumn, yyline, yytext()); }
+"llamar"        { return new Symbol(symsG.llamar, yycolumn, yyline, yytext()); }
 "inicio"        { return new Symbol(symsG.inicio, yycolumn, yyline, yytext()); }
 "incluir_hk"    { return new Symbol(symsG.incluirhk, yycolumn, yyline, yytext()); }
-"si"            { return new Symbol(symsG.si, yycolumn, yyline, yytext()); }
 "sino"          { return new Symbol(symsG.sino, yycolumn, yyline, yytext()); }
+"si"            { return new Symbol(symsG.si, yycolumn, yyline, yytext()); }
 
 "seleccion"     { return new Symbol(symsG.seleccion, yycolumn, yyline, yytext()); }
 "defecto"       { return new Symbol(symsG.defecto, yycolumn, yyline, yytext()); }
@@ -75,9 +75,9 @@ comenLinea = #(\\.|[^\n])*\n
 "datos"         { return new Symbol(symsG.datos, yycolumn, yyline, yytext()); }
 "columna"       { return new Symbol(symsG.columna, yycolumn, yyline, yytext()); }
 "procesar"      { return new Symbol(symsG.procesar, yycolumn, yyline, yytext()); }
-"donde"         { return new Symbol(symsG.donde, yycolumn, yyline, yytext()); }
 "dondecada"     { return new Symbol(symsG.dondecada, yycolumn, yyline, yytext()); }
 "dondetodo"     { return new Symbol(symsG.dondetodo, yycolumn, yyline, yytext()); }
+"donde"         { return new Symbol(symsG.donde, yycolumn, yyline, yytext()); }
 "imprimir"      { return new Symbol(symsG.imprimir, yycolumn, yyline, yytext()); }
 
 "++"            { return new Symbol(symsG.masmas, yycolumn, yyline, yytext()); }
@@ -99,7 +99,7 @@ comenLinea = #(\\.|[^\n])*\n
 "!="            { return new Symbol(symsG.diferente, yycolumn, yyline, yytext()); }
 "=="            { return new Symbol(symsG.igualigual, yycolumn, yyline, yytext()); }
 
-"?"             { return new Symbol(symsG.interrogacion, yycolumn, yyline, yytext()); }
+"?"             { return new Symbol(symsG.interroga, yycolumn, yyline, yytext()); }
 ":"             { return new Symbol(symsG.dospuntos, yycolumn, yyline, yytext()); }
 "="             { return new Symbol(symsG.igual, yycolumn, yyline, yytext()); }
 "."             { return new Symbol(symsG.punto, yycolumn, yyline, yytext()); }
@@ -114,7 +114,7 @@ comenLinea = #(\\.|[^\n])*\n
 
 //-----------------expresiones regulares-----------------------
 {car}           { return new Symbol(symsG.caracter, yycolumn, yyline, yytext()); }
-{cadena}        { return new Symbol(symsG.cadena, yycolumn, yyline, yytext().replace("\"", "")); }
+{cad}        { return new Symbol(symsG.cadena, yycolumn, yyline, yytext().replace("\"", "")); }
 {numero}        { return new Symbol(symsG.numero, yycolumn, yyline, yytext()); }
 {dec}           { return new Symbol(symsG.dec, yycolumn, yyline, yytext()); }
 {iden}          { return new Symbol(symsG.iden, yycolumn, yyline, yytext()); }

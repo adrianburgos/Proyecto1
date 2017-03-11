@@ -45,6 +45,7 @@ public class Const {
             asignacion = "asignacion",
             declaracion = "declaracion",
             numero = "numero",
+            decimal = "decimal",
             id = "id",
             cadena = "cadena",
             caracter = "caracter",
