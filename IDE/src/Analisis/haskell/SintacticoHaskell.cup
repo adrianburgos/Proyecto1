@@ -41,7 +41,7 @@ precedence left and;
 precedence left menor, mayor, menorigual, mayorigual, diferente, igualigual;
 precedence left mas, menos;
 precedence left por, dividido, mod;
-precedence left pot, sqrt;
+precedence right pot, sqrt;
 
 precedence left masmas, poslista;
 start with INICIO;

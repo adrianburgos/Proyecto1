@@ -8,117 +8,159 @@ package Analisis.graphik;
 /** CUP generated class containing symbol constants. */
 public class symsG {
   /* terminals */
-  public static final int decc = 5;
-  public static final int ccorchete = 43;
-  public static final int allave = 40;
-  public static final int igualigual = 37;
-  public static final int cllave = 41;
-  public static final int mod = 27;
-  public static final int par = 12;
-  public static final int acorchete = 42;
-  public static final int coma = 46;
-  public static final int asc = 13;
-  public static final int igual = 38;
-  public static final int calcular = 2;
-  public static final int caracter = 53;
-  public static final int succ = 4;
-  public static final int let = 3;
-  public static final int dividido = 26;
-  public static final int menosmenos = 22;
-  public static final int _end = 19;
-  public static final int sum = 8;
-  public static final int _else = 18;
-  public static final int length = 15;
-  public static final int puntoycoma = 49;
-  public static final int iden = 51;
-  public static final int numero = 50;
-  public static final int masmas = 21;
-  public static final int menos = 24;
-  public static final int _then = 17;
-  public static final int max = 7;
-  public static final int menor = 34;
+  public static final int dividido = 45;
+  public static final int menos = 43;
+  public static final int menor = 53;
+  public static final int punto = 60;
+  public static final int ccorchete = 65;
+  public static final int acorchete = 64;
+  public static final int importar = 13;
+  public static final int cllave = 63;
+  public static final int extgk = 14;
+  public static final int mas = 42;
+  public static final int cadena = 7;
+  public static final int dospuntos = 58;
+  public static final int menorigual = 51;
+  public static final int mientras = 28;
+  public static final int llamarhk = 18;
+  public static final int hereda = 16;
+  public static final int imprimir = 39;
+  public static final int llamar = 19;
+  public static final int privado = 11;
+  public static final int sino = 23;
+  public static final int procesar = 35;
+  public static final int decimal = 69;
+  public static final int terminar = 31;
+  public static final int caso = 26;
+  public static final int interroga = 57;
+  public static final int dondetodo = 38;
+  public static final int incluirhk = 21;
+  public static final int or = 48;
+  public static final int caracter = 6;
+  public static final int mayorigual = 52;
+  public static final int nuevo = 3;
+  public static final int datos = 33;
+  public static final int dondecada = 37;
+  public static final int bool = 8;
+  public static final int menosmenos = 41;
+  public static final int seleccion = 24;
+  public static final int car = 72;
+  public static final int protegido = 12;
+  public static final int columna = 34;
+  public static final int vacio = 9;
+  public static final int and = 47;
+  public static final int retornar = 17;
+  public static final int mayor = 54;
+  public static final int cparentesis = 67;
+  public static final int xor = 49;
+  public static final int cad = 71;
+  public static final int iden = 70;
   public static final int EOF = 0;
-  public static final int mas = 23;
-  public static final int revers = 10;
+  public static final int decima = 5;
+  public static final int inicio = 20;
+  public static final int falso = 75;
+  public static final int numero = 68;
+  public static final int publico = 10;
+  public static final int verdadero = 74;
   public static final int error = 1;
-  public static final int mayor = 35;
-  public static final int or = 30;
-  public static final int menorigual = 32;
-  public static final int pot = 29;
-  public static final int por = 25;
-  public static final int dospuntos = 48;
-  public static final int _if = 16;
-  public static final int cparentesis = 45;
-  public static final int sqrt = 28;
-  public static final int product = 9;
-  public static final int impr = 11;
-  public static final int poslista = 47;
-  public static final int mayorigual = 33;
-  public static final int desc = 14;
-  public static final int aparentesis = 44;
-  public static final int diferente = 36;
-  public static final int and = 31;
-  public static final int _case = 20;
-  public static final int dolar = 39;
-  public static final int enter = 54;
-  public static final int min = 6;
-  public static final int cadena = 52;
+  public static final int continuar = 30;
+  public static final int diferente = 55;
+  public static final int si = 22;
+  public static final int entero = 4;
+  public static final int als = 15;
+  public static final int hacer = 29;
+  public static final int defecto = 25;
+  public static final int igualigual = 56;
+  public static final int donde = 36;
+  public static final int graphikarfuncion = 32;
+  public static final int pot = 46;
+  public static final int allave = 62;
+  public static final int por = 44;
+  public static final int para = 27;
+  public static final int aparentesis = 66;
+  public static final int coma = 61;
+  public static final int not = 50;
+  public static final int igual = 59;
+  public static final int dec = 73;
+  public static final int var = 2;
+  public static final int masmas = 40;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
-  "calcular",
-  "let",
-  "succ",
-  "decc",
-  "min",
-  "max",
-  "sum",
-  "product",
-  "revers",
-  "impr",
-  "par",
-  "asc",
-  "desc",
-  "length",
-  "_if",
-  "_then",
-  "_else",
-  "_end",
-  "_case",
+  "var",
+  "nuevo",
+  "entero",
+  "decima",
+  "caracter",
+  "cadena",
+  "bool",
+  "vacio",
+  "publico",
+  "privado",
+  "protegido",
+  "importar",
+  "extgk",
+  "als",
+  "hereda",
+  "retornar",
+  "llamarhk",
+  "llamar",
+  "inicio",
+  "incluirhk",
+  "si",
+  "sino",
+  "seleccion",
+  "defecto",
+  "caso",
+  "para",
+  "mientras",
+  "hacer",
+  "continuar",
+  "terminar",
+  "graphikarfuncion",
+  "datos",
+  "columna",
+  "procesar",
+  "donde",
+  "dondecada",
+  "dondetodo",
+  "imprimir",
   "masmas",
   "menosmenos",
   "mas",
   "menos",
   "por",
   "dividido",
-  "mod",
-  "sqrt",
   "pot",
-  "or",
   "and",
+  "or",
+  "xor",
+  "not",
   "menorigual",
   "mayorigual",
   "menor",
   "mayor",
   "diferente",
   "igualigual",
+  "interroga",
+  "dospuntos",
   "igual",
-  "dolar",
+  "punto",
+  "coma",
   "allave",
   "cllave",
   "acorchete",
   "ccorchete",
   "aparentesis",
   "cparentesis",
-  "coma",
-  "poslista",
-  "dospuntos",
-  "puntoycoma",
   "numero",
+  "decimal",
   "iden",
-  "cadena",
-  "caracter",
-  "enter"
+  "cad",
+  "car",
+  "dec",
+  "verdadero",
+  "falso"
   };
 }
 

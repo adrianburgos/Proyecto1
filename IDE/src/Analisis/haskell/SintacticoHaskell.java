@@ -302,9 +302,9 @@ public class SintacticoHaskell extends java_cup.runtime.lr_parser {
     "\064\131\065\024\001\002\000\024\030\uff98\031\uff98\032" +
     "\uff98\033\uff98\034\uff98\035\166\036\167\050\uff98\056\uff98" +
     "\001\002\000\024\030\uff96\031\uff96\032\uff96\033\uff96\034" +
-    "\uff96\035\uff96\036\uff96\050\uff96\056\uff96\001\002\000\024" +
-    "\030\uff95\031\uff95\032\uff95\033\uff95\034\uff95\035\uff95\036" +
-    "\uff95\050\uff95\056\uff95\001\002\000\024\030\uff9a\031\uff9a" +
+    "\uff96\035\166\036\167\050\uff96\056\uff96\001\002\000\024" +
+    "\030\uff95\031\uff95\032\uff95\033\uff95\034\uff95\035\166\036" +
+    "\167\050\uff95\056\uff95\001\002\000\024\030\uff9a\031\uff9a" +
     "\032\161\033\170\034\163\035\166\036\167\050\uff9a\056" +
     "\uff9a\001\002\000\024\030\uff9b\031\uff9b\032\161\033\170" +
     "\034\163\035\166\036\167\050\uff9b\056\uff9b\001\002\000" +
@@ -1440,7 +1440,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskell$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 64: // IF ::= si COND _then LCUERPO sino LCUERPO _end 
+          case 64: // IF ::= _if COND _then LCUERPO _else LCUERPO _end 
             {
               Nodo RESULT =null;
 		int CONDleft = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-5)).left;
@@ -1458,7 +1458,7 @@ System.out.println("inicio");
           return CUP$SintacticoHaskell$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 65: // CASE ::= caso VALCASE enter LCASOS _end 
+          case 65: // CASE ::= _case VALCASE enter LCASOS _end 
             {
               Nodo RESULT =null;
 		int VALCASEleft = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-3)).left;

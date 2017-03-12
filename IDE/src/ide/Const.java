@@ -61,6 +61,8 @@ public class Const {
             hacer = "hacer",
             continuar = "continuar",
             terminar = "terminar",
+            verdadero = "verdadero",
+            falso = "falso",
             valor = "VALOR",
             decfun = "DECFUN",
             list = "LIST",

@@ -62,6 +62,8 @@ comenLinea = #(\\.|[^\n])*\n
 "incluir_hk"    { return new Symbol(symsG.incluirhk, yycolumn, yyline, yytext()); }
 "sino"          { return new Symbol(symsG.sino, yycolumn, yyline, yytext()); }
 "si"            { return new Symbol(symsG.si, yycolumn, yyline, yytext()); }
+"verdadero"     { return new Symbol(symsH.verdadero, yycolumn, yyline, yytext()); }
+"falso"         { return new Symbol(symsH.falso, yycolumn, yyline, yytext()); }
 
 "seleccion"     { return new Symbol(symsG.seleccion, yycolumn, yyline, yytext()); }
 "defecto"       { return new Symbol(symsG.defecto, yycolumn, yyline, yytext()); }
@@ -110,7 +112,6 @@ comenLinea = #(\\.|[^\n])*\n
 "]"             { return new Symbol(symsG.ccorchete, yycolumn, yyline, yytext()); }
 "("             { return new Symbol(symsG.aparentesis, yycolumn, yyline, yytext()); }
 ")"             { return new Symbol(symsG.cparentesis, yycolumn, yyline, yytext()); }
-";"             { return new Symbol(symsG.puntoycoma, yycolumn, yyline, yytext()); }
 
 //-----------------expresiones regulares-----------------------
 {car}           { return new Symbol(symsG.caracter, yycolumn, yyline, yytext()); }
