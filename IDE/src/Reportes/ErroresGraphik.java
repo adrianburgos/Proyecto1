@@ -68,7 +68,7 @@ public class ErroresGraphik {
     public static void generarErrores(){
         try
         {
-            FileWriter fw = new FileWriter("C:\\Users\\AdrianFernando\\Desktop\\erroresHaskell.html");
+            FileWriter fw = new FileWriter("C:\\Users\\AdrianFernando\\Desktop\\erroresGraphik.html");
             PrintWriter pw = new PrintWriter(fw);
             pw.print(getHTML());
             fw.close();

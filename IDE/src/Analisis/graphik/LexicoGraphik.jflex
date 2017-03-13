@@ -62,8 +62,8 @@ comenLinea = #(\\.|[^\n])*\n
 "incluir_hk"    { return new Symbol(symsG.incluirhk, yycolumn, yyline, yytext()); }
 "sino"          { return new Symbol(symsG.sino, yycolumn, yyline, yytext()); }
 "si"            { return new Symbol(symsG.si, yycolumn, yyline, yytext()); }
-"verdadero"     { return new Symbol(symsH.verdadero, yycolumn, yyline, yytext()); }
-"falso"         { return new Symbol(symsH.falso, yycolumn, yyline, yytext()); }
+"verdadero"     { return new Symbol(symsG.verdadero, yycolumn, yyline, yytext()); }
+"falso"         { return new Symbol(symsG.falso, yycolumn, yyline, yytext()); }
 
 "seleccion"     { return new Symbol(symsG.seleccion, yycolumn, yyline, yytext()); }
 "defecto"       { return new Symbol(symsG.defecto, yycolumn, yyline, yytext()); }
@@ -89,7 +89,7 @@ comenLinea = #(\\.|[^\n])*\n
 "-"             { return new Symbol(symsG.menos, yycolumn, yyline, yytext()); }
 "*"             { return new Symbol(symsG.por, yycolumn, yyline, yytext()); }
 "/"             { return new Symbol(symsG.dividido, yycolumn, yyline, yytext()); }
-"^"             { return new Symbol(symsG.potencia, yycolumn, yyline, yytext()); }
+"^"             { return new Symbol(symsG.pot, yycolumn, yyline, yytext()); }
 "||"            { return new Symbol(symsG.or, yycolumn, yyline, yytext()); }
 "&&"            { return new Symbol(symsG.and, yycolumn, yyline, yytext()); }
 "&|"            { return new Symbol(symsG.xor, yycolumn, yyline, yytext()); }
@@ -114,8 +114,8 @@ comenLinea = #(\\.|[^\n])*\n
 ")"             { return new Symbol(symsG.cparentesis, yycolumn, yyline, yytext()); }
 
 //-----------------expresiones regulares-----------------------
-{car}           { return new Symbol(symsG.caracter, yycolumn, yyline, yytext()); }
-{cad}        { return new Symbol(symsG.cadena, yycolumn, yyline, yytext().replace("\"", "")); }
+{car}           { return new Symbol(symsG.car, yycolumn, yyline, yytext()); }
+{cad}           { return new Symbol(symsG.cad, yycolumn, yyline, yytext().replace("\"", "")); }
 {numero}        { return new Symbol(symsG.numero, yycolumn, yyline, yytext()); }
 {dec}           { return new Symbol(symsG.dec, yycolumn, yyline, yytext()); }
 {iden}          { return new Symbol(symsG.iden, yycolumn, yyline, yytext()); }

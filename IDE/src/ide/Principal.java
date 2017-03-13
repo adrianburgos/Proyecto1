@@ -5,9 +5,11 @@
  */
 package ide;
 
+import Analisis.graphik.*;
 import Analisis.terminal.*;
 import Analisis.haskell.*;
 import Reportes.Arbol;
+import Reportes.ErroresGraphik;
 import Reportes.ErroresHaskell;
 import com.sun.glass.events.KeyEvent;
 import fabrica.*;
@@ -15,7 +17,7 @@ import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import semanticos.SemanticoHaskell;
+import semanticos.Semantico;
 
 /**
  *
@@ -67,10 +69,15 @@ public class Principal extends javax.swing.JFrame {
         taEntrada.setColumns(20);
         taEntrada.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         taEntrada.setRows(5);
-        taEntrada.setText("IncrementaSegunN n,Val = \n\tif n<=$Calcular 1$ then\n\t\t$Succ $calcular 1$$\n\telse\n\t\t$Succ $IncrementaSegunN {$Calcular n-1 $,Val}$$\n\tend\nend\n\nConjuntoFuncPolinomial i,x = CASE i\n\t\t1: $Polinomial1 {x}$;\n\t\t2: $Polinomial2 {x}$;\n\t\t3: $Polinomial3 {x}$;\n\tend\nend\n\nPolinomial1 x = $Calcular 3 * x'pot'5 - x 'pot'2 + 7 * x -1$ \n\t\t\t\tend\nPolinomial2 x = $Calcular 5 * x'pot'2 - x + 8 * x 'pot'(-1) -1$ \n\t\t\t\tend\nPolinomial3 x = $Calcular x'pot'4 + x 'pot'2 + (9*3) * x +80$ \n\t\t\t\tend\nPolinomial4 x = $Calcular x'pot'3 + x 'pot'2 - 4 * x -4 $ \n\t\t\t\tend\n\nObtenerModa LIST = $Max LIST$ \n\t\t\t\t   end\n\nObtenerPromedio LIST = \t$Calcular $sum LIST$ / $length LIST$ $\n\t\t\t\t\t    end");
+        taEntrada.setText("importar Nodo.gk?  \nincluir_HK FormCuadraticaPositiva?\nincluir_HK FormCuadraticaNegativa?\nincluir_HK Permutacion?\nincluir_HK FuncionPolinomial1?  \nALS objeto : publico { \n\tvar entero a:publico?\n\tvacio inicio(){\n\t\ta = 4?\n\t\timprimir(llamar FormCuadraticaPositiva())?\n\t\timprimir(llamar FormCuadraticaNegativa())?\n\t\timprimir(\"permutación:  \" + llamar Permutacion_gk((10*2 - 14), a))? \n\t\ta = 3?\n\t\tvar decimal x = ((18/2)^2) - (15 - a)?\n\t\tllamar FuncionPolinomial1(x)? \n\t\tllamar creacion_nodos()?\n\t}\n\tcadena FormCuadraticaPositiva(){\n\t\ta = (5*2)^2 - 4?\n\t\tvar entero b = 3?\n\t\tvar entero c = 8?\n\t\timprimir(llamarHK FormCuadraticaPositiva(a, b, c))?\n\t\tretornar \"Primer función ejecutada con éxito\"?\n\t}\n\tcadena FormCuadraticaNegativa():privado{\n\t\tvar decimal arreglo[3] = {96, 3, 8}?\n\t\timprimir(llamarHK FormCuadraticaNegativa(arreglo[0], arreglo[1], arreglo[2]))?\n\t\tretornar \"Segunda función ejecutada con éxito\"?\n\t}\n\tvacio FuncionPolinomial1(entero valor_entrada){\n\t\tvar entero arreglo[5]?\n\t\tvar int i?\n\t\tPara(i=0: i<5: i++){\n\t\t\tarreglo[i] = llamarHK FuncionPolinomial1(valor_entrada * i)?\n\t\t\timprimir(\"polinomial: \" + arreglo[i])?\n\t\t}\n\t} \n\tentero Permutacion_gk(entero n, entero r){\n\t\tMientras(r>0){\n\t\t\timprimir(\"Factorial: \" + llamarHK Permuctacion(n,r))?\n\t\t\tr = r - 1?\n\t\t}\n\t}\n\tvoid creacion_nodos(){\n\t\tvar Nodo nod1 = nuevo Nodo()?\n\t\tnod1.nombre = \"primero\"?\n\t\tnod1.numero = 1?\n\t\tllamar nod1.cambiar_bandera()?  \n\t\tvar Nodo nod2 = nuevo Nodo()?\n\t\tnod2.nombre = \"segundo\"?\n\t\tnod2.numero = 2?\n\t\tSi(nod1.bandera == nod2.bandera)\n\t\t{\n\t\t\timprimir(\"las banderas son iguales para los nodos \" + nod1.nombre + \" \" + nod2.nombre)?\n\t\t}\n\t\tSino\n\t\t{\n\t\t\timprimir(\"las banderas son diferentes para los nodos \" + nod1.nombre + \" \" + nod2.nombre)?\n\t\t}\n\t\timprimir(\"Se creó un nodo con éxito\")?\n\t}\n}");
         jScrollPane2.setViewportView(taEntrada);
 
         bEjecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/play.png"))); // NOI18N
+        bEjecutar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bEjecutarActionPerformed(evt);
+            }
+        });
 
         bCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cargar.png"))); // NOI18N
         bCargar.addActionListener(new java.awt.event.ActionListener() {
@@ -163,11 +170,33 @@ public class Principal extends javax.swing.JFrame {
         {
             Arbol.getGrafo(raiz);
             Arbol.dibujar();
-            SemanticoHaskell.ejecutarValor(raiz);
+            //Semantico.ejecutarValor(raiz);
         }
         else
             System.out.println("La raiz de haskel terminal es nula");
     }//GEN-LAST:event_bCargarActionPerformed
+
+    private void bEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEjecutarActionPerformed
+        String texto = taEntrada.getText();
+        LexicoGraphik lgraphik = new LexicoGraphik(new BufferedReader(new StringReader(texto)));
+        SintacticoGraphik sgraphik = new SintacticoGraphik(lgraphik);
+        Nodo raiz = new Nodo();
+        try {
+            sgraphik.parse();
+            raiz = sgraphik.raiz;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        ErroresGraphik.generarErrores();
+        if(raiz != null)
+        {
+            Arbol.getGrafo(raiz);
+            Arbol.dibujar();
+            //Semantico.ejecutarValor(raiz);
+        }
+        else
+            System.out.println("La raiz de graphik terminal es nula");
+    }//GEN-LAST:event_bEjecutarActionPerformed
 
     /**
      * @param args the command line arguments

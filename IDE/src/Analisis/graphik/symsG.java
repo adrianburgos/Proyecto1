@@ -29,7 +29,7 @@ public class symsG {
   public static final int privado = 11;
   public static final int sino = 23;
   public static final int procesar = 35;
-  public static final int decimal = 69;
+  public static final int decimal = 5;
   public static final int terminar = 31;
   public static final int caso = 26;
   public static final int interroga = 57;
@@ -56,12 +56,11 @@ public class symsG {
   public static final int cad = 71;
   public static final int iden = 70;
   public static final int EOF = 0;
-  public static final int decima = 5;
   public static final int inicio = 20;
-  public static final int falso = 75;
+  public static final int falso = 74;
   public static final int numero = 68;
   public static final int publico = 10;
-  public static final int verdadero = 74;
+  public static final int verdadero = 73;
   public static final int error = 1;
   public static final int continuar = 30;
   public static final int diferente = 55;
@@ -81,7 +80,7 @@ public class symsG {
   public static final int coma = 61;
   public static final int not = 50;
   public static final int igual = 59;
-  public static final int dec = 73;
+  public static final int dec = 69;
   public static final int var = 2;
   public static final int masmas = 40;
   public static final String[] terminalNames = new String[] {
@@ -90,7 +89,7 @@ public class symsG {
   "var",
   "nuevo",
   "entero",
-  "decima",
+  "decimal",
   "caracter",
   "cadena",
   "bool",
@@ -154,11 +153,10 @@ public class symsG {
   "aparentesis",
   "cparentesis",
   "numero",
-  "decimal",
+  "dec",
   "iden",
   "cad",
   "car",
-  "dec",
   "verdadero",
   "falso"
   };

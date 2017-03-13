@@ -2,7 +2,7 @@ package semanticos;
 
 import fabrica.Nodo;
 
-public class SemanticoHaskell {
+public class Semantico {
     public static Objeto ejecutarValor(Nodo valor)
     {
         Objeto res = new Objeto();

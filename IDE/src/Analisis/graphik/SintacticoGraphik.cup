@@ -24,19 +24,19 @@ action code
 
 :}
 //-------------------declaraciones---------------------
-terminal var, nuevo, entero, decima, caracter, cadena, bool, vacio, publico, privado, protegido;
+terminal var, nuevo, entero, decimal, caracter, cadena, bool, vacio, publico, privado, protegido;
 terminal importar, extgk, als, hereda, retornar, llamarhk, llamar, inicio, incluirhk, si, sino;
 terminal seleccion, defecto, caso, para, mientras, hacer, continuar, terminar, graphikarfuncion;
 terminal datos, columna, procesar, donde, dondecada, dondetodo, imprimir;
 terminal masmas, menosmenos, mas, menos, por, dividido, pot, and, or, xor, not, menorigual, mayorigual;
 terminal menor, mayor, diferente, igualigual, interroga, dospuntos, igual, punto, coma, allave, cllave;
 terminal acorchete, ccorchete, aparentesis, cparentesis;
-terminal String numero, decimal, iden, cad, car, dec, verdadero, falso;
+terminal String numero, dec, iden, cad, car, verdadero, falso;
 
-non terminal Nodo INICIO, FUN, LALS, ALS, CUERPO, HEREDA, LCUERPOALS, CUERPOALS, LIMPORTAR, LINCLUIR, VALOR;
+non terminal Nodo INICIO, FUN, LALS, ALS, CUERPO, HEREDA, LCUERPOALS, CUERPOALS, LIMPORTAR, VALOR;
 non terminal Nodo IMPORTAR, INCLUIR, LID, TIPO, TIPOFUN, LVALOR, DEC, PRINCIPAL, LPAR, ASIG, ASIGNORMAL, LCORCHETES, ASIGARR;
 non terminal Nodo LLLAVES, LLAVE, LCUERPO, ASIGNACION, SI, SELECCION, PARA, MIENTRAS, HACER, LLAMADO, LLAMADOHK, GRAFICAR;
-non terminal Nodo SINO, LCASOS, CASO, DEFECTO, LVARIABLES, PREASIG, ASIGPARA, VALPARA, OP;
+non terminal Nodo SINO, LCASOS, CASO, DEFECTO, LVARIABLES, PREASIG, ASIGPARA, VALPARA, OP, IMPRIMIR, ACCESO;
 non terminal String OPREL, VISIBILIDAD;
 
 //precedencia menor a mayor
@@ -52,7 +52,7 @@ precedence left masmas, menosmenos;
 start with INICIO;
 //-------------------reglas sintacticas----------------
 
-INICIO          ::= {:System.out.println("inicio");:} LIMPORTAR LINCLUIR LALS:LALS {: raiz = LALS; System.out.println("FINALIZO"); :};
+INICIO          ::= {:System.out.println("inicio");:} INCLUIR LALS:LALS {: raiz = null; System.out.println("FINALIZO"); :};
 
 LID             ::= LID punto iden
                 |   iden;
@@ -60,17 +60,19 @@ TIPO            ::= entero
                 |   decimal
                 |   caracter
                 |   cadena
+                |   bool
                 |   iden;
 
 LVALOR          ::= LVALOR coma VALOR
-                |   VALOR;
+                |   VALOR
+                |   ;
 
+INCLUIR         ::= LIMPORTAR
+                |   ;
 LIMPORTAR       ::= LIMPORTAR IMPORTAR
                 |   IMPORTAR;
-IMPORTAR        ::= importar iden extgk interroga;
-LINCLUIR        ::= LINCLUIR INCLUIR
-                |   INCLUIR;
-INCLUIR         ::= incluirhk iden interroga;
+IMPORTAR        ::= importar iden extgk interroga
+                |   incluirhk iden interroga;
 
 LALS            ::= LALS ALS
                 |   ALS;
@@ -80,9 +82,9 @@ ALS             ::= als iden HEREDA VISIBILIDAD allave LCUERPOALS cllave;
 HEREDA          ::= hereda iden
                 |   ;
 
-VISIBILIDAD     ::= dospuntos publico
-                |   dospuntos protegido
-                |   dospuntos privado
+VISIBILIDAD     ::= dospuntos publico {: RESULT = Const.publico; :}
+                |   dospuntos protegido {: RESULT = Const.protegido; :}
+                |   dospuntos privado {: RESULT = Const.privado; :}
                 |   ;
 
 LCUERPOALS      ::= LCUERPOALS:LCUERPOALS CUERPOALS:CUERPOALS
@@ -106,7 +108,8 @@ FUN             ::= TIPOFUN iden aparentesis LPAR cparentesis VISIBILIDAD allave
 TIPOFUN         ::= TIPO
                 |   vacio;
 LPAR            ::= LPAR coma TIPO iden
-                |   coma TIPO iden;
+                |   TIPO iden
+                |   ;
 DEC             ::= var TIPO iden VISIBILIDAD PREASIG;
 PREASIG         ::= LVARIABLES
                 |   ASIG
@@ -151,11 +154,14 @@ CUERPO          ::= DEC interroga
                 |   LLAMADO interroga
                 |   LLAMADOHK interroga
                 |   GRAFICAR interroga
+                |   IMPRIMIR interroga
                 |   retornar VALOR interroga
                 |   terminar interroga
-                |   continuar interroga;
+                |   continuar interroga
+                |   error interroga;
 
-ASIGNACION      ::= LID LCORCHETES igual VALOR;
+ASIGNACION      ::= LID LCORCHETES igual VALOR
+                |   LID igual VALOR;
 
 SI              ::= si aparentesis VALOR cparentesis allave LCUERPO cllave SINO;
 SINO            ::= sino allave LCUERPO cllave
@@ -166,7 +172,7 @@ LCASOS          ::= LCASOS CASO
 CASO            ::= caso VALOR dospuntos LCUERPO;
 DEFECTO         ::= defecto dospuntos LCUERPO
                 |   ;
-PARA            ::= para aparentesis ASIGPARA dospuntos VALPARA cparentesis allave LCUERPO cllave;
+PARA            ::= para aparentesis ASIGPARA dospuntos VALOR dospuntos VALPARA cparentesis allave LCUERPO cllave;
 ASIGPARA        ::= ASIGNACION
                 |   var TIPO iden igual VALOR;
 VALPARA         ::= LID OP
@@ -178,32 +184,38 @@ MIENTRAS        ::= mientras aparentesis VALOR cparentesis allave LCUERPO cllave
 
 HACER           ::= hacer allave LCUERPO cllave mientras aparentesis VALOR cparentesis;
 
-GRAFICAR        ::= graphikarfuncion aparentesis iden coma iden cparentesis;
+GRAFICAR        ::= graphikarfuncion aparentesis LID coma LID cparentesis;
 
-LLAMADO         ::= llamar iden aparentesis LVALOR cparentesis;
+LLAMADO         ::= llamar LID aparentesis LVALOR cparentesis;
 
 LLAMADOHK       ::= llamarhk iden aparentesis LVALOR cparentesis; 
 
+IMPRIMIR        ::= imprimir aparentesis VALOR cparentesis;
+
 VALOR           ::= VALOR:t1 mas VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.mas, t1, t2); :}
                 |   VALOR:t1 or VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.or, t1, t2); :}
+                |   VALOR:t1 xor VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.xor, t1, t2); :}
                 |   VALOR:t1 and VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.and, t1, t2); :}
                 |   VALOR:t1 OPREL:op VALOR:t2 {: RESULT = NodoOperacion.crearRelacional(op, t1, t2); :}
                 |   VALOR:t1 menos VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.menos, t1, t2); :}
                 |   VALOR:t1 por VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.por, t1, t2); :}
                 |   VALOR:t1 dividido VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.dividido, t1, t2); :}
                 |   VALOR:t1 pot VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.pot, t1, t2); :}
+                |   not VALOR:t1 {: RESULT = NodoOperacion.crearNodo(Const.not, t1, null); :}
                 |   menos VALOR:t1 {: RESULT = NodoOperacion.crearNodo(Const.unario, t1, null); :}
                 |   aparentesis VALOR:t1 cparentesis {: RESULT = t1; :}
                 |   numero:t1 {: RESULT = NodoGeneral.crearHoja(Const.numero, t1); :}
-                |   decimal:t1 {: RESULT = NodoGeneral.crearHoja(Const.decimal, t1); :}
+                |   dec:t1 {: RESULT = NodoGeneral.crearHoja(Const.decimal, t1); :}
                 |   verdadero:t1 {: RESULT = NodoGeneral.crearHoja(Const.verdadero, t1); :}
                 |   falso:t1 {: RESULT = NodoGeneral.crearHoja(Const.falso, t1); :}
                 |   car:t1 {: RESULT = NodoGeneral.crearHoja(Const.caracter, t1); :}
                 |   cad:t1 {: RESULT = NodoGeneral.crearHoja(Const.cadena, t1); :}
-                |   LID:t1 {: RESULT = t1; :}
+                |   ACCESO:t1 {: RESULT = t1; :}
                 |   LLAMADO:t1 {: RESULT = t1; :}
                 |   LLAMADOHK:t1 {: RESULT = t1; :};
 
+ACCESO          ::= LID LCORCHETES
+                |   LID:LID {: RESULT = LID; :};
 
 OPREL           ::= menor {: RESULT = Const.menor; :}
                 |   mayor {: RESULT = Const.mayor; :}
