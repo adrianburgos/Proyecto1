@@ -48,9 +48,11 @@ public class Const {
             declaracion = "declaracion",
             numero = "numero",
             decimal = "decimal",
-            id = "id",
             cadena = "cadena",
             caracter = "caracter",
+            bool = "bool",
+            id = "id",
+            vacio = "vacio",
             unario = "unario",
             poslista = "poslista",
             llamado = "llamado",
@@ -74,4 +76,28 @@ public class Const {
             lcorchetes = "LCORCHETES",
             lista = "LISTA",
             lpar = "LPAR";
+    
+    public static final int
+            tnumero = 1,
+            tdecimal = 3,
+            tcadena = 7,
+            tcaracter = 10,
+            tbool = 15,
+            tid = 11,
+            tvacio = 12,
+            tals = 13,
+            terror = 14;
+    
+    public static final String 
+            imprimir = "imprimir",
+            importar = "importar",
+            incluirhk = "incluirhk",
+            hereda = "hereda",
+            limportar = "LIMPORTAR",
+            lals = "LALS",
+            als = "ALS",
+            lid = "LID",
+            lcuerpoals = "LCUERPOALS",
+            llamar = "llamar";
+    
 }

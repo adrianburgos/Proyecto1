@@ -38,21 +38,23 @@ public class Nodo {
         this.fila = fila;
         this.columna = columna;
     }
-    
-    /**
-     * Le coloca el atributo valor igual a nombre
-     * @param nombre nombre del nodo
-     * @param tipo tipo de nodo
-     * @param fila
-     * @param columna
-     */
-    public Nodo(String nombre, int tipo, int fila, int columna) {
+
+    public Nodo(String nombre, String valor, int tipo, String visibilidad) {
         this.nombre = nombre;
         this.tipo = tipo;
-        this.valor = nombre;
+        this.valor = valor;
+        this.visibilidad = visibilidad;
+        this.fila = 0;
+        this.columna = 0;
+    }
+    
+    public Nodo(String nombre, String valor, int tipo) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.valor = valor;
         this.visibilidad = Const.publico;
-        this.fila = fila;
-        this.columna = columna;
+        this.fila = 0;
+        this.columna = 0;
     }
     
     public Nodo(String nombre, String valor) {

@@ -32,7 +32,7 @@ terminal String numero, iden, cadena, caracter, enter;
 non terminal Nodo INICIO, LIST, CUERPO, CALCULAR, SUCC, DECC, MIN, MAX, CONCATLISTAS, OPLIST, E, LLAMADO;
 non terminal Nodo IF, CASE;
 non terminal Nodo LISTA, L, LCORCHETES, LVAL, LCAR, VALCASE, LVALOR;
-non terminal Nodo LFUNCION, DECFUN, LCUERPO, LPAR, COND, LCASOS, CASO, VALOR, OPEXP, VALCASO, OPLISTA, OPSIST, LEXP, EXP;
+non terminal Nodo LFUNCION, FUN, LCUERPO, LPAR, COND, LCASOS, CASO, VALOR, OPEXP, VALCASO, OPLISTA, OPSIST, LEXP, EXP;
 non terminal String OPREL;
 
 //precedencia menor a mayor
@@ -49,20 +49,20 @@ start with INICIO;
 
 INICIO          ::= {:System.out.println("inicio");:} LFUNCION:LFUN {: raiz = LFUN; System.out.println("FINALIZO"); :};
 
-LFUNCION        ::= LFUNCION:LFUNCION DECFUN:DECFUN
+LFUNCION        ::= LFUNCION:LFUNCION FUN:FUN
                     {:
-                        if(DECFUN != null)
-                            LFUNCION.hijos.add(DECFUN);
+                        if(FUN != null)
+                            LFUNCION.hijos.add(FUN);
                         RESULT = (Nodo) LFUNCION;
                     :}
-                |   DECFUN:DECFUN
+                |   FUN:FUN
                     {:
                         RESULT = new Nodo(Const.ldecfun);
-                        if(DECFUN != null) 
-                            RESULT = NodoGeneral.crearLdecfun(DECFUN);
+                        if(FUN != null) 
+                            RESULT = NodoGeneral.crearLdecfun(FUN);
                     :};
 
-DECFUN          ::= iden:id LPAR:LPAR igual LCUERPO:LCUERPO _end {: RESULT = NodoGeneral.crearFuncion(id, LPAR, LCUERPO); :}
+FUN          ::= iden:id LPAR:LPAR igual LCUERPO:LCUERPO _end {: RESULT = NodoGeneral.crearFuncion(id, LPAR, LCUERPO); :}
                 |   enter {: RESULT = null; :};
 LPAR            ::= LPAR:LPAR coma iden:iden
                     {:

@@ -1,6 +1,7 @@
 package fabrica;
 
 import ide.Const;
+import semanticos.Semantico;
 
 public class NodoGeneral{
     
@@ -33,10 +34,12 @@ public class NodoGeneral{
         return (Nodo) lvalor;
     }
     
-    public static Nodo crearLlamado(String id, Nodo nodo)
+    public static Nodo crearLlamado(String nombre, Nodo nodo)
     {
-        Nodo llamado = new Nodo(Const.llamado, id);
-        llamado.hijos.add(nodo);
+        Nodo id = new Nodo(Const.id, nombre);
+        Nodo llamado = new Nodo(Const.llamado);
+        llamado.hijos.add(id);
+        llamado.hijos.add(nodo); //se agregan la lista de valores
         return (Nodo) llamado;
     }
     
@@ -82,6 +85,11 @@ public class NodoGeneral{
     public static Nodo crearHoja(String nombre, String valor)
     {
         return new Nodo(nombre, valor);
+    }
+    
+    public static Nodo crearHoja(String nombre, String valor, int tipo)
+    {
+        return new Nodo(nombre, valor, tipo);
     }
     
     public static Nodo crearPosLista(Nodo nodo, Nodo pos)
@@ -176,5 +184,95 @@ public class NodoGeneral{
         Nodo lcorchetes = new Nodo(Const.lcorchetes);
         lcorchetes.hijos.add(nodo);
         return (Nodo) lcorchetes;
+    }
+//-----------------------METODOS GRAPHIK--------------------------------------------
+    public static Nodo crearLid(Nodo id)
+    {
+        Nodo lid = new Nodo(Const.lid);
+        lid.hijos.add(id);
+        return (Nodo) lid;
+    }
+    
+    public static Nodo crearLimportar(Nodo nodo)
+    {
+        Nodo limportar = new Nodo(Const.limportar);
+        limportar.hijos.add(nodo);
+        return (Nodo) limportar;
+    }
+    
+    public static Nodo crearImportar(String id, String ext)
+    {
+        Nodo limportar = new Nodo(Const.limportar, id + ext);
+        return (Nodo) limportar;
+    }
+    
+    public static Nodo crearIncluirhk(String id)
+    {
+        Nodo incluir = new Nodo(Const.limportar, id);
+        return (Nodo) incluir;
+    }
+    
+    public static Nodo crearLals(Nodo als)
+    {
+        Nodo lals = new Nodo(Const.lals);
+        lals.hijos.add(als);
+        return (Nodo) lals;
+    }
+    
+    public static Nodo crearAls(String id, String visibilidad, Nodo hereda, Nodo lcuerpoals)
+    {
+        Nodo als = new Nodo(Const.als, id, Const.tals, visibilidad);
+        als.hijos.add(hereda);
+        als.hijos.add(lcuerpoals);
+        return (Nodo) als;
+    }
+    
+    public static Nodo crearLcuerpoals(Nodo cuerpoals)
+    {
+        Nodo lcuerpoals = new Nodo(Const.lcuerpoals);
+        lcuerpoals.hijos.add(cuerpoals);
+        return (Nodo) lcuerpoals;
+    }
+    
+    public static Nodo crearFuncion(String id, String tipo, String visibilidad, Nodo parametros, Nodo cuerpo)
+    {
+        int t = Semantico.getTipo(tipo);
+        Nodo decfun = new Nodo(Const.decfun, id, t, visibilidad);
+        decfun.hijos.add(parametros);
+        decfun.hijos.add(cuerpo);
+        return (Nodo) decfun;
+    }
+    
+    public static Nodo crearLpar(String id, String tipo)
+    {
+        int t = Semantico.getTipo(tipo);
+        Nodo par = new Nodo(Const.id, id, t);
+        Nodo lals = new Nodo(Const.lpar);
+        lals.hijos.add(par);
+        return (Nodo) lals;
+    }
+    
+    public static Nodo crearDEC(String id, String tipo, String visibilidad, Nodo asig)
+    {
+        int t = Semantico.getTipo(tipo);
+        Nodo dec = new Nodo(Const.declaracion, id, t, visibilidad);
+        if(asig != null)
+            dec.hijos.add(asig);
+        return (Nodo) dec;
+    }
+    
+    public static Nodo crearImprimir(Nodo valor)
+    {
+        Nodo imprimir = new Nodo(Const.imprimir);
+        imprimir.hijos.add(valor);
+        return (Nodo) imprimir;        
+    }
+    
+    public static Nodo crearLlamar(Nodo lid, Nodo lvalor)
+    {
+        Nodo imprimir = new Nodo(Const.llamar);
+        imprimir.hijos.add(lid);
+        imprimir.hijos.add(lvalor);
+        return (Nodo) imprimir;        
     }
 }

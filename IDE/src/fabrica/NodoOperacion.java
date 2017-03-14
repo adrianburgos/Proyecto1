@@ -37,7 +37,7 @@ public class NodoOperacion {
     
     private static Nodo crearSuma(Nodo op1, Nodo op2)
     {
-        Nodo suma = new Nodo(Const.mas, 1, 0, 0);
+        Nodo suma = new Nodo(Const.mas);
         suma.hijos.add(op1);
         suma.hijos.add(op2);
         return (Nodo) suma;
@@ -45,21 +45,21 @@ public class NodoOperacion {
     
     private static Nodo crearResta(Nodo op1, Nodo op2)
     {
-        Nodo resta = new Nodo(Const.menos, 1, 0, 0);
+        Nodo resta = new Nodo(Const.menos);
         resta.hijos.add(op1);
         resta.hijos.add(op2);
         return (Nodo) resta;
     }
     private static Nodo crearMultiplicacion(Nodo op1, Nodo op2)
     {
-        Nodo multiplicacion = new Nodo(Const.por, 1, 0, 0);
+        Nodo multiplicacion = new Nodo(Const.por);
         multiplicacion.hijos.add(op1);
         multiplicacion.hijos.add(op2);
         return (Nodo) multiplicacion;
     }
     private static Nodo crearDivision(Nodo op1, Nodo op2)
     {
-        Nodo division = new Nodo(Const.dividido, 1, 0, 0);
+        Nodo division = new Nodo(Const.dividido);
         division.hijos.add(op1);
         division.hijos.add(op2);
         return (Nodo) division;
@@ -67,7 +67,7 @@ public class NodoOperacion {
     
     private static Nodo crearModulo(Nodo op1, Nodo op2)
     {
-        Nodo modulo = new Nodo(Const.mod, 1, 0, 0);
+        Nodo modulo = new Nodo(Const.mod);
         modulo.hijos.add(op1);
         modulo.hijos.add(op2);
         return (Nodo) modulo;
@@ -75,7 +75,7 @@ public class NodoOperacion {
     
     private static Nodo crearPotencia(Nodo op1, Nodo op2)
     {
-        Nodo potencia = new Nodo(Const.pot, 1, 0, 0);
+        Nodo potencia = new Nodo(Const.pot);
         potencia.hijos.add(op1);
         potencia.hijos.add(op2);
         return (Nodo) potencia;
@@ -83,7 +83,7 @@ public class NodoOperacion {
     
     private static Nodo crearRaiz(Nodo op1, Nodo op2)
     {
-        Nodo raiz = new Nodo(Const.sqrt, 1, 0, 0);
+        Nodo raiz = new Nodo(Const.sqrt);
         raiz.hijos.add(op1);
         raiz.hijos.add(op2);
         return (Nodo) raiz;

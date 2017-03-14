@@ -8,81 +8,81 @@ package Analisis.graphik;
 /** CUP generated class containing symbol constants. */
 public class symsG {
   /* terminals */
-  public static final int dividido = 45;
-  public static final int menos = 43;
-  public static final int menor = 53;
-  public static final int punto = 60;
-  public static final int ccorchete = 65;
-  public static final int acorchete = 64;
+  public static final int dividido = 44;
+  public static final int menos = 42;
+  public static final int menor = 52;
+  public static final int punto = 59;
+  public static final int ccorchete = 64;
+  public static final int acorchete = 63;
   public static final int importar = 13;
-  public static final int cllave = 63;
-  public static final int extgk = 14;
-  public static final int mas = 42;
+  public static final int cllave = 62;
+  public static final int extgk = 74;
+  public static final int mas = 41;
   public static final int cadena = 7;
-  public static final int dospuntos = 58;
-  public static final int menorigual = 51;
-  public static final int mientras = 28;
-  public static final int llamarhk = 18;
-  public static final int hereda = 16;
-  public static final int imprimir = 39;
-  public static final int llamar = 19;
+  public static final int dospuntos = 57;
+  public static final int menorigual = 50;
+  public static final int mientras = 27;
+  public static final int llamarhk = 17;
+  public static final int hereda = 15;
+  public static final int imprimir = 38;
+  public static final int llamar = 18;
   public static final int privado = 11;
-  public static final int sino = 23;
-  public static final int procesar = 35;
+  public static final int sino = 22;
+  public static final int procesar = 34;
   public static final int decimal = 5;
-  public static final int terminar = 31;
-  public static final int caso = 26;
-  public static final int interroga = 57;
-  public static final int dondetodo = 38;
-  public static final int incluirhk = 21;
-  public static final int or = 48;
+  public static final int terminar = 30;
+  public static final int caso = 25;
+  public static final int interroga = 56;
+  public static final int dondetodo = 37;
+  public static final int incluirhk = 20;
+  public static final int or = 47;
   public static final int caracter = 6;
-  public static final int mayorigual = 52;
+  public static final int mayorigual = 51;
   public static final int nuevo = 3;
-  public static final int datos = 33;
-  public static final int dondecada = 37;
+  public static final int datos = 32;
+  public static final int dondecada = 36;
   public static final int bool = 8;
-  public static final int menosmenos = 41;
-  public static final int seleccion = 24;
-  public static final int car = 72;
+  public static final int menosmenos = 40;
+  public static final int seleccion = 23;
+  public static final int car = 71;
   public static final int protegido = 12;
-  public static final int columna = 34;
+  public static final int columna = 33;
   public static final int vacio = 9;
-  public static final int and = 47;
-  public static final int retornar = 17;
-  public static final int mayor = 54;
-  public static final int cparentesis = 67;
-  public static final int xor = 49;
-  public static final int cad = 71;
-  public static final int iden = 70;
+  public static final int and = 46;
+  public static final int retornar = 16;
+  public static final int mayor = 53;
+  public static final int cparentesis = 66;
+  public static final int xor = 48;
+  public static final int cad = 70;
+  public static final int iden = 69;
   public static final int EOF = 0;
-  public static final int inicio = 20;
-  public static final int falso = 74;
-  public static final int numero = 68;
+  public static final int inicio = 19;
+  public static final int falso = 73;
+  public static final int numero = 67;
   public static final int publico = 10;
-  public static final int verdadero = 73;
+  public static final int verdadero = 72;
   public static final int error = 1;
-  public static final int continuar = 30;
-  public static final int diferente = 55;
-  public static final int si = 22;
+  public static final int continuar = 29;
+  public static final int diferente = 54;
+  public static final int si = 21;
   public static final int entero = 4;
-  public static final int als = 15;
-  public static final int hacer = 29;
-  public static final int defecto = 25;
-  public static final int igualigual = 56;
-  public static final int donde = 36;
-  public static final int graphikarfuncion = 32;
-  public static final int pot = 46;
-  public static final int allave = 62;
-  public static final int por = 44;
-  public static final int para = 27;
-  public static final int aparentesis = 66;
-  public static final int coma = 61;
-  public static final int not = 50;
-  public static final int igual = 59;
-  public static final int dec = 69;
+  public static final int als = 14;
+  public static final int hacer = 28;
+  public static final int defecto = 24;
+  public static final int igualigual = 55;
+  public static final int donde = 35;
+  public static final int graphikarfuncion = 31;
+  public static final int pot = 45;
+  public static final int allave = 61;
+  public static final int por = 43;
+  public static final int para = 26;
+  public static final int aparentesis = 65;
+  public static final int coma = 60;
+  public static final int not = 49;
+  public static final int igual = 58;
+  public static final int dec = 68;
   public static final int var = 2;
-  public static final int masmas = 40;
+  public static final int masmas = 39;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -98,7 +98,6 @@ public class symsG {
   "privado",
   "protegido",
   "importar",
-  "extgk",
   "als",
   "hereda",
   "retornar",
@@ -158,7 +157,8 @@ public class symsG {
   "cad",
   "car",
   "verdadero",
-  "falso"
+  "falso",
+  "extgk"
   };
 }
 

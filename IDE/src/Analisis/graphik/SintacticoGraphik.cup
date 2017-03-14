@@ -4,6 +4,7 @@ import java_cup.runtime.Symbol;
 import Reportes.*;
 import fabrica.*;
 import ide.Const;
+import semanticos.*;
 parser code
 {:
     public Nodo raiz = new Nodo(); 
@@ -25,19 +26,19 @@ action code
 :}
 //-------------------declaraciones---------------------
 terminal var, nuevo, entero, decimal, caracter, cadena, bool, vacio, publico, privado, protegido;
-terminal importar, extgk, als, hereda, retornar, llamarhk, llamar, inicio, incluirhk, si, sino;
+terminal importar, als, hereda, retornar, llamarhk, llamar, inicio, incluirhk, si, sino;
 terminal seleccion, defecto, caso, para, mientras, hacer, continuar, terminar, graphikarfuncion;
 terminal datos, columna, procesar, donde, dondecada, dondetodo, imprimir;
 terminal masmas, menosmenos, mas, menos, por, dividido, pot, and, or, xor, not, menorigual, mayorigual;
 terminal menor, mayor, diferente, igualigual, interroga, dospuntos, igual, punto, coma, allave, cllave;
 terminal acorchete, ccorchete, aparentesis, cparentesis;
-terminal String numero, dec, iden, cad, car, verdadero, falso;
+terminal String numero, dec, iden, cad, car, verdadero, falso, extgk;
 
 non terminal Nodo INICIO, FUN, LALS, ALS, CUERPO, HEREDA, LCUERPOALS, CUERPOALS, LIMPORTAR, VALOR;
-non terminal Nodo IMPORTAR, INCLUIR, LID, TIPO, TIPOFUN, LVALOR, DEC, PRINCIPAL, LPAR, ASIG, ASIGNORMAL, LCORCHETES, ASIGARR;
+non terminal Nodo IMPORTAR, INCLUIR, LID, LVALOR, DEC, PRINCIPAL, LPAR, ASIG, ASIGNORMAL, LCORCHETES, ASIGARR;
 non terminal Nodo LLLAVES, LLAVE, LCUERPO, ASIGNACION, SI, SELECCION, PARA, MIENTRAS, HACER, LLAMADO, LLAMADOHK, GRAFICAR;
 non terminal Nodo SINO, LCASOS, CASO, DEFECTO, LVARIABLES, PREASIG, ASIGPARA, VALPARA, OP, IMPRIMIR, ACCESO;
-non terminal String OPREL, VISIBILIDAD;
+non terminal String OPREL, VISIBILIDAD, TIPO, TIPOFUN;
 
 //precedencia menor a mayor
 precedence left or;
@@ -52,40 +53,83 @@ precedence left masmas, menosmenos;
 start with INICIO;
 //-------------------reglas sintacticas----------------
 
-INICIO          ::= {:System.out.println("inicio");:} INCLUIR LALS:LALS {: raiz = null; System.out.println("FINALIZO"); :};
+INICIO          ::= {:System.out.println("inicio");:} INCLUIR:INCLUIR LALS:LALS
+                    {:
+                        Nodo RAIZ = new Nodo("raiz");
+                        RAIZ.hijos.add(INCLUIR);
+                        RAIZ.hijos.add(LALS);
+                        raiz = RAIZ;
+                        System.out.println("FINALIZO");
+                    :};
 
-LID             ::= LID punto iden
-                |   iden;
-TIPO            ::= entero
-                |   decimal
-                |   caracter
-                |   cadena
-                |   bool
-                |   iden;
+LID             ::= LID:LID punto iden:nombre
+                    {:
+                        Nodo id = new Nodo(Const.id, nombre);
+                        LID.hijos.add(id);
+                        RESULT = (Nodo) LID;
+                    :}
+                |   iden:nombre
+                    {: 
+                        Nodo id = new Nodo(Const.id, nombre);
+                        RESULT = NodoGeneral.crearLid(id);
+                    :};
+TIPO            ::= entero {: RESULT = Const.numero; :}
+                |   decimal {: RESULT = Const.decimal; :}
+                |   caracter {: RESULT = Const.caracter; :}
+                |   cadena {: RESULT = Const.cadena; :}
+                |   bool {: RESULT = Const.bool; :}
+                |   iden:id {: RESULT = id; :};
 
-LVALOR          ::= LVALOR coma VALOR
-                |   VALOR
-                |   ;
+LVALOR          ::= LVALOR:LVALOR coma VALOR:VALOR
+                    {:
+                        LVALOR.hijos.add(VALOR);
+                        RESULT = (Nodo) LVALOR;
+                    :}
+                |   VALOR:VALOR {: RESULT = NodoGeneral.crearLvalor(VALOR); :}
+                |   {: RESULT = new Nodo(Const.lvalor); :};
 
-INCLUIR         ::= LIMPORTAR
-                |   ;
-LIMPORTAR       ::= LIMPORTAR IMPORTAR
-                |   IMPORTAR;
-IMPORTAR        ::= importar iden extgk interroga
-                |   incluirhk iden interroga;
+INCLUIR         ::= LIMPORTAR:LIMPORTAR {: RESULT = LIMPORTAR; :}
+                |   {: RESULT = new Nodo(Const.limportar); :};
+LIMPORTAR         ::= LIMPORTAR:LIMPORTAR IMPORTAR:IMPORTAR
+                    {:
+                        if(IMPORTAR != null)
+                            LIMPORTAR.hijos.add(IMPORTAR);
+                        RESULT = (Nodo) LIMPORTAR;
+                    :}
+                |   IMPORTAR:IMPORTAR 
+                    {: 
+                        RESULT = new Nodo(Const.limportar);
+                        if(IMPORTAR != null)
+                            RESULT = NodoGeneral.crearLimportar(IMPORTAR);
+                    :};
+IMPORTAR        ::= importar iden:id extgk:ext interroga {: RESULT = NodoGeneral.crearImportar(id, ext); :}
+                |   incluirhk iden:id interroga {: RESULT = NodoGeneral.crearIncluirhk(id); :};
 
-LALS            ::= LALS ALS
-                |   ALS;
+LALS         ::= LALS:LALS ALS:ALS
+                    {:
+                        if(ALS != null)
+                            LALS.hijos.add(ALS);
+                        RESULT = (Nodo) LALS;
+                    :}
+                |   ALS:ALS 
+                    {: 
+                        RESULT = new Nodo(Const.lals);
+                        if(ALS != null)
+                            RESULT = NodoGeneral.crearLals(ALS);
+                    :};
 
-ALS             ::= als iden HEREDA VISIBILIDAD allave LCUERPOALS cllave;
+ALS             ::= als iden:id HEREDA:HEREDA VISIBILIDAD:VISIBILIDAD allave LCUERPOALS:LCUERPOALS cllave
+                    {:
+                        RESULT = NodoGeneral.crearAls(id, VISIBILIDAD, HEREDA, LCUERPOALS);
+                    :};
 
-HEREDA          ::= hereda iden
-                |   ;
+HEREDA          ::= hereda iden:id {: RESULT = new Nodo(Const.hereda, id); :}
+                |   {: RESULT = new Nodo(Const.hereda); :};
 
 VISIBILIDAD     ::= dospuntos publico {: RESULT = Const.publico; :}
                 |   dospuntos protegido {: RESULT = Const.protegido; :}
                 |   dospuntos privado {: RESULT = Const.privado; :}
-                |   ;
+                |   {: RESULT = Const.publico; :};
 
 LCUERPOALS      ::= LCUERPOALS:LCUERPOALS CUERPOALS:CUERPOALS
                     {:
@@ -95,25 +139,37 @@ LCUERPOALS      ::= LCUERPOALS:LCUERPOALS CUERPOALS:CUERPOALS
                     :}
                 |   CUERPOALS:CUERPOALS
                     {:
-                        RESULT = new Nodo(Const.ldecfun);
+                        RESULT = new Nodo(Const.lcuerpoals);
                         if(CUERPOALS != null) 
-                            RESULT = NodoGeneral.crearLdecfun(CUERPOALS);
+                            RESULT = NodoGeneral.crearLcuerpoals(CUERPOALS);
                     :};
 
-CUERPOALS       ::= FUN
-                |   DEC interroga
-                |   PRINCIPAL;
+CUERPOALS       ::= FUN:FUN {: RESULT = FUN; :}
+                |   DEC:DEC interroga {: RESULT = DEC; :}
+                |   PRINCIPAL:PRINCIPAL {: RESULT = PRINCIPAL; :};
 
-FUN             ::= TIPOFUN iden aparentesis LPAR cparentesis VISIBILIDAD allave LCUERPO cllave;
-TIPOFUN         ::= TIPO
-                |   vacio;
-LPAR            ::= LPAR coma TIPO iden
-                |   TIPO iden
-                |   ;
-DEC             ::= var TIPO iden VISIBILIDAD PREASIG;
+FUN             ::= TIPOFUN:tipo iden:id aparentesis LPAR:LPAR cparentesis VISIBILIDAD:VISIBILIDAD allave LCUERPO:LCUERPO cllave
+                    {: RESULT = NodoGeneral.crearFuncion(id, tipo, VISIBILIDAD, LPAR, LCUERPO); :};
+TIPOFUN         ::= TIPO:TIPO {: RESULT = TIPO; :}
+                |   vacio {: RESULT = Const.vacio; :};
+
+LPAR            ::= LPAR:LPAR coma TIPO:TIPO iden:id
+                    {:
+                        int t = Semantico.getTipo(TIPO);
+                        Nodo par = new Nodo(Const.id, id, t);
+                        LPAR.hijos.add(par);
+                        RESULT = (Nodo) LPAR;
+                    :}
+                |   TIPO:TIPO iden:id {: RESULT = NodoGeneral.crearLpar(id, TIPO); :}
+                |   {: RESULT = new Nodo(Const.lpar); :};
+
+DEC             ::= var TIPO:TIPO iden:id VISIBILIDAD:VISIBILIDAD PREASIG:PREASIG
+                    {:
+                        RESULT = NodoGeneral.crearDec(id, TIPO, VISIBILIDAD);
+                    :};
 PREASIG         ::= LVARIABLES
                 |   ASIG
-                |   ;
+                |   {:RESULT = null;:};
 LVARIABLES      ::= LVARIABLES coma iden VISIBILIDAD
                 |   coma iden VISIBILIDAD;
 ASIG            ::= igual ASIGNORMAL
@@ -186,11 +242,11 @@ HACER           ::= hacer allave LCUERPO cllave mientras aparentesis VALOR cpare
 
 GRAFICAR        ::= graphikarfuncion aparentesis LID coma LID cparentesis;
 
-LLAMADO         ::= llamar LID aparentesis LVALOR cparentesis;
+LLAMADO         ::= llamar LID:LID aparentesis LVALOR:LVALOR cparentesis {: RESULT = NodoGeneral.crearLlamar(LID, LVALOR); :};
 
-LLAMADOHK       ::= llamarhk iden aparentesis LVALOR cparentesis; 
+LLAMADOHK       ::= llamarhk iden:id aparentesis LVALOR:LVALOR cparentesis {: RESULT = NodoGeneral.crearLlamado(id, LVALOR); :};
 
-IMPRIMIR        ::= imprimir aparentesis VALOR cparentesis;
+IMPRIMIR        ::= imprimir aparentesis VALOR:VALOR cparentesis {: RESULT = NodoGeneral.crearImprimir(VALOR); :};
 
 VALOR           ::= VALOR:t1 mas VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.mas, t1, t2); :}
                 |   VALOR:t1 or VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.or, t1, t2); :}
@@ -206,15 +262,19 @@ VALOR           ::= VALOR:t1 mas VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Co
                 |   aparentesis VALOR:t1 cparentesis {: RESULT = t1; :}
                 |   numero:t1 {: RESULT = NodoGeneral.crearHoja(Const.numero, t1); :}
                 |   dec:t1 {: RESULT = NodoGeneral.crearHoja(Const.decimal, t1); :}
-                |   verdadero:t1 {: RESULT = NodoGeneral.crearHoja(Const.verdadero, t1); :}
-                |   falso:t1 {: RESULT = NodoGeneral.crearHoja(Const.falso, t1); :}
-                |   car:t1 {: RESULT = NodoGeneral.crearHoja(Const.caracter, t1); :}
-                |   cad:t1 {: RESULT = NodoGeneral.crearHoja(Const.cadena, t1); :}
+                |   verdadero:t1 {: RESULT = NodoGeneral.crearHoja(Const.verdadero, t1, Const.tbool); :}
+                |   falso:t1 {: RESULT = NodoGeneral.crearHoja(Const.falso, t1, Const.tbool); :}
+                |   car:t1 {: RESULT = NodoGeneral.crearHoja(Const.caracter, t1, Const.tcaracter); :}
+                |   cad:t1 {: RESULT = NodoGeneral.crearHoja(Const.cadena, t1, Const.tcadena); :}
                 |   ACCESO:t1 {: RESULT = t1; :}
                 |   LLAMADO:t1 {: RESULT = t1; :}
                 |   LLAMADOHK:t1 {: RESULT = t1; :};
 
-ACCESO          ::= LID LCORCHETES
+ACCESO          ::= LID:LID LCORCHETES:LCORCHETES
+                    {:
+                        LID.hijos.add(LCORCHETES);
+                        RESULT = (Nodo) LID;
+                    :}
                 |   LID:LID {: RESULT = LID; :};
 
 OPREL           ::= menor {: RESULT = Const.menor; :}

@@ -78,11 +78,11 @@ public class SintacticoHaskell extends java_cup.runtime.lr_parser {
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
     "\000\323\000\006\064\000\067\000\001\002\000\006\064" +
-    "\010\067\012\001\002\000\004\002\006\001\002\000\004" +
-    "\002\001\001\002\000\010\002\ufffd\064\ufffd\067\ufffd\001" +
-    "\002\000\010\047\ufff8\057\ufff8\064\014\001\002\000\010" +
-    "\002\uffff\064\010\067\012\001\002\000\010\002\ufffb\064" +
-    "\ufffb\067\ufffb\001\002\000\010\002\ufffe\064\ufffe\067\ufffe" +
+    "\007\067\011\001\002\000\004\002\006\001\002\000\004" +
+    "\002\001\001\002\000\010\047\ufff8\057\ufff8\064\014\001" +
+    "\002\000\010\002\uffff\064\007\067\011\001\002\000\010" +
+    "\002\ufffb\064\ufffb\067\ufffb\001\002\000\010\002\ufffd\064" +
+    "\ufffd\067\ufffd\001\002\000\010\002\ufffe\064\ufffe\067\ufffe" +
     "\001\002\000\006\047\ufff9\057\ufff9\001\002\000\006\047" +
     "\016\057\017\001\002\000\022\003\041\022\026\026\021" +
     "\050\036\053\030\064\051\065\024\067\045\001\002\000" +
@@ -406,9 +406,9 @@ public class SintacticoHaskell extends java_cup.runtime.lr_parser {
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
     "\000\323\000\006\002\004\046\003\001\001\000\006\027" +
-    "\010\030\006\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\004\032\014\001\001\000\004\030" +
-    "\012\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\007\030\011\001\001\000\002\001\001\000\002\001\001" +
+    "\000\004\032\014\001\001\000\004\030\012\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\044\003\026\004\030\005" +
     "\045\006\042\007\036\010\043\011\046\012\031\013\021" +
     "\015\041\016\033\017\037\020\047\031\032\037\022\041" +
@@ -660,18 +660,18 @@ System.out.println("inicio");
           return CUP$SintacticoHaskell$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // LFUNCION ::= LFUNCION DECFUN 
+          case 3: // LFUNCION ::= LFUNCION FUN 
             {
               Nodo RESULT =null;
 		int LFUNCIONleft = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-1)).left;
 		int LFUNCIONright = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-1)).right;
 		Nodo LFUNCION = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-1)).value;
-		int DECFUNleft = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()).left;
-		int DECFUNright = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()).right;
-		Nodo DECFUN = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskell$stack.peek()).value;
+		int FUNleft = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()).left;
+		int FUNright = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()).right;
+		Nodo FUN = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskell$stack.peek()).value;
 		
-                        if(DECFUN != null)
-                            LFUNCION.hijos.add(DECFUN);
+                        if(FUN != null)
+                            LFUNCION.hijos.add(FUN);
                         RESULT = (Nodo) LFUNCION;
                     
               CUP$SintacticoHaskell$result = parser.getSymbolFactory().newSymbol("LFUNCION",21, ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-1)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), RESULT);
@@ -679,23 +679,23 @@ System.out.println("inicio");
           return CUP$SintacticoHaskell$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // LFUNCION ::= DECFUN 
+          case 4: // LFUNCION ::= FUN 
             {
               Nodo RESULT =null;
-		int DECFUNleft = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()).left;
-		int DECFUNright = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()).right;
-		Nodo DECFUN = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskell$stack.peek()).value;
+		int FUNleft = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()).left;
+		int FUNright = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()).right;
+		Nodo FUN = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskell$stack.peek()).value;
 		
                         RESULT = new Nodo(Const.ldecfun);
-                        if(DECFUN != null) 
-                            RESULT = NodoGeneral.crearLdecfun(DECFUN);
+                        if(FUN != null) 
+                            RESULT = NodoGeneral.crearLdecfun(FUN);
                     
               CUP$SintacticoHaskell$result = parser.getSymbolFactory().newSymbol("LFUNCION",21, ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskell$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // DECFUN ::= iden LPAR igual LCUERPO _end 
+          case 5: // FUN ::= iden LPAR igual LCUERPO _end 
             {
               Nodo RESULT =null;
 		int idleft = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-4)).left;
@@ -708,16 +708,16 @@ System.out.println("inicio");
 		int LCUERPOright = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-1)).right;
 		Nodo LCUERPO = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-1)).value;
 		 RESULT = NodoGeneral.crearFuncion(id, LPAR, LCUERPO); 
-              CUP$SintacticoHaskell$result = parser.getSymbolFactory().newSymbol("DECFUN",22, ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-4)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), RESULT);
+              CUP$SintacticoHaskell$result = parser.getSymbolFactory().newSymbol("FUN",22, ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-4)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskell$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // DECFUN ::= enter 
+          case 6: // FUN ::= enter 
             {
               Nodo RESULT =null;
 		 RESULT = null; 
-              CUP$SintacticoHaskell$result = parser.getSymbolFactory().newSymbol("DECFUN",22, ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), RESULT);
+              CUP$SintacticoHaskell$result = parser.getSymbolFactory().newSymbol("FUN",22, ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskell$result;
 
