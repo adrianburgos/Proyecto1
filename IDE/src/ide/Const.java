@@ -38,7 +38,8 @@ public class Const {
             igual = "=",
             dolar = "$",
             porcentaje = "%",
-            masmas = "++";
+            masmas = "++",
+            menosmenos = "--";
     
     public static final String 
             publico = "publico",
@@ -58,15 +59,6 @@ public class Const {
             llamado = "llamado",
             lcasos = "lcasos",
             caso = "caso",
-            seleccion = "seleccion",
-            defecto = "defecto",
-            para = "para",
-            mientras = "mientras",
-            hacer = "hacer",
-            continuar = "continuar",
-            terminar = "terminar",
-            verdadero = "verdadero",
-            falso = "falso",
             valor = "VALOR",
             decfun = "DECFUN",
             list = "LIST",
@@ -93,11 +85,25 @@ public class Const {
             importar = "importar",
             incluirhk = "incluirhk",
             hereda = "hereda",
+            nuevo = "nuevo",
+            seleccion = "seleccion",
+            defecto = "defecto",
+            para = "para",
+            mientras = "mientras",
+            hacer = "hacer",
+            continuar = "continuar",
+            graficar = "graphikar",
+            terminar = "terminar",
+            verdadero = "verdadero",
+            falso = "falso",
+            principal = "principal",
+            llamar = "llamar",
+            retornar = "retornar",
             limportar = "LIMPORTAR",
+            lvariables = "LVARIABLES",
             lals = "LALS",
             als = "ALS",
             lid = "LID",
-            lcuerpoals = "LCUERPOALS",
-            llamar = "llamar";
+            lcuerpoals = "LCUERPOALS";
     
 }

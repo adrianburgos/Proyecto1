@@ -1467,7 +1467,7 @@ System.out.println("inicio");
 		int LCASOSleft = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-1)).left;
 		int LCASOSright = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-1)).right;
 		Nodo LCASOS = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-1)).value;
-		 RESULT = NodoGeneral.crearCase(VALCASE, LCASOS); 
+		 RESULT = NodoGeneral.crearSeleccion(VALCASE, LCASOS, null); 
               CUP$SintacticoHaskell$result = parser.getSymbolFactory().newSymbol("CASE",13, ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-4)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskell$result;
@@ -1512,7 +1512,7 @@ System.out.println("inicio");
 		int LCUERPOleft = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-1)).left;
 		int LCUERPOright = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-1)).right;
 		Nodo LCUERPO = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-1)).value;
-		 RESULT = NodoGeneral.crearCaso(VALCASO, LCUERPO);
+		 RESULT = NodoGeneral.crearCaso(VALCASO, LCUERPO); 
               CUP$SintacticoHaskell$result = parser.getSymbolFactory().newSymbol("CASO",27, ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-3)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskell$result;

@@ -37,8 +37,8 @@ terminal String numero, dec, iden, cad, car, verdadero, falso, extgk;
 non terminal Nodo INICIO, FUN, LALS, ALS, CUERPO, HEREDA, LCUERPOALS, CUERPOALS, LIMPORTAR, VALOR;
 non terminal Nodo IMPORTAR, INCLUIR, LID, LVALOR, DEC, PRINCIPAL, LPAR, ASIG, ASIGNORMAL, LCORCHETES, ASIGARR;
 non terminal Nodo LLLAVES, LLAVE, LCUERPO, ASIGNACION, SI, SELECCION, PARA, MIENTRAS, HACER, LLAMADO, LLAMADOHK, GRAFICAR;
-non terminal Nodo SINO, LCASOS, CASO, DEFECTO, LVARIABLES, PREASIG, ASIGPARA, VALPARA, OP, IMPRIMIR, ACCESO;
-non terminal String OPREL, VISIBILIDAD, TIPO, TIPOFUN;
+non terminal Nodo SINO, LCASOS, CASO, DEFECTO, LVARIABLES, PREASIG, ASIGPARA, VALPARA, IMPRIMIR, ACCESO;
+non terminal String OPREL, VISIBILIDAD, TIPO, TIPOFUN, OP;
 
 //precedencia menor a mayor
 precedence left or;
@@ -165,27 +165,67 @@ LPAR            ::= LPAR:LPAR coma TIPO:TIPO iden:id
 
 DEC             ::= var TIPO:TIPO iden:id VISIBILIDAD:VISIBILIDAD PREASIG:PREASIG
                     {:
-                        RESULT = NodoGeneral.crearDec(id, TIPO, VISIBILIDAD);
+                        RESULT = NodoGeneral.crearDec(id, TIPO, VISIBILIDAD, PREASIG);
                     :};
-PREASIG         ::= LVARIABLES
-                |   ASIG
-                |   {:RESULT = null;:};
-LVARIABLES      ::= LVARIABLES coma iden VISIBILIDAD
-                |   coma iden VISIBILIDAD;
-ASIG            ::= igual ASIGNORMAL
-                |   LCORCHETES ASIGARR;
-ASIGNORMAL      ::= VALOR
-                |   nuevo iden aparentesis cparentesis;
-LCORCHETES      ::= LCORCHETES acorchete VALOR ccorchete
-                |   acorchete VALOR ccorchete;
+PREASIG         ::= LVARIABLES:LVARIABLES {: RESULT = LVARIABLES; :}
+                |   ASIG:ASIG {: RESULT = ASIG; :}
+                |   {: RESULT = null; :};
+
+LVARIABLES      ::= LVARIABLES:LVARIABLES coma iden:id VISIBILIDAD:VISIBILIDAD
+                    {:
+                        Nodo par = new Nodo(Const.id, id);
+                        par.setVisibilidad(VISIBILIDAD);
+                        LVARIABLES.hijos.add(par);
+                        RESULT = (Nodo) LVARIABLES;
+                    :}
+                |   coma iden:id VISIBILIDAD:VISIBILIDAD
+                    {:
+                        Nodo par = new Nodo(Const.id, id);
+                        par.setVisibilidad(VISIBILIDAD);
+                        Nodo lvar = new Nodo(Const.lvariables);
+                        lvar.hijos.add(par);
+                        RESULT = (Nodo) lvar;
+                    :};
+ASIG            ::= igual ASIGNORMAL:ASIGNORMAL {: RESULT = ASIGNORMAL; :}
+                |   LCORCHETES ASIGARR {: RESULT = null; :};
+ASIGNORMAL      ::= VALOR:VALOR {: RESULT = VALOR; :}
+                |   nuevo iden:id aparentesis cparentesis {: RESULT = new Nodo(Const.nuevo, id); :};
+
+
+/*--------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+------------------------------------------FALTA LA ASIGNACION DE UN ARREGLO-------------------------------
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------*/
+LCORCHETES      ::= LCORCHETES:LCORCHETES acorchete VALOR:VALOR ccorchete
+                    {:
+                        LCORCHETES.hijos.add(VALOR);
+                        RESULT = (Nodo) LCORCHETES;
+                    :}
+                |   acorchete VALOR:VALOR ccorchete
+                    {:
+                        RESULT = NodoGeneral.crearLcorchetes(VALOR);
+                    :};
 ASIGARR         ::= igual LLLAVES
                 |   ;
 LLLAVES         ::= LLLAVES coma allave LLAVE cllave
                 |   allave LLAVE cllave;
 LLAVE           ::= LVALOR
                 |   LLLAVES;
+/*--------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------*/
 
-PRINCIPAL       ::= vacio inicio aparentesis cparentesis allave LCUERPO cllave;
+PRINCIPAL       ::= vacio inicio aparentesis cparentesis allave LCUERPO:LCUERPO cllave
+                    {:
+                        RESULT = NodoGeneral.crearPrincipal(LCUERPO);
+                    :};
 
 LCUERPO         ::= LCUERPO:LCUERPO CUERPO:CUERPO
                     {:
@@ -200,47 +240,73 @@ LCUERPO         ::= LCUERPO:LCUERPO CUERPO:CUERPO
                             RESULT = NodoGeneral.crearCuerpo(CUERPO);
                     :};
 
-CUERPO          ::= DEC interroga
-                |   ASIGNACION interroga
-                |   SI
-                |   SELECCION
-                |   PARA
-                |   MIENTRAS
-                |   HACER
-                |   LLAMADO interroga
-                |   LLAMADOHK interroga
-                |   GRAFICAR interroga
-                |   IMPRIMIR interroga
-                |   retornar VALOR interroga
-                |   terminar interroga
-                |   continuar interroga
+CUERPO          ::= DEC:t1 interroga {: RESULT = t1; :}
+                |   ASIGNACION:t1 interroga {: RESULT = t1; :}
+                |   SI:t1 {: RESULT = t1; :}
+                |   SELECCION:t1 {: RESULT = t1; :}
+                |   PARA:t1 {: RESULT = t1; :}
+                |   MIENTRAS:t1 {: RESULT = t1; :}
+                |   HACER:t1 {: RESULT = t1; :}
+                |   LLAMADO:t1 interroga {: RESULT = t1; :}
+                |   LLAMADOHK:t1 interroga {: RESULT = t1; :}
+                |   GRAFICAR:t1 interroga {: RESULT = t1; :}
+                |   IMPRIMIR:t1 interroga {: RESULT = t1; :}
+                |   retornar VALOR:t1 interroga {: RESULT = new Nodo(Const.retornar); RESULT.hijos.add(t1); :}
+                |   terminar interroga {: RESULT = new Nodo(Const.terminar); :}
+                |   continuar interroga {: RESULT = new Nodo(Const.continuar); :}
                 |   error interroga;
 
-ASIGNACION      ::= LID LCORCHETES igual VALOR
-                |   LID igual VALOR;
+ASIGNACION      ::= LID:LID LCORCHETES:LCORCHETES igual VALOR:VALOR {: RESULT = NodoGeneral.crearAsignacion(LID, VALOR, LCORCHETES); :}
+                |   LID:LID igual VALOR:VALOR {: RESULT = NodoGeneral.crearAsignacion(LID, VALOR, null); :};
 
-SI              ::= si aparentesis VALOR cparentesis allave LCUERPO cllave SINO;
-SINO            ::= sino allave LCUERPO cllave
-                |   ;
-SELECCION       ::= seleccion aparentesis LID cparentesis allave LCASOS DEFECTO cllave;
-LCASOS          ::= LCASOS CASO
-                |   CASO;
-CASO            ::= caso VALOR dospuntos LCUERPO;
-DEFECTO         ::= defecto dospuntos LCUERPO
-                |   ;
-PARA            ::= para aparentesis ASIGPARA dospuntos VALOR dospuntos VALPARA cparentesis allave LCUERPO cllave;
-ASIGPARA        ::= ASIGNACION
-                |   var TIPO iden igual VALOR;
-VALPARA         ::= LID OP
-                |   ASIGNACION;
-OP              ::= masmas
-                |   menosmenos;
+SI              ::= si aparentesis VALOR:VALOR cparentesis allave LCUERPO:LCUERPO cllave SINO:SINO
+                    {:
+                        RESULT = NodoGeneral.crearIf(VALOR, LCUERPO, SINO);
+                    :};
+SINO            ::= sino allave LCUERPO:LCUERPO cllave {: RESULT = LCUERPO; :}
+                |   {: RESULT = null; :};
+SELECCION       ::= seleccion aparentesis ACCESO:ACCESO cparentesis allave LCASOS:LCASOS DEFECTO:DEFECTO cllave
+                    {:
+                        RESULT = NodoGeneral.crearSeleccion(ACCESO, LCASOS, DEFECTO);
+                    :};
 
-MIENTRAS        ::= mientras aparentesis VALOR cparentesis allave LCUERPO cllave;
+LCASOS          ::= LCASOS:LCASOS CASO:CASOS 
+                    {:
+                        LCASOS.hijos.add(CASOS);
+                        RESULT = (Nodo) LCASOS;
+                    :}
+                |   CASO:CASO {: RESULT = NodoGeneral.crearLcasos(CASO); :};
+CASO            ::= caso VALOR:VALOR dospuntos LCUERPO:LCUERPO {: RESULT = NodoGeneral.crearCaso(VALOR, LCUERPO); :};
+DEFECTO         ::= defecto dospuntos LCUERPO:LCUERPO {: RESULT = NodoGeneral.crearDefecto(LCUERPO); :}
+                |   {: RESULT = null; :};
+PARA            ::= para aparentesis ASIGPARA:ASIGPARA dospuntos VALOR:VALOR dospuntos VALPARA:VAL cparentesis allave LCUERPO:LCUERPO cllave
+                    {:
+                        RESULT = NodoGeneral.crearPara(ASIGPARA, VALOR, VAL, LCUERPO);
+                    :};
+ASIGPARA        ::= ASIGNACION:ASIG {: RESULT = ASIG; :}
+                |   var TIPO:TIPO iden:id igual VALOR:VALOR
+                    {:
+                        RESULT = NodoGeneral.crearDec(id, TIPO, Const.publico, VALOR);
+                    :};
+VALPARA         ::= LID:LID OP:OP {: RESULT = NodoGeneral.crearAumento(LID, OP); :}
+                |   ASIGNACION:ASIG {: RESULT = ASIG; :};
+OP              ::= masmas {: RESULT = Const.masmas; :}
+                |   menosmenos {: RESULT = Const.menosmenos; :};
 
-HACER           ::= hacer allave LCUERPO cllave mientras aparentesis VALOR cparentesis;
+MIENTRAS        ::= mientras aparentesis VALOR:VALOR cparentesis allave LCUERPO:LCUERPO cllave
+                    {:
+                        RESULT = NodoGeneral.crearMientras(VALOR, LCUERPO);
+                    :};
 
-GRAFICAR        ::= graphikarfuncion aparentesis LID coma LID cparentesis;
+HACER           ::= hacer allave LCUERPO:LCUERPO cllave mientras aparentesis VALOR:VALOR cparentesis
+                    {:
+                        RESULT = NodoGeneral.crearHacer(VALOR, LCUERPO);
+                    :};
+
+GRAFICAR        ::= graphikarfuncion aparentesis LID:LID1 coma LID:LID2 cparentesis
+                    {:
+                        RESULT = NodoGeneral.crearGraficar(LID1, LID2);
+                    :};
 
 LLAMADO         ::= llamar LID:LID aparentesis LVALOR:LVALOR cparentesis {: RESULT = NodoGeneral.crearLlamar(LID, LVALOR); :};
 

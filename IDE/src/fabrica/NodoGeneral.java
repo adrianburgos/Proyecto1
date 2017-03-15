@@ -65,20 +65,13 @@ public class NodoGeneral{
         return (Nodo) lcasos;
     }
     
-    public static Nodo crearCase(Nodo valor, Nodo lcasos)
-    {
-        Nodo caso = new Nodo(Const.caso);
-        caso.hijos.add(valor);
-        caso.hijos.add(lcasos);
-        return (Nodo) caso;
-    }
-    
     public static Nodo crearIf(Nodo cond, Nodo lcuerpoverdadero, Nodo lcuerpofalso)
     {
         Nodo _if = new Nodo(Const.si);
         _if.hijos.add(cond);
         _if.hijos.add(lcuerpoverdadero);
-        _if.hijos.add(lcuerpofalso);
+        if(lcuerpofalso != null)
+            _if.hijos.add(lcuerpofalso);
         return (Nodo) _if;
     }
     
@@ -185,7 +178,9 @@ public class NodoGeneral{
         lcorchetes.hijos.add(nodo);
         return (Nodo) lcorchetes;
     }
-//-----------------------METODOS GRAPHIK--------------------------------------------
+/*
+    --------------------------METODOS GRAPHIK-------------------------------------
+*/
     public static Nodo crearLid(Nodo id)
     {
         Nodo lid = new Nodo(Const.lid);
@@ -252,13 +247,99 @@ public class NodoGeneral{
         return (Nodo) lals;
     }
     
-    public static Nodo crearDEC(String id, String tipo, String visibilidad, Nodo asig)
+    public static Nodo crearDec(String id, String tipo, String visibilidad, Nodo asig)
     {
         int t = Semantico.getTipo(tipo);
         Nodo dec = new Nodo(Const.declaracion, id, t, visibilidad);
         if(asig != null)
             dec.hijos.add(asig);
         return (Nodo) dec;
+    }
+    
+    public static Nodo crearLvariables(String id, String visibilidad)
+    {
+        Nodo nodo = new Nodo(id);
+        nodo.setVisibilidad(visibilidad);
+        Nodo lvariables = new Nodo(Const.lvariables);
+        lvariables.hijos.add(nodo);
+        return (Nodo) lvariables;
+    }
+    
+    public static Nodo crearPrincipal(Nodo cuerpo)
+    {
+        Nodo principal = new Nodo(Const.principal);
+        principal.hijos.add(cuerpo);
+        return (Nodo) principal;        
+    }
+    
+    public static Nodo crearDefecto(Nodo cuerpo)
+    {
+        Nodo defecto = new Nodo(Const.defecto);
+        defecto.hijos.add(cuerpo);
+        return (Nodo) defecto;        
+    }
+    
+    public static Nodo crearSeleccion(Nodo acceso, Nodo lcasos, Nodo defecto)
+    {
+        Nodo seleccion = new Nodo(Const.seleccion);
+        seleccion.hijos.add(acceso);
+        seleccion.hijos.add(lcasos);
+        if(defecto != null)
+            seleccion.hijos.add(defecto);
+        return (Nodo) seleccion;        
+    }
+    
+    public static Nodo crearPara(Nodo asigpara, Nodo valor, Nodo val, Nodo cuerpo)
+    {
+        Nodo para = new Nodo(Const.para);
+        para.hijos.add(asigpara);
+        para.hijos.add(valor);
+        para.hijos.add(val);
+        para.hijos.add(cuerpo);
+        return (Nodo) para;        
+    }
+    
+    public static Nodo crearAumento(Nodo lid, String op)
+    {
+        Nodo numero = NodoGeneral.crearHoja(Const.numero, "1");
+        Nodo valor;
+        if (op.equals(Const.masmas))
+            valor = NodoOperacion.crearNodo(Const.mas, lid, numero);
+        else
+            valor = NodoOperacion.crearNodo(Const.menos, lid, numero);
+            
+        Nodo aumento = NodoGeneral.crearAsignacion(lid, valor, null);
+        return (Nodo) aumento;        
+    }
+
+    public static Nodo crearAsignacion(Nodo lid, Nodo valor, Nodo lcorchetes) {
+        Nodo asig = new Nodo(Const.asignacion);
+        asig.hijos.add(lid);
+        asig.hijos.add(valor);
+        if(lcorchetes != null)
+            asig.hijos.add(lcorchetes);
+        return (Nodo) asig;        
+    }
+
+    public static Nodo crearMientras(Nodo valor, Nodo cuerpo) {
+        Nodo mientras = new Nodo(Const.mientras);
+        mientras.hijos.add(valor);
+        mientras.hijos.add(cuerpo);
+        return (Nodo) mientras;        
+    }
+
+    public static Nodo crearHacer(Nodo valor, Nodo cuerpo) {
+        Nodo hacer = new Nodo(Const.hacer);
+        hacer.hijos.add(valor);
+        hacer.hijos.add(cuerpo);
+        return (Nodo) hacer;
+    }
+
+    public static Nodo crearGraficar(Nodo lid1, Nodo lid2) {
+        Nodo graficar = new Nodo(Const.graficar);
+        graficar.hijos.add(lid1);
+        graficar.hijos.add(lid2);
+        return (Nodo) graficar;    
     }
     
     public static Nodo crearImprimir(Nodo valor)

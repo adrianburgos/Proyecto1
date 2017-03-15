@@ -168,14 +168,15 @@ OPEXP           ::= dolar sum LISTA:LISTA dolar {: RESULT = NodoGeneral.crearSum
 IF              ::= _if COND:COND _then LCUERPO:LCUERPOV _else LCUERPO:LCUERPOF _end 
                     {: RESULT = NodoGeneral.crearIf(COND, LCUERPOV, LCUERPOF); :};
 
-CASE            ::= _case VALCASE:VALCASE enter LCASOS:LCASOS _end {: RESULT = NodoGeneral.crearCase(VALCASE, LCASOS); :};
+CASE            ::= _case VALCASE:VALCASE enter LCASOS:LCASOS _end {: RESULT = NodoGeneral.crearSeleccion(VALCASE, LCASOS, null); :};
 LCASOS          ::= LCASOS:LCASOS CASO:CASOS enter
                     {:
                         LCASOS.hijos.add(CASOS);
                         RESULT = (Nodo) LCASOS;
                     :}
                 |   CASO:CASO enter {: RESULT = NodoGeneral.crearLcasos(CASO); :};
-CASO            ::= VALCASO:VALCASO dospuntos LCUERPO:LCUERPO puntoycoma {: RESULT = NodoGeneral.crearCaso(VALCASO, LCUERPO);:};
+CASO            ::= VALCASO:VALCASO dospuntos LCUERPO:LCUERPO puntoycoma
+                    {: RESULT = NodoGeneral.crearCaso(VALCASO, LCUERPO); :};
 VALCASO         ::= numero:t1 {: RESULT = NodoGeneral.crearHoja(Const.numero, t1); :} 
                 |   caracter:t1 {: RESULT = NodoGeneral.crearHoja(Const.caracter, t1); :};
 VALCASE         ::= CALCULAR:t1 {: RESULT = t1; :}
