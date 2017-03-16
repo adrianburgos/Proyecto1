@@ -4,10 +4,10 @@ import ide.Const;
 import java.util.LinkedList;
 
 public class Nodo {
-    private String nombre;
-    private int tipo; //cadena numero booleano
-    private String valor;
-    private String visibilidad;
+    public String nombre;
+    public int tipo; //cadena numero booleano
+    public String valor;
+    public String visibilidad;
     public LinkedList<Nodo> hijos = new LinkedList();
     protected int fila, columna;
 

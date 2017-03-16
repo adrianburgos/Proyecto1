@@ -326,8 +326,8 @@ VALOR           ::= VALOR:t1 mas VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Co
                 |   not VALOR:t1 {: RESULT = NodoOperacion.crearNodo(Const.not, t1, null); :}
                 |   menos VALOR:t1 {: RESULT = NodoOperacion.crearNodo(Const.unario, t1, null); :}
                 |   aparentesis VALOR:t1 cparentesis {: RESULT = t1; :}
-                |   numero:t1 {: RESULT = NodoGeneral.crearHoja(Const.numero, t1); :}
-                |   dec:t1 {: RESULT = NodoGeneral.crearHoja(Const.decimal, t1); :}
+                |   numero:t1 {: RESULT = NodoGeneral.crearHoja(Const.numero, t1, Const.tnumero); :}
+                |   dec:t1 {: RESULT = NodoGeneral.crearHoja(Const.decimal, t1, Const.tdecimal); :}
                 |   verdadero:t1 {: RESULT = NodoGeneral.crearHoja(Const.verdadero, t1, Const.tbool); :}
                 |   falso:t1 {: RESULT = NodoGeneral.crearHoja(Const.falso, t1, Const.tbool); :}
                 |   car:t1 {: RESULT = NodoGeneral.crearHoja(Const.caracter, t1, Const.tcaracter); :}

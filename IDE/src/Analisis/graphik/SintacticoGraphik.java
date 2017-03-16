@@ -2291,7 +2291,7 @@ System.out.println("inicio");
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoGraphik$stack.peek()).left;
 		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoGraphik$stack.peek()).right;
 		String t1 = (String)((java_cup.runtime.Symbol) CUP$SintacticoGraphik$stack.peek()).value;
-		 RESULT = NodoGeneral.crearHoja(Const.numero, t1); 
+		 RESULT = NodoGeneral.crearHoja(Const.numero, t1, Const.tnumero); 
               CUP$SintacticoGraphik$result = parser.getSymbolFactory().newSymbol("VALOR",9, ((java_cup.runtime.Symbol)CUP$SintacticoGraphik$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoGraphik$stack.peek()), RESULT);
             }
           return CUP$SintacticoGraphik$result;
@@ -2303,7 +2303,7 @@ System.out.println("inicio");
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoGraphik$stack.peek()).left;
 		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoGraphik$stack.peek()).right;
 		String t1 = (String)((java_cup.runtime.Symbol) CUP$SintacticoGraphik$stack.peek()).value;
-		 RESULT = NodoGeneral.crearHoja(Const.decimal, t1); 
+		 RESULT = NodoGeneral.crearHoja(Const.decimal, t1, Const.tdecimal); 
               CUP$SintacticoGraphik$result = parser.getSymbolFactory().newSymbol("VALOR",9, ((java_cup.runtime.Symbol)CUP$SintacticoGraphik$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoGraphik$stack.peek()), RESULT);
             }
           return CUP$SintacticoGraphik$result;
