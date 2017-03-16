@@ -1210,7 +1210,7 @@ public class LexicoGraphik implements java_cup.runtime.Scanner {
             }
           case 114: break;
           case 38: 
-            { return new Symbol(symsG.car, yycolumn, yyline, yytext());
+            { return new Symbol(symsG.car, yycolumn, yyline, yytext().replace("'", ""));
             }
           case 115: break;
           case 39: 

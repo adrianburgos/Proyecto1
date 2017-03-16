@@ -72,8 +72,8 @@ public class Const {
     public static final int
             tnumero = 1,
             tdecimal = 3,
-            tcadena = 7,
-            tcaracter = 10,
+            tcadena = 10,
+            tcaracter = 7,
             tbool = 15,
             tid = 11,
             tvacio = 12,

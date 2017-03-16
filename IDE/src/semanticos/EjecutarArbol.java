@@ -44,6 +44,9 @@ public class EjecutarArbol {
                 case Const.asignacion:
                     Semantico.asignacion(hijo);
                     break;
+                case Const.declaracion:
+                    Semantico.declaracion(hijo);
+                    break;
             }
         }
         return retorno;
