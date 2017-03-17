@@ -27,9 +27,32 @@ public class Semantico {
                     res = ejecutarAritmetica(valIzq, valDer, valor.getNombre());
                 }
                 else
-                {
-                    
+                { //operador unario (-)
+                    switch (valIzq.tipo) {
+                        case Const.tnumero:
+                            res.tipo = Const.tnumero;
+                            res.valor = (-1* Integer.valueOf(valIzq.valor)) + "";
+                            break;
+                        case Const.tdecimal:
+                            res.tipo = Const.tdecimal;
+                            res.valor = (-1* Double.valueOf(valIzq.valor)) + "";
+                            break;
+                        default:
+                                res.tipo = Const.terror;
+                                res.valor = "No se pudo operar - [" + getTipo(valIzq.tipo) + "]";
+                            break;
+                    }
                 }
+                break;
+            case Const.menor:
+            case Const.mayor:
+            case Const.menorigual:
+            case Const.mayorigual:
+            case Const.igualigual:
+            case Const.diferente:
+                valIzq = ejecutarValor(valor.hijos.get(0));
+                valDer = ejecutarValor(valor.hijos.get(1));
+                res = ejecutarRelacional(valIzq, valDer, valor.getNombre());
                 break;
             default:
                 //retornar el valor
@@ -311,7 +334,7 @@ public class Semantico {
                     case 2://numero / numero
                         res.tipo = Const.tdecimal;
                         if (Integer.valueOf(valDer.valor) != 0)
-                            res.valor = Integer.valueOf(valIzq.valor) / Integer.valueOf(valDer.valor) + "";
+                            res.valor = Double.valueOf(valIzq.valor) / Double.valueOf(valDer.valor) + "";
                         else
                         {
                             res.tipo = Const.terror;
@@ -330,27 +353,6 @@ public class Semantico {
                         }
                         break;
                     case 8://numero / caracter
-                        res.tipo = Const.tdecimal;
-                        int num1 = 0;
-                        int num2 = 0;
-                        if(valIzq.tipo == 1)
-                        {
-                            num1 = Integer.valueOf(valIzq.valor);
-                            num2 = (int) valDer.valor.charAt(0);
-                        }
-                        else
-                        {
-                            num1 = (int) valIzq.valor.charAt(0);
-                            num2 = Integer.valueOf(valDer.valor);
-                        }
-                        if (num2 != 0)
-                            res.valor = num1 / num2 + "";
-                        else
-                        {
-                            res.tipo = Const.terror;
-                            res.valor = "Division entre 0";
-                        }
-                        break;
                     case 10://decimal / caracter
                         res.tipo = Const.tdecimal;
                         double dec1 = 0;
@@ -503,6 +505,337 @@ public class Semantico {
                         break;
                 }
                 break;//case potencia
+        }
+        return res;
+    }
+    
+    private static Objeto ejecutarRelacional(Objeto valIzq, Objeto valDer, String operador)
+    {
+        Objeto res = new Objeto();
+        if(valIzq.tipo == Const.tbool)
+            if (valIzq.valor.equals(Const.verdadero))
+                valIzq.valor = "1";
+            else
+                valIzq.valor = "0";
+        if(valDer.tipo == Const.tbool)
+            if (valDer.valor.equals(Const.verdadero))
+                valDer.valor = "1";
+            else
+                valDer.valor = "0";
+        switch(operador)
+        {
+            case Const.menor:
+                switch(valIzq.tipo + valDer.tipo)
+                {
+                    case 2://numero < numero
+                    case 4://numero < decimal
+                    case 6://decimal < decimal
+                    case 16://numero < Bool
+                    case 18://decimal < Bool
+                    case 30://Bool < Bool
+                        res.tipo = Const.tbool;
+                        double val1 = Double.valueOf(valIzq.valor);
+                        double val2 = Double.valueOf(valDer.valor);
+                        res.valor = Const.falso;
+                        if(val1 < val2)
+                            res.valor = Const.verdadero;
+                        break;
+                    case 8://numero < caracter
+                    case 10://decimal < caracter
+                        res.tipo = Const.tbool;
+                        double dec1 = 0;
+                        double dec2 = 0;
+                        if(valIzq.tipo == 1)
+                        {
+                            dec1 = Double.valueOf(valIzq.valor);
+                            dec2 = (int) valDer.valor.charAt(0);
+                        }
+                        else
+                        {
+                            dec1 = (int) valIzq.valor.charAt(0);
+                            dec2 = Double.valueOf(valDer.valor);
+                        }
+                        res.valor = Const.falso;
+                        if(dec1 < dec2)
+                            res.valor = Const.verdadero;
+                        break;
+                    case 14://caracter < caracter
+                    case 17://caracter < cadena
+                    case 20://cadena < cadena
+                        res.tipo = Const.tbool;
+                        res.valor = Const.falso;
+                        if(valIzq.valor.compareTo(valDer.valor) < 0 )
+                            res.valor = Const.verdadero;
+                        break;
+                    case 11://numero < cadena
+                    case 13://decimal < cadena
+                    case 22://caracter < Bool
+                    case 25://cadena < Bool
+                        res.tipo = Const.terror;
+                        res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] < [" + getTipo(valDer.tipo) + "]";
+                        break;
+                }
+                break;//case menor
+                case Const.mayor:
+                switch(valIzq.tipo + valDer.tipo)
+                {
+                    case 2://numero > numero
+                    case 4://numero > decimal
+                    case 6://decimal > decimal
+                    case 16://numero > Bool
+                    case 18://decimal > Bool
+                    case 30://Bool > Bool
+                        res.tipo = Const.tbool;
+                        double val1 = Double.valueOf(valIzq.valor);
+                        double val2 = Double.valueOf(valDer.valor);
+                        res.valor = Const.falso;
+                        if(val1 > val2)
+                            res.valor = Const.verdadero;
+                        break;
+                    case 8://numero > caracter
+                    case 10://decimal > caracter
+                        res.tipo = Const.tbool;
+                        double dec1 = 0;
+                        double dec2 = 0;
+                        if(valIzq.tipo == 1)
+                        {
+                            dec1 = Double.valueOf(valIzq.valor);
+                            dec2 = (int) valDer.valor.charAt(0);
+                        }
+                        else
+                        {
+                            dec1 = (int) valIzq.valor.charAt(0);
+                            dec2 = Double.valueOf(valDer.valor);
+                        }
+                        res.valor = Const.falso;
+                        if(dec1 > dec2)
+                            res.valor = Const.verdadero;
+                        break;
+                    case 14://caracter > caracter
+                    case 17://caracter > cadena
+                    case 20://cadena > cadena
+                        res.tipo = Const.tbool;
+                        res.valor = Const.falso;
+                        if(valIzq.valor.compareTo(valDer.valor) > 0 )
+                            res.valor = Const.verdadero;
+                        break;
+                    case 11://numero > cadena
+                    case 13://decimal > cadena
+                    case 22://caracter > Bool
+                    case 25://cadena > Bool
+                        res.tipo = Const.terror;
+                        res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] > [" + getTipo(valDer.tipo) + "]";
+                        break;
+                }
+                break;//case mayor
+                case Const.menorigual:
+                switch(valIzq.tipo + valDer.tipo)
+                {
+                    case 2://numero <= numero
+                    case 4://numero <= decimal
+                    case 6://decimal <= decimal
+                    case 16://numero <= Bool
+                    case 18://decimal <= Bool
+                    case 30://Bool <= Bool
+                        res.tipo = Const.tbool;
+                        double val1 = Double.valueOf(valIzq.valor);
+                        double val2 = Double.valueOf(valDer.valor);
+                        res.valor = Const.falso;
+                        if(val1 <= val2)
+                            res.valor = Const.verdadero;
+                        break;
+                    case 8://numero <= caracter
+                    case 10://decimal <= caracter
+                        res.tipo = Const.tbool;
+                        double dec1 = 0;
+                        double dec2 = 0;
+                        if(valIzq.tipo == 1)
+                        {
+                            dec1 = Double.valueOf(valIzq.valor);
+                            dec2 = (int) valDer.valor.charAt(0);
+                        }
+                        else
+                        {
+                            dec1 = (int) valIzq.valor.charAt(0);
+                            dec2 = Double.valueOf(valDer.valor);
+                        }
+                        res.valor = Const.falso;
+                        if(dec1 <= dec2)
+                            res.valor = Const.verdadero;
+                        break;
+                    case 14://caracter <= caracter
+                    case 17://caracter <= cadena
+                    case 20://cadena <= cadena
+                        res.tipo = Const.tbool;
+                        res.valor = Const.falso;
+                        if(valIzq.valor.compareTo(valDer.valor) <= 0 )
+                            res.valor = Const.verdadero;
+                        break;
+                    case 11://numero <= cadena
+                    case 13://decimal <= cadena
+                    case 22://caracter <= Bool
+                    case 25://cadena <= Bool
+                        res.tipo = Const.terror;
+                        res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] <= [" + getTipo(valDer.tipo) + "]";
+                        break;
+                }
+                break;//case menorigual
+                case Const.mayorigual:
+                switch(valIzq.tipo + valDer.tipo)
+                {
+                    case 2://numero >= numero
+                    case 4://numero >= decimal
+                    case 6://decimal >= decimal
+                    case 16://numero >= Bool
+                    case 18://decimal >= Bool
+                    case 30://Bool >= Bool
+                        res.tipo = Const.tbool;
+                        double val1 = Double.valueOf(valIzq.valor);
+                        double val2 = Double.valueOf(valDer.valor);
+                        res.valor = Const.falso;
+                        if(val1 >= val2)
+                            res.valor = Const.verdadero;
+                        break;
+                    case 8://numero >= caracter
+                    case 10://decimal >= caracter
+                        res.tipo = Const.tbool;
+                        double dec1 = 0;
+                        double dec2 = 0;
+                        if(valIzq.tipo == 1)
+                        {
+                            dec1 = Double.valueOf(valIzq.valor);
+                            dec2 = (int) valDer.valor.charAt(0);
+                        }
+                        else
+                        {
+                            dec1 = (int) valIzq.valor.charAt(0);
+                            dec2 = Double.valueOf(valDer.valor);
+                        }
+                        res.valor = Const.falso;
+                        if(dec1 >= dec2)
+                            res.valor = Const.verdadero;
+                        break;
+                    case 14://caracter >= caracter
+                    case 17://caracter >= cadena
+                    case 20://cadena >= cadena
+                        res.tipo = Const.tbool;
+                        res.valor = Const.falso;
+                        if(valIzq.valor.compareTo(valDer.valor) >= 0 )
+                            res.valor = Const.verdadero;
+                        break;
+                    case 11://numero >= cadena
+                    case 13://decimal >= cadena
+                    case 22://caracter >= Bool
+                    case 25://cadena >= Bool
+                        res.tipo = Const.terror;
+                        res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] >= [" + getTipo(valDer.tipo) + "]";
+                        break;
+                }
+                break;//case mayorigual
+                case Const.igualigual:
+                switch(valIzq.tipo + valDer.tipo)
+                {
+                    case 2://numero == numero
+                    case 4://numero == decimal
+                    case 6://decimal == decimal
+                    case 16://numero == Bool
+                    case 18://decimal == Bool
+                    case 30://Bool == Bool
+                        res.tipo = Const.tbool;
+                        double val1 = Double.valueOf(valIzq.valor);
+                        double val2 = Double.valueOf(valDer.valor);
+                        res.valor = Const.falso;
+                        if(val1 == val2)
+                            res.valor = Const.verdadero;
+                        break;
+                    case 8://numero == caracter
+                    case 10://decimal == caracter
+                        res.tipo = Const.tbool;
+                        double dec1 = 0;
+                        double dec2 = 0;
+                        if(valIzq.tipo == 1)
+                        {
+                            dec1 = Double.valueOf(valIzq.valor);
+                            dec2 = (int) valDer.valor.charAt(0);
+                        }
+                        else
+                        {
+                            dec1 = (int) valIzq.valor.charAt(0);
+                            dec2 = Double.valueOf(valDer.valor);
+                        }
+                        res.valor = Const.falso;
+                        if(dec1 == dec2)
+                            res.valor = Const.verdadero;
+                        break;
+                    case 14://caracter == caracter
+                    case 17://caracter == cadena
+                    case 20://cadena == cadena
+                        res.tipo = Const.tbool;
+                        res.valor = Const.falso;
+                        if(valIzq.valor.compareTo(valDer.valor) == 0 )
+                            res.valor = Const.verdadero;
+                        break;
+                    case 11://numero == cadena
+                    case 13://decimal == cadena
+                    case 22://caracter == Bool
+                    case 25://cadena == Bool
+                        res.tipo = Const.terror;
+                        res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] == [" + getTipo(valDer.tipo) + "]";
+                        break;
+                }
+                break;//case igualigual
+                case Const.diferente:
+                switch(valIzq.tipo + valDer.tipo)
+                {
+                    case 2://numero != numero
+                    case 4://numero != decimal
+                    case 6://decimal != decimal
+                    case 16://numero != Bool
+                    case 18://decimal != Bool
+                    case 30://Bool != Bool
+                        res.tipo = Const.tbool;
+                        double val1 = Double.valueOf(valIzq.valor);
+                        double val2 = Double.valueOf(valDer.valor);
+                        res.valor = Const.falso;
+                        if(val1 != val2)
+                            res.valor = Const.verdadero;
+                        break;
+                    case 8://numero != caracter
+                    case 10://decimal != caracter
+                        res.tipo = Const.tbool;
+                        double dec1 = 0;
+                        double dec2 = 0;
+                        if(valIzq.tipo == 1)
+                        {
+                            dec1 = Double.valueOf(valIzq.valor);
+                            dec2 = (int) valDer.valor.charAt(0);
+                        }
+                        else
+                        {
+                            dec1 = (int) valIzq.valor.charAt(0);
+                            dec2 = Double.valueOf(valDer.valor);
+                        }
+                        res.valor = Const.falso;
+                        if(dec1 != dec2)
+                            res.valor = Const.verdadero;
+                        break;
+                    case 14://caracter != caracter
+                    case 17://caracter != cadena
+                    case 20://cadena != cadena
+                        res.tipo = Const.tbool;
+                        res.valor = Const.falso;
+                        if(valIzq.valor.equals(valDer.valor))
+                            res.valor = Const.verdadero;
+                        break;
+                    case 11://numero != cadena
+                    case 13://decimal != cadena
+                    case 22://caracter != Bool
+                    case 25://cadena != Bool
+                        res.tipo = Const.terror;
+                        res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] != [" + getTipo(valDer.tipo) + "]";
+                        break;
+                }
+                break;//case diferente
         }
         return res;
     }

@@ -45,7 +45,7 @@ public class EjecutarArbol {
                     Semantico.asignacion(hijo);
                     break;
                 case Const.declaracion:
-                    Semantico.declaracion(hijo);
+                    //Semantico.declaracion(hijo);
                     break;
             }
         }
