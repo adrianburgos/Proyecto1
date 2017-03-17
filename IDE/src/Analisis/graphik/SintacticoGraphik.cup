@@ -37,7 +37,7 @@ terminal String numero, dec, iden, cad, car, verdadero, falso, extgk;
 non terminal Nodo INICIO, FUN, LALS, ALS, CUERPO, HEREDA, LCUERPOALS, CUERPOALS, LIMPORTAR, VALOR;
 non terminal Nodo IMPORTAR, INCLUIR, LID, LVALOR, DEC, PRINCIPAL, LPAR, ASIG, ASIGNORMAL, LCORCHETES, ASIGARR;
 non terminal Nodo LLLAVES, LLAVE, LCUERPO, ASIGNACION, SI, SELECCION, PARA, MIENTRAS, HACER, LLAMADO, LLAMADOHK, GRAFICAR;
-non terminal Nodo SINO, LCASOS, CASO, DEFECTO, LVARIABLES, PREASIG, ASIGPARA, VALPARA, IMPRIMIR, ACCESO;
+non terminal Nodo SINO, LCASOS, CASO, DEFECTO, LVARIABLES, PREASIG, ASIGPARA, VALPARA, IMPRIMIR, ACCESO, REL, E;
 non terminal String OPREL, VISIBILIDAD, TIPO, TIPOFUN, OP;
 
 //precedencia menor a mayor
@@ -314,17 +314,12 @@ LLAMADOHK       ::= llamarhk iden:id aparentesis LVALOR:LVALOR cparentesis {: RE
 
 IMPRIMIR        ::= imprimir aparentesis VALOR:VALOR cparentesis {: RESULT = NodoGeneral.crearImprimir(VALOR); :};
 
-VALOR           ::= VALOR:t1 mas VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.mas, t1, t2); :}
-                |   VALOR:t1 or VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.or, t1, t2); :}
-                |   VALOR:t1 xor VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.xor, t1, t2); :}
-                |   VALOR:t1 and VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.and, t1, t2); :}
-                |   VALOR:t1 OPREL:op VALOR:t2 {: RESULT = NodoOperacion.crearRelacional(op, t1, t2); :}
-                |   VALOR:t1 menos VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.menos, t1, t2); :}
-                |   VALOR:t1 por VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.por, t1, t2); :}
-                |   VALOR:t1 dividido VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.dividido, t1, t2); :}
-                |   VALOR:t1 pot VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.pot, t1, t2); :}
-                |   not VALOR:t1 {: RESULT = NodoOperacion.crearNodo(Const.not, t1, null); :}
-                |   menos VALOR:t1 {: RESULT = NodoOperacion.crearNodo(Const.unario, t1, null); :}
+E               ::= E:t1 mas E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mas, t1, t2); :}
+                |   E:t1 menos E:t2 {: RESULT = NodoOperacion.crearNodo(Const.menos, t1, t2); :}
+                |   E:t1 por E:t2 {: RESULT = NodoOperacion.crearNodo(Const.por, t1, t2); :}
+                |   E:t1 dividido E:t2 {: RESULT = NodoOperacion.crearNodo(Const.dividido, t1, t2); :}
+                |   E:t1 pot E:t2 {: RESULT = NodoOperacion.crearNodo(Const.pot, t1, t2); :}
+                |   menos E:t1 {: RESULT = NodoOperacion.crearNodo(Const.menos, t1, null); :}
                 |   aparentesis VALOR:t1 cparentesis {: RESULT = t1; :}
                 |   numero:t1 {: RESULT = NodoGeneral.crearHoja(Const.numero, t1, Const.tnumero); :}
                 |   dec:t1 {: RESULT = NodoGeneral.crearHoja(Const.decimal, t1, Const.tdecimal); :}
@@ -335,6 +330,15 @@ VALOR           ::= VALOR:t1 mas VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Co
                 |   ACCESO:t1 {: RESULT = t1; :}
                 |   LLAMADO:t1 {: RESULT = t1; :}
                 |   LLAMADOHK:t1 {: RESULT = t1; :};
+
+VALOR           ::= VALOR:t1 or VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.or, t1, t2); :}
+                |   VALOR:t1 xor VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.xor, t1, t2); :}
+                |   VALOR:t1 and VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.and, t1, t2); :}
+                |   not VALOR:t1 {: RESULT = NodoOperacion.crearNodo(Const.not, t1, null); :}
+                |   REL:REL {: RESULT = REL; :};
+
+REL             ::= E:t1 OPREL:op E:t2 {: RESULT = NodoOperacion.crearRelacional(op, t1, t2); :}
+                |   E:E {: RESULT = E; :};
 
 ACCESO          ::= LID:LID LCORCHETES:LCORCHETES
                     {:

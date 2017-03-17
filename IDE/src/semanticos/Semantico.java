@@ -54,6 +54,29 @@ public class Semantico {
                 valDer = ejecutarValor(valor.hijos.get(1));
                 res = ejecutarRelacional(valIzq, valDer, valor.getNombre());
                 break;
+            case Const.or:
+            case Const.xor:
+            case Const.and:
+                valIzq = ejecutarValor(valor.hijos.get(0));
+                valDer = ejecutarValor(valor.hijos.get(1));
+                res = ejecutarLogica(valIzq, valDer, valor.getNombre());
+                break;
+            case Const.not:
+                valIzq = ejecutarValor(valor.hijos.get(0));
+                if(valIzq.tipo == Const.tbool)
+                {
+                    res.tipo = Const.tbool;
+                    res.valor = Const.verdadero;
+                    if(valIzq.valor.equals(Const.verdadero))
+                        res.valor = Const.falso;
+                }
+                else
+                {
+                    res.tipo = Const.terror;
+                    res.valor = "No se pudo operar - [" + getTipo(valIzq.tipo) + "]";
+                }
+                break;
+                
             default:
                 //retornar el valor
                 return new Objeto(valor.tipo, valor.valor);
@@ -837,6 +860,38 @@ public class Semantico {
                 }
                 break;//case diferente
         }
+        return res;
+    }
+    
+    private static Objeto ejecutarLogica(Objeto valIzq, Objeto valDer, String operador) {
+        Objeto res = new Objeto();
+        if((valIzq.tipo + valDer.tipo) != 30)
+        {
+            res.tipo = Const.terror;
+            res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] && [" + getTipo(valDer.tipo) + "]";
+        }
+        else
+            switch(operador)
+            {
+                case Const.or:
+                    res.tipo = Const.tbool;
+                    res.valor = Const.falso;
+                    if(valIzq.valor.equals(Const.verdadero) || valDer.valor.equals(Const.verdadero))
+                        res.valor = Const.verdadero;
+                    break;//case or
+                case Const.xor:
+                    res.tipo = Const.tbool;
+                    res.valor = Const.falso;
+                    if((valIzq.valor.equals(Const.verdadero) && valDer.valor.equals(Const.falso)) || (valIzq.valor.equals(Const.falso) && valDer.valor.equals(Const.verdadero)))
+                        res.valor = Const.verdadero;
+                    break;//case xor
+                case Const.and:
+                    res.tipo = Const.tbool;
+                    res.valor = Const.falso;
+                    if(valIzq.valor.equals(Const.verdadero) && valDer.valor.equals(Const.verdadero))
+                        res.valor = Const.verdadero;
+                    break;//case and
+            }
         return res;
     }
     

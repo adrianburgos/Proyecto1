@@ -22,12 +22,14 @@ public class NodoOperacion {
                 return crearPotencia(op1, op2);
             case Const.sqrt:
                 return crearRaiz(op1, op2);
-            case Const.unario:
-                return crearUnario(op1);
             case Const.and:
                 return crearAnd(op1, op2);
             case Const.or:
                 return crearOr(op1, op2);
+            case Const.xor:
+                return crearXor(op1, op2);
+            case Const.not:
+                return crearNot(op1);
             case Const.masmas:
                 return crearConcatenacion(op1, op2);
         }
@@ -47,7 +49,8 @@ public class NodoOperacion {
     {
         Nodo resta = new Nodo(Const.menos);
         resta.hijos.add(op1);
-        resta.hijos.add(op2);
+        if(op2 != null)
+            resta.hijos.add(op2);
         return (Nodo) resta;
     }
     private static Nodo crearMultiplicacion(Nodo op1, Nodo op2)
@@ -88,12 +91,6 @@ public class NodoOperacion {
         raiz.hijos.add(op2);
         return (Nodo) raiz;
     }
-
-    private static Nodo crearUnario(Nodo op1) {
-        Nodo raiz = new Nodo(Const.unario);
-        raiz.hijos.add(op1);
-        return (Nodo) raiz;
-    }
     
     private static Nodo crearAnd(Nodo op1, Nodo op2) {
         Nodo raiz = new Nodo(Const.and);
@@ -120,6 +117,19 @@ public class NodoOperacion {
         Nodo raiz = new Nodo(Const.masmas);
         raiz.hijos.add(op1);
         raiz.hijos.add(op2);
+        return (Nodo) raiz;
+    }
+
+    private static Nodo crearXor(Nodo op1, Nodo op2) {
+        Nodo raiz = new Nodo(Const.xor);
+        raiz.hijos.add(op1);
+        raiz.hijos.add(op2);
+        return (Nodo) raiz;
+    }
+
+    private static Nodo crearNot(Nodo op1) {
+        Nodo raiz = new Nodo(Const.not);
+        raiz.hijos.add(op1);
         return (Nodo) raiz;
     }
 }
