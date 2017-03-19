@@ -7,6 +7,7 @@ package semanticos;
 
 import fabrica.Nodo;
 import ide.Const;
+import java.util.LinkedList;
 
 /**
  *
@@ -18,13 +19,15 @@ public class EjecutarArbol {
     public static void ejecutar(Nodo raizPar)
     {
         raiz = raizPar;
-        //incluye y importar
+        //incluye e importar
+        
+        //hereda
         
         //crear tabla de simbolos
-        //Pila.inicializarPila(raiz.ChildNodes.ElementAt(1));
-        
+        LinkedList<Nodo> clasePrincipal = buscarClasePrincipal(raiz.hijos.get(1));
+        Pila.inicializarPila(clasePrincipal.get(0).hijos.get(1));
         //ejecutar principal
-        ejecutarPrincipal(buscar(raiz, Const.principal));
+        ejecutarPrincipal(clasePrincipal.get(1));
     }
     
     private static void ejecutarPrincipal(Nodo nodo) {
@@ -45,11 +48,29 @@ public class EjecutarArbol {
                     Semantico.asignacion(hijo);
                     break;
                 case Const.declaracion:
-                    //Semantico.declaracion(hijo);
+                    Semantico.declaracion(hijo);
                     break;
             }
         }
         return retorno;
+    }
+    
+    private static LinkedList<Nodo> buscarClasePrincipal(Nodo lals)
+    {
+        LinkedList clasePrincipal = null;
+        for(Nodo als : lals.hijos)
+        {
+            for(Nodo nodo : als.hijos.get(1).hijos)
+            {
+                if(nodo.nombre.equals(Const.principal))
+                {
+                    clasePrincipal = new LinkedList();
+                    clasePrincipal.add(als);
+                    clasePrincipal.add(nodo);
+                }
+            }
+        }
+        return clasePrincipal;
     }
     
     private static Nodo buscar(Nodo raiz, String nombre)

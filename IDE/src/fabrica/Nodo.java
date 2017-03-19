@@ -10,8 +10,6 @@ public class Nodo {
     public String visibilidad;
     public LinkedList<Nodo> hijos = new LinkedList();
     protected int fila, columna;
-
-    
     
     public Nodo(String nombre, String valor, String visibilidad, int tipo, int fila, int columna) {
         this.nombre = nombre;

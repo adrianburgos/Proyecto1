@@ -900,8 +900,25 @@ public class Semantico {
         System.out.println("VALOR: " + valor.valor + " ---- TIPO: " + getTipo(valor.tipo));
     }
     
-    public static void declaracion(Nodo hijo) {
-        Objeto valor = ejecutarValor(hijo.hijos.get(1));
+    public static void declaracion(Nodo dec) {
+        Objeto valor = new Objeto();
+        int tipo = dec.tipo;
+        String nombre = dec.valor;
+        
+        if(dec.hijos.size() > 0)
+        {//la declaracion trae una asignacion o una lista de ids
+            Nodo asig = dec.hijos.get(0);
+            switch(asig.nombre)
+            {
+                case Const.lvariables:
+                    //se deben de declarar varias variables con el mismo tipo;
+                    break;
+                case Const.nuevo:
+                    break;
+                default:
+                    valor = ejecutarValor(dec.hijos.get(0));
+            }
+        }
         System.out.println("VALOR: " + valor.valor + " ---- TIPO: " + getTipo(valor.tipo));
     }
     

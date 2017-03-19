@@ -1,10 +1,13 @@
 package semanticos;
 
+import java.util.LinkedList;
+
 public class Elemento {
     public String nombre;
     public String valor;
     public int tipo;
-    public int pos;
+    public int pos;//posicion dentro de la pila
+    public LinkedList<Elemento> objeto = new LinkedList<>();
 
     public Elemento(String nombre, int tipo, String valor)
     {

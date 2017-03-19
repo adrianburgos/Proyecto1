@@ -96,7 +96,7 @@ public class Const {
             terminar = "terminar",
             verdadero = "verdadero",
             falso = "falso",
-            principal = "principal",
+            principal = "incio",
             llamar = "llamar",
             retornar = "retornar",
             limportar = "LIMPORTAR",
