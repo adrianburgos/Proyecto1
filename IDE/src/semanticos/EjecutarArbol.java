@@ -28,6 +28,7 @@ public class EjecutarArbol {
         Pila.inicializarPila(clasePrincipal.get(0).hijos.get(1));
         //ejecutar principal
         ejecutarPrincipal(clasePrincipal.get(1));
+        System.out.println(Pila.recorrerPila());
     }
     
     private static void ejecutarPrincipal(Nodo nodo) {

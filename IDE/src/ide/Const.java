@@ -75,7 +75,7 @@ public class Const {
             tcadena = 10,
             tcaracter = 7,
             tbool = 15,
-            tid = 11,
+            //tid = 11,
             tvacio = 12,
             tals = 13,
             terror = 14;

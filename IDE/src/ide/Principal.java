@@ -194,6 +194,11 @@ public class Principal extends javax.swing.JFrame {
             Arbol.getGrafo(raiz);
             Arbol.dibujar();
             EjecutarArbol.ejecutar(raiz);
+            if(ErroresGraphik.contErrores > 0)
+            {
+                ErroresGraphik.generarErrores();
+                System.out.println("Errores semanticos");
+            }
             //Semantico.ejecutarValor(raiz);
         }
         else

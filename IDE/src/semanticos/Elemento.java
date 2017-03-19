@@ -7,7 +7,7 @@ public class Elemento {
     public String valor;
     public int tipo;
     public int pos;//posicion dentro de la pila
-    public LinkedList<Elemento> objeto = new LinkedList<>();
+    public LinkedList<Elemento> objeto = null;
 
     public Elemento(String nombre, int tipo, String valor)
     {
@@ -15,5 +15,6 @@ public class Elemento {
         this.valor = valor;
         this.tipo = tipo;
         this.pos = -1;
+        objeto = null;
     }
 }
