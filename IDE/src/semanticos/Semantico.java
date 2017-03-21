@@ -76,7 +76,11 @@ public class Semantico {
                     res.valor = "No se pudo operar - [" + getTipo(valIzq.tipo) + "]";
                 }
                 break;
-                
+            case Const.lid:
+                Elemento ele = Pila.obtenerLid(valor);
+                res.tipo = ele.tipo;
+                res.valor = ele.valor;
+                break;
             default:
                 //retornar el valor
                 return new Objeto(valor.tipo, valor.valor);
@@ -89,7 +93,9 @@ public class Semantico {
         }
         return res;
     }
-    // <editor-fold desc="metodos ejecutar">
+    
+    // <editor-fold desc="metodos ejecutar operaciones">
+    
     private static Objeto ejecutarAritmetica(Objeto valIzq, Objeto valDer, String operador)
     {
         Objeto res = new Objeto();
@@ -898,8 +904,7 @@ public class Semantico {
     
     public static void asignacion(Nodo hijo) {
         Objeto valor = ejecutarValor(hijo.hijos.get(1));
-        if(hijo.hijos.get(0).hijos.size() == 1)
-            Pila.asignarValor(hijo.hijos.get(0).hijos.get(0).valor, valor);
+        Pila.asignarValor(hijo.hijos.get(0), valor);
         System.out.println("VALOR: " + valor.valor + " ---- TIPO: " + getTipo(valor.tipo));
     }
     
@@ -928,6 +933,31 @@ public class Semantico {
         }
     }
     
+    public static void declaracion(Nodo dec, Ambito ambito) {
+        Objeto valor = new Objeto();
+        int tipo = dec.tipo;
+        String nombre = dec.valor;
+        Pila.agregarElemeto(tipo, nombre, ambito);
+        if(dec.hijos.size() > 0)
+        {//la declaracion trae una asignacion o una lista de ids
+            Nodo asig = dec.hijos.get(0);
+            switch(asig.nombre)
+            {
+                case Const.lvariables:
+                    //se deben de declarar varias variables con el mismo tipo;
+                    for (Nodo var : asig.hijos)
+                        Pila.agregarElemeto(tipo, var.valor, ambito);
+                    break;
+                case Const.nuevo:
+                        Pila.asignarNuevo(nombre);
+                    break;
+                default:
+                    valor = ejecutarValor(dec.hijos.get(0));
+                    Pila.asignarValor(nombre, valor, ambito);
+            }
+        }
+    }
+    
     public static String quitarComillas(String s)
     {
         s = s.replace("\"", "");
@@ -950,6 +980,8 @@ public class Semantico {
                 return Const.tbool;
             case Const.als:
                 return Const.tals;
+            case Const.vacio:
+                return Const.tvacio;
             case "Error":
                 return Const.terror;
         }
@@ -972,6 +1004,8 @@ public class Semantico {
                 return Const.bool;
             case Const.tals:
                 return Const.als;
+            case Const.tvacio:
+                return Const.vacio;
             case Const.terror:
                 return "Error";
         }

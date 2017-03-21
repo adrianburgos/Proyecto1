@@ -7,7 +7,7 @@ public class Elemento {
     public String valor;
     public int tipo;
     public int pos;//posicion dentro de la pila
-    public LinkedList<Elemento> objeto = null;
+    public Ambito objeto = null;
 
     public Elemento(String nombre, int tipo, String valor)
     {

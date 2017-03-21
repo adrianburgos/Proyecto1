@@ -12,4 +12,12 @@ public class Ambito {
         this.padre = padre;
         this.actual = actual;
     }
+    
+    public Elemento buscar(String nombre)
+    {
+        for(Elemento ele : elementos)
+            if(ele.nombre.equals(nombre))
+                return ele;
+        return null;
+    }
 }

@@ -33,7 +33,7 @@ public class EjecutarArbol {
     
     private static void ejecutarPrincipal(Nodo nodo) {
         //se crea el ambito para Principal
-        //Pila.crearAmbito(Const.tipo_void);
+        Pila.crearAmbito(Const.tvacio);
         ejecutarCuerpo(nodo.hijos.get(0));
         //Pila.eliminarAmbito();
     }
