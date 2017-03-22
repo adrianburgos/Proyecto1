@@ -5,6 +5,7 @@ import java.util.LinkedList;
 public class Elemento {
     public String nombre;
     public String valor;
+    public String tipoAls;
     public int tipo;
     public int pos;//posicion dentro de la pila
     public Ambito objeto = null;
@@ -16,5 +17,6 @@ public class Elemento {
         this.tipo = tipo;
         this.pos = -1;
         objeto = null;
+        tipoAls = "";
     }
 }

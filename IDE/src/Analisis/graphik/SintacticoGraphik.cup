@@ -157,6 +157,8 @@ LPAR            ::= LPAR:LPAR coma TIPO:TIPO iden:id
                     {:
                         int t = Semantico.getTipo(TIPO);
                         Nodo par = new Nodo(Const.id, id, t);
+                        if(t == Const.tals)
+                            par.tipoAls = TIPO;
                         LPAR.hijos.add(par);
                         RESULT = (Nodo) LPAR;
                     :}
@@ -257,7 +259,8 @@ CUERPO          ::= DEC:t1 interroga {: RESULT = t1; :}
                 |   error interroga;
 
 ASIGNACION      ::= LID:LID LCORCHETES:LCORCHETES igual VALOR:VALOR {: RESULT = NodoGeneral.crearAsignacion(LID, VALOR, LCORCHETES); :}
-                |   LID:LID igual VALOR:VALOR {: RESULT = NodoGeneral.crearAsignacion(LID, VALOR, null); :};
+                |   LID:LID igual VALOR:VALOR {: RESULT = NodoGeneral.crearAsignacion(LID, VALOR, null); :}
+                |   LID:LID igual nuevo iden:id aparentesis cparentesis {: Nodo nuevo = new Nodo(Const.nuevo, id); RESULT = NodoGeneral.crearAsignacion(LID, nuevo, null); :};
 
 SI              ::= si aparentesis VALOR:VALOR cparentesis allave LCUERPO:LCUERPO cllave SINO:SINO
                     {:

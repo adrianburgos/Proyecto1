@@ -28,7 +28,6 @@ public class EjecutarArbol {
         Pila.inicializarPila(clasePrincipal.get(0).hijos.get(1));
         //ejecutar principal
         ejecutarPrincipal(clasePrincipal.get(1));
-        System.out.println(Pila.recorrerPila());
     }
     
     private static void ejecutarPrincipal(Nodo nodo) {
@@ -50,6 +49,9 @@ public class EjecutarArbol {
                     break;
                 case Const.declaracion:
                     Semantico.declaracion(hijo);
+                    break;
+                case Const.imprimir:
+                    Semantico.imprimir(hijo);
                     break;
             }
         }
@@ -85,6 +87,15 @@ public class EjecutarArbol {
                 nodo = buscar(hijo, nombre);
         }
         return nodo;
+    }
+    
+    public static Nodo buscarClase(String nombreAls)
+    {
+        nombreAls = nombreAls.toLowerCase();
+        for(Nodo als : raiz.hijos.get(1).hijos)
+            if(als.valor.toLowerCase().equals(nombreAls))
+                return als;
+        return null;
     }
 
 }

@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 public class Nodo {
     public String nombre;
+    public String tipoAls;
     public int tipo; //cadena numero booleano
     public String valor;
     public String visibilidad;
@@ -18,6 +19,7 @@ public class Nodo {
         this.visibilidad = visibilidad;
         this.fila = fila;
         this.columna = columna;
+        tipoAls = "";
     }
 
     /**
@@ -35,6 +37,7 @@ public class Nodo {
         this.visibilidad = Const.publico;
         this.fila = fila;
         this.columna = columna;
+        tipoAls = "";
     }
 
     public Nodo(String nombre, String valor, int tipo, String visibilidad) {
@@ -44,6 +47,7 @@ public class Nodo {
         this.visibilidad = visibilidad;
         this.fila = 0;
         this.columna = 0;
+        tipoAls = "";
     }
     
     public Nodo(String nombre, String valor, int tipo) {
@@ -53,6 +57,7 @@ public class Nodo {
         this.visibilidad = Const.publico;
         this.fila = 0;
         this.columna = 0;
+        tipoAls = "";
     }
     
     public Nodo(String nombre, String valor) {
@@ -62,6 +67,7 @@ public class Nodo {
         this.visibilidad = Const.publico;
         this.fila = 0;
         this.columna = 0;
+        tipoAls = "";
     }
     
     public Nodo(String nombre) {
@@ -71,6 +77,7 @@ public class Nodo {
         this.visibilidad = Const.publico;
         this.fila = 0;
         this.columna = 0;
+        tipoAls = "";
     }
 
     public Nodo() {
@@ -80,6 +87,7 @@ public class Nodo {
         visibilidad = Const.publico;
         fila = 0;
         columna = 0;
+        tipoAls = "";
     }
     
     public String getNombre() {

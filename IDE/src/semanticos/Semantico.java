@@ -3,6 +3,7 @@ package semanticos;
 import Reportes.ErroresGraphik;
 import fabrica.Nodo;
 import ide.Const;
+import ide.Principal;
 
 public class Semantico {
     public static Objeto ejecutarValor(Nodo valor)
@@ -912,7 +913,10 @@ public class Semantico {
         Objeto valor = new Objeto();
         int tipo = dec.tipo;
         String nombre = dec.valor;
-        Pila.agregarElemeto(tipo, nombre);
+        String tipoAls = dec.tipoAls;
+        Elemento elemento = new Elemento(nombre, tipo, null);
+        elemento.tipoAls = tipoAls;
+        Pila.agregarElemeto(elemento);
         if(dec.hijos.size() > 0)
         {//la declaracion trae una asignacion o una lista de ids
             Nodo asig = dec.hijos.get(0);
@@ -921,10 +925,10 @@ public class Semantico {
                 case Const.lvariables:
                     //se deben de declarar varias variables con el mismo tipo;
                     for (Nodo var : asig.hijos)
-                        Pila.agregarElemeto(tipo, var.valor);
+                        Pila.agregarElemeto(tipo, var.valor, tipoAls);
                     break;
                 case Const.nuevo:
-                        Pila.asignarNuevo(nombre);
+                        Pila.asignarNuevo(elemento, tipoAls);
                     break;
                 default:
                     valor = ejecutarValor(dec.hijos.get(0));
@@ -937,7 +941,10 @@ public class Semantico {
         Objeto valor = new Objeto();
         int tipo = dec.tipo;
         String nombre = dec.valor;
-        Pila.agregarElemeto(tipo, nombre, ambito);
+        String tipoAls = dec.tipoAls;
+        Elemento ele = new Elemento(nombre, tipo, null);
+        ele.tipoAls = tipoAls;
+        Pila.agregarElemeto(ele, ambito);
         if(dec.hijos.size() > 0)
         {//la declaracion trae una asignacion o una lista de ids
             Nodo asig = dec.hijos.get(0);
@@ -946,16 +953,21 @@ public class Semantico {
                 case Const.lvariables:
                     //se deben de declarar varias variables con el mismo tipo;
                     for (Nodo var : asig.hijos)
-                        Pila.agregarElemeto(tipo, var.valor, ambito);
+                        Pila.agregarElemeto(tipo, var.valor, ambito, tipoAls);
                     break;
                 case Const.nuevo:
-                        Pila.asignarNuevo(nombre);
+                        Pila.asignarNuevo(ele, tipoAls);
                     break;
                 default:
                     valor = ejecutarValor(dec.hijos.get(0));
                     Pila.asignarValor(nombre, valor, ambito);
             }
         }
+    }
+    
+    public static void imprimir(Nodo hijo) {
+        Objeto valor = ejecutarValor(hijo.hijos.get(0));
+        Principal.consola += valor.valor;
     }
     
     public static String quitarComillas(String s)

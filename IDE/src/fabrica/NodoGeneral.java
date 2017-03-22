@@ -235,6 +235,8 @@ public class NodoGeneral{
         Nodo decfun = new Nodo(Const.decfun, id, t, visibilidad);
         decfun.hijos.add(parametros);
         decfun.hijos.add(cuerpo);
+        if(t == Const.tals)
+            decfun.tipoAls = tipo.toLowerCase();
         return (Nodo) decfun;
     }
     
@@ -243,6 +245,8 @@ public class NodoGeneral{
         int t = Semantico.getTipo(tipo);
         Nodo par = new Nodo(Const.id, id, t);
         Nodo lals = new Nodo(Const.lpar);
+        if(t == Const.tals)
+            par.tipoAls = tipo.toLowerCase();
         lals.hijos.add(par);
         return (Nodo) lals;
     }
@@ -251,6 +255,8 @@ public class NodoGeneral{
     {
         int t = Semantico.getTipo(tipo);
         Nodo dec = new Nodo(Const.declaracion, id, t, visibilidad);
+        if(t == Const.tals)
+            dec.tipoAls = tipo.toLowerCase();
         if(asig != null)
             dec.hijos.add(asig);
         return (Nodo) dec;

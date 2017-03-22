@@ -39,24 +39,28 @@ public class Pila {
         pila.get(pila.size() - 1).elementos.add(elemento);
     }
 
-    public static void agregarElemeto(int tipo, String nombre)
+    public static void agregarElemeto(int tipo, String nombre, String tipoAls)
     {
         Elemento elemento = new Elemento(nombre, tipo, null);
+        elemento.tipoAls = tipoAls;
         pila.get(pila.size() - 1).elementos.add(elemento);
-        if(tipo == Const.tals)
-        {//se deben de agregar los atributos de la clase como atributos del elemento
-            
-        }
     }
     
-    public static void agregarElemeto(int tipo, String nombre, Ambito ambito)
+    public static void agregarElemeto(Elemento elemento)
+    {
+        pila.get(pila.size() - 1).elementos.add(elemento);
+    }
+    
+    public static void agregarElemeto(int tipo, String nombre, Ambito ambito, String tipoAls)
     {
         Elemento elemento = new Elemento(nombre, tipo, null);
+        elemento.tipoAls = tipoAls;
         ambito.elementos.add(elemento);
-        if(tipo == Const.tals)
-        {//se deben de agregar los atributos de la clase como atributos del elemento
-            
-        }
+    }
+    
+    public static void agregarElemeto(Elemento ele, Ambito ambito)
+    {
+        ambito.elementos.add(ele);
     }
     
     public static Elemento obtenerLid(Nodo lid)
@@ -92,7 +96,6 @@ public class Pila {
                             error = "La variable [" + elemento.nombre + "] no es un ALS";                            
                         ErroresGraphik.agregarError("Error semantico", error, 0, 0);
                     }
-                    noSeEncontroError = lid.hijos.get(i);
                 }
                 if(noSeEncontroError != null)
                 {
@@ -104,11 +107,38 @@ public class Pila {
         return elemento;
     }
     
-    public static void asignarNuevo(String nombre)
+    public static void asignarNuevo(Elemento elemento, String tipoAls)
     {
-        //ya se verifico que la variable pueda recibir el valor a asignar
-        Ambito pos = buscarPosicion(nuevo - 1, nombre);
-        pila.get(pos.padre).elementos.get(pos.actual).objeto = new Ambito(-1, 0);
+        if(elemento.tipo == Const.tals)
+        {
+            Ambito ambito = elemento.objeto;
+            ambito = new Ambito(-1, 0);
+            //buscar el nodo que corresponde al objeto que se le desea hacer nuevo
+            if(elemento.tipoAls == tipoAls)
+            {
+                Nodo als = EjecutarArbol.buscarClase(elemento.tipoAls);
+                if(als != null)
+                {
+                    inicializarClase(als.hijos.get(1), ambito);
+                    elemento.objeto = ambito;
+                }
+                else
+                {
+                    String error = "El ALS [" + elemento.tipoAls + "] no existe";
+                    ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+                }
+            }
+            else
+            {
+                String error = "La variable [" + elemento.nombre + "] no es de tipo [" + tipoAls + "]";
+                ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+            }
+        }
+        else
+        {
+            String error = "La variable [" + elemento.nombre + "] no es un ALS";
+            ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+        }
     }
     
     public static void asignarValor(String nombre, Objeto valor)
@@ -233,22 +263,45 @@ public class Pila {
     }
     
     public static String recorrerPila()
+    {
+        String s = "";
+        for (Ambito ambito : Pila.pila)
         {
-            String s = "";
-            for (Ambito ambito : Pila.pila)
+            s += "------- Ambito " + ambito.actual + " -------\n";
+            for (Elemento ele : ambito.elementos)
             {
-                s += "------- Ambito " + ambito.actual + " -------\n";
-                for (Elemento ele : ambito.elementos)
-                {
-                    s += "[" + Semantico.getTipo(ele.tipo) + "] " + ele.nombre + " = ";
+                s += "[" + Semantico.getTipo(ele.tipo) + "] " + ele.nombre + " = ";
+                if(ele.objeto != null)
+                    s += recorrerPila(ele.objeto, 1);
+                else
                     if(ele.valor == null)
                         s+= "null\n";
                     else
                         s += ele.valor + "\n";
-                }
             }
-            return s;
         }
+        return s;
+    }
+    
+    private static String recorrerPila(Ambito ambito, int profundidad)
+    {
+        String s = "\n";
+        String tabs = "";
+        for (int i = 0; i < profundidad; i++)
+            tabs += "\t";
+        for (Elemento ele : ambito.elementos)
+        {
+            s += tabs + "[" + Semantico.getTipo(ele.tipo) + "] " + ele.nombre + " = ";
+            if(ele.objeto != null)
+                s += recorrerPila(ele.objeto, profundidad + 1);
+            else
+                if(ele.valor == null)
+                    s+= "null\n";
+                else
+                    s += ele.valor + "\n";
+        }
+        return s;
+    }
     
     // <editor-fold desc="seccion de busqueda">
     public static Elemento buscar(String nombre)
