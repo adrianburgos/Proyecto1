@@ -355,11 +355,10 @@ public class NodoGeneral{
         return (Nodo) imprimir;        
     }
     
-    public static Nodo crearLlamar(Nodo lid, Nodo lvalor)
+    public static Nodo crearLlamar(Nodo lid)
     {
-        Nodo imprimir = new Nodo(Const.llamar);
-        imprimir.hijos.add(lid);
-        imprimir.hijos.add(lvalor);
-        return (Nodo) imprimir;        
+        Nodo llamar = new Nodo(Const.llamar);
+        llamar.hijos.add(lid);
+        return (Nodo) llamar;        
     }
 }

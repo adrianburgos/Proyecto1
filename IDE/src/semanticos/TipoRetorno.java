@@ -19,10 +19,10 @@ public class TipoRetorno {
         retorno = continuar = terminar = false;
     }
 
-    public TipoRetorno(Boolean retorno, Boolean continuar, Boolean detener)
+    public TipoRetorno(Boolean retorno, Boolean continuar, Boolean terminar)
     {
         this.retorno = retorno;
         this.continuar = continuar;
-        this.terminar = detener;
+        this.terminar = terminar;
     }
 }

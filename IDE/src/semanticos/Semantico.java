@@ -4,6 +4,7 @@ import Reportes.ErroresGraphik;
 import fabrica.Nodo;
 import ide.Const;
 import ide.Principal;
+import java.util.LinkedList;
 
 public class Semantico {
     public static Objeto ejecutarValor(Nodo valor)
@@ -79,8 +80,25 @@ public class Semantico {
                 break;
             case Const.lid:
                 Elemento ele = Pila.obtenerLid(valor);
-                res.tipo = ele.tipo;
-                res.valor = ele.valor;
+                if(ele != null)
+                {
+                    res.tipo = ele.tipo;
+                    res.valor = ele.valor;
+                    if(res.tipo == Const.tals)
+                    {
+                        res.objeto = (Ambito) ele.objeto;
+                        res.tipoAls = ele.tipoAls;
+                    }
+                }
+                else
+                {
+                    String error = "La variable [";
+                    for(Nodo nodo : valor.hijos)
+                        error += nodo.valor + ".";
+                    error = error.substring(0, error.length() - 2);
+                    error += "] no ha sido declarada";
+                    ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+                }
                 break;
             default:
                 //retornar el valor
@@ -916,6 +934,7 @@ public class Semantico {
         String tipoAls = dec.tipoAls;
         Elemento elemento = new Elemento(nombre, tipo, null);
         elemento.tipoAls = tipoAls;
+        elemento.visibilidad = dec.visibilidad;
         Pila.agregarElemeto(elemento);
         if(dec.hijos.size() > 0)
         {//la declaracion trae una asignacion o una lista de ids
@@ -925,7 +944,7 @@ public class Semantico {
                 case Const.lvariables:
                     //se deben de declarar varias variables con el mismo tipo;
                     for (Nodo var : asig.hijos)
-                        Pila.agregarElemeto(tipo, var.valor, tipoAls);
+                        Pila.agregarElemeto(tipo, var.valor, tipoAls, var.visibilidad);
                     break;
                 case Const.nuevo:
                         Pila.asignarNuevo(elemento, tipoAls);
@@ -965,9 +984,64 @@ public class Semantico {
         }
     }
     
+    public static Objeto llamado(Nodo llamado)
+    {
+        Objeto res = null;
+        //verifica si la lista de ids coincide con la de un recorrerFuncion
+        Nodo lid = llamado.hijos.get(0);
+        Nodo ultimo = lid.hijos.get(lid.hijos.size() - 1);
+        if(ultimo.hijos.size() == 1)
+        {//si es un recorrerFuncion
+            Elemento ele = Pila.obtenerLid(lid);
+        }
+        else
+        {
+            String error = "La funcion [";
+            for(Nodo nodo : lid.hijos)
+                error += nodo.valor + ".";
+            error = error.substring(0, error.length() - 2);
+            error += "] no ha sido declarada";
+            ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+        }
+        return res;
+    }
+    
+    static TipoRetorno si(Nodo hijo) {
+        TipoRetorno retorno = new TipoRetorno();
+        Objeto obj = new Objeto();
+        Nodo valor = hijo.hijos.get(0);
+        Objeto condicion = ejecutarValor(valor);
+        if (condicion.tipo == Const.tbool)
+        {
+            Pila.crearAmbito();
+            if (condicion.valor.equals(Const.verdadero))
+                retorno = EjecutarArbol.ejecutarCuerpo(hijo.hijos.get(1));
+            else
+                if (hijo.hijos.size() == 3)
+                    retorno = EjecutarArbol.ejecutarCuerpo(hijo.hijos.get(2));
+            if (retorno.retorno)
+            {
+                obj = (Objeto) Pila.getRetorno();
+                Pila.eliminarAmbito();
+                Pila.setRetorno(obj);
+            }
+            else
+                Pila.eliminarAmbito();
+        }
+        else
+            ErroresGraphik.agregarError("Error semantico", "La condicion de SI no es de tipo Bool", 0,0);
+
+        return retorno;
+    }
+    
     public static void imprimir(Nodo hijo) {
         Objeto valor = ejecutarValor(hijo.hijos.get(0));
         Principal.consola += valor.valor;
+    }
+    
+    static void retornar(Nodo hijo) {
+        Objeto valor = ejecutarValor(hijo.hijos.get(0));
+        Pila.setRetorno(valor);
     }
     
     public static String quitarComillas(String s)

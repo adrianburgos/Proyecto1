@@ -1062,7 +1062,7 @@ public class LexicoGraphik implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { return new Symbol(symsG.numero, yycolumn, yyline, yytext().toLowerCase());
+            { return new Symbol(symsG.numero, yycolumn, yyline, Integer.valueOf(yytext()) + "");
             }
           case 78: break;
           case 2: 
@@ -1202,7 +1202,7 @@ public class LexicoGraphik implements java_cup.runtime.Scanner {
             }
           case 112: break;
           case 36: 
-            { return new Symbol(symsG.dec, yycolumn, yyline, yytext().toLowerCase());
+            { return new Symbol(symsG.dec, yycolumn, yyline, Double.valueOf(yytext()) + "");
             }
           case 113: break;
           case 37: 

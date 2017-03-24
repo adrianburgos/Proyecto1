@@ -50,9 +50,20 @@ public class EjecutarArbol {
                 case Const.declaracion:
                     Semantico.declaracion(hijo);
                     break;
-                case Const.imprimir:
-                    Semantico.imprimir(hijo);
+                case Const.llamar:
+                    Semantico.llamado(hijo);
                     break;
+                case Const.si:
+                    retorno = Semantico.si(hijo);
+                    if(retorno.retorno || retorno.continuar || retorno.terminar)
+                        return retorno;
+                    break;
+                case Const.imprimir:
+                    //Semantico.imprimir(hijo);
+                    break;
+                case Const.retornar:
+                    Semantico.retornar(hijo);
+                    return new TipoRetorno(true, false, false);
             }
         }
         return retorno;
@@ -96,6 +107,95 @@ public class EjecutarArbol {
             if(als.valor.toLowerCase().equals(nombreAls))
                 return als;
         return null;
+    }
+    
+    
+    
+    public static Nodo buscarFuncion(String nombre, String nombreAls, LinkedList<Objeto> lvalores)
+    {
+        Nodo arbolAls;
+        if(nombreAls == null)
+        //se debe de buscar en el arbol normal del ALS que contiene principal
+            arbolAls = buscarClasePrincipal(raiz.hijos.get(1)).get(0);
+        else
+        //se debe de buscar en el arbol del ALS que posee esa funcion
+            arbolAls = buscarClase(nombreAls);
+        if(arbolAls != null)
+        {
+            for(Nodo hijo : arbolAls.hijos.get(1).hijos)
+            {//se busca en los hijos de LCUERPOALS
+                if(hijo.nombre.equals(Const.decfun))
+                {//es una declaracion
+                    if(hijo.valor.equals(nombre))
+                    {//la funcion encontrada tiene el mismo nombre
+                        Nodo LPAR = hijo.hijos.get(0);
+                        if(LPAR.hijos.size() == lvalores.size())
+                        {//la cantidad de parametros de la funcion es igual a los enviados en recorrerFuncion
+                            Boolean seEncontro = true;
+                            for(int i = 0; i < lvalores.size(); i++)
+                            {
+                                Nodo parametro = LPAR.hijos.get(i);
+                                if (parametro.tipo != lvalores.get(i).tipo)
+                                    seEncontro = false;
+                                if(parametro.tipo == Const.tals && parametro.tipo == lvalores.get(i).tipo)
+                                    if(!parametro.tipoAls.equals(lvalores.get(i).tipoAls))
+                                        seEncontro = false;
+                            }
+                            if (seEncontro)
+                                //se retorna la declaracion de la funcion para poder obtener el tipo de la funcion
+                                return hijo;
+                        }
+                    }
+                    
+                }
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * recorre el cuerpo de la funcion agregando sus parametros como variables
+     * al ambito correspondiente
+     * @param funcion
+     * @param lvalores lista de valores que se pasaran a los parametros
+     * @return el valor de retorno deseado verificando que sean del mismo tipo
+     */
+    public static Elemento recorrerFuncion(Nodo funcion, LinkedList<Objeto> lvalores)
+    {
+        Elemento res = new Elemento(funcion.valor, funcion.tipo, "");
+        if(funcion.tipo == Const.tals)
+            res.tipoAls = funcion.tipoAls;
+        //agregar parametros como variables del ambito correspodiente
+        Nodo lpar = funcion.hijos.get(0);
+        for(int i = 0; i < lvalores.size(); i++)
+        {
+            Nodo par = lpar.hijos.get(i);
+            Elemento elePar = new Elemento(par.valor, par.tipo, lvalores.get(i).valor);
+            Pila.agregarElemeto(elePar);
+        }
+        Nodo lcuerpo = funcion.hijos.get(1);
+        ejecutarCuerpo(lcuerpo);
+        Objeto objRes = Pila.getRetorno();        
+        if((objRes.valor != null || objRes.objeto != null) && funcion.tipo != Const.tvacio)
+        {
+            if(objRes.tipo == res.tipo)
+                if(objRes.tipo == Const.tals)
+                {
+                    if(objRes.tipoAls.equals(res.tipoAls))
+                    {
+                        res = new Elemento(funcion.valor, funcion.tipo, objRes.valor);
+                        res.objeto = (Ambito) objRes.objeto;
+                        res.tipoAls = objRes.tipoAls;
+                    }    
+                } 
+                else
+                    res = new Elemento(funcion.valor, funcion.tipo, objRes.valor);
+        }
+        else
+        {// no vino retorno dentro del cuerpo de la funcion
+            
+        }
+        return res;
     }
 
 }

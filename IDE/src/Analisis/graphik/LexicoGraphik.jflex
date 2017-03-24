@@ -116,8 +116,8 @@ comenLinea = #(\\.|[^\n])*\n
 //-----------------expresiones regulares-----------------------
 {car}           { return new Symbol(symsG.car, yycolumn, yyline, yytext().replace("'", "")); }
 {cad}           { return new Symbol(symsG.cad, yycolumn, yyline, yytext().replace("\"", "")); }
-{numero}        { return new Symbol(symsG.numero, yycolumn, yyline, yytext().toLowerCase()); }
-{dec}           { return new Symbol(symsG.dec, yycolumn, yyline, yytext().toLowerCase()); }
+{numero}        { return new Symbol(symsG.numero, yycolumn, yyline, Integer.valueOf(yytext()) + ""); }
+{dec}           { return new Symbol(symsG.dec, yycolumn, yyline, Double.valueOf(yytext()) + ""); }
 {iden}          { return new Symbol(symsG.iden, yycolumn, yyline, yytext().toLowerCase()); }
 
 {enBlanco}  { /* ignore */ }

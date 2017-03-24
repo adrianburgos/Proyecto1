@@ -5,9 +5,10 @@ import fabrica.Nodo;
 import ide.Const;
 import java.util.LinkedList;
 import static semanticos.Semantico.getTipo;
+import static semanticos.Semantico.getTipo;
 
 public class Pila {
-    private static LinkedList<Ambito> pila = new LinkedList<>();
+    public static LinkedList<Ambito> pila = new LinkedList<>();
     private static int nuevo;
     
     public static void inicializarPila(Nodo cuerpoClase)
@@ -39,10 +40,11 @@ public class Pila {
         pila.get(pila.size() - 1).elementos.add(elemento);
     }
 
-    public static void agregarElemeto(int tipo, String nombre, String tipoAls)
+    public static void agregarElemeto(int tipo, String nombre, String tipoAls, String visibilidad)
     {
         Elemento elemento = new Elemento(nombre, tipo, null);
         elemento.tipoAls = tipoAls;
+        elemento.visibilidad = visibilidad;
         pila.get(pila.size() - 1).elementos.add(elemento);
     }
     
@@ -65,45 +67,158 @@ public class Pila {
     
     public static Elemento obtenerLid(Nodo lid)
     {
-        String var = lid.hijos.get(0).valor;
-        Ambito pos = buscarPosicion(nuevo - 1, var);
-        //se obtiene el primer elemento de la lista de ids
         Elemento elemento = null;
-        if(pos != null)
+        Ambito pos = null;
+        if(lid.hijos.get(0).hijos.isEmpty())
         {
-            elemento = pila.get(pos.padre).elementos.get(pos.actual);
-            if(lid.hijos.size() > 1)
-            {//la lista de ids esta compuesta por mas de 1 id hay que buscar en el ambito del elemento actual
-                Nodo noSeEncontroError = null;
-                int i = 1;
-                while(i < lid.hijos.size() && noSeEncontroError == null)
+            //se obtiene el primer elemento de la lista de ids
+            String var = lid.hijos.get(0).valor;
+            pos = buscarPosicion(nuevo - 1, var);
+            if(pos != null)
+                elemento = pila.get(pos.padre).elementos.get(pos.actual);
+            else
+            {
+                String error = "La variable [" + var + "] no ha sido declarada";
+                ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+            }
+        }
+        else
+        {
+            Nodo funcionALlamar = lid.hijos.get(0);
+            Nodo LVALOR = funcionALlamar.hijos.get(0);//se obtiene la lista de valores
+            LinkedList<Objeto> lvalores = new LinkedList();
+            for(Nodo VALOR : LVALOR.hijos)
+            {
+                Objeto valor = Semantico.ejecutarValor(VALOR);
+                lvalores.add(valor);
+            }
+            Nodo funcion = EjecutarArbol.buscarFuncion(funcionALlamar.valor, null, lvalores);
+            if(funcion != null)
+            {
+                if(funcion.tipo == Const.tals)
+                    crearAmbito(funcion.tipo, funcion.tipoAls);
+                else
+                    crearAmbito(funcion.tipo);
+                Elemento resFun = EjecutarArbol.recorrerFuncion(funcion, lvalores);
+                elemento = new Elemento(funcion.valor, resFun.tipo, resFun.valor);
+                if(resFun.tipo == Const.tals)
                 {
-                    if(elemento.objeto != null)
-                    {//ya se le hizo nuevo al elemento
-                        Nodo id = lid.hijos.get(i);
+                    elemento.tipoAls = funcion.tipoAls;
+                    elemento.objeto = (Ambito) resFun.objeto;
+                }
+                eliminarAmbito();
+            }
+            else
+            {
+                String valores = "";
+                if (lvalores.size() > 0)
+                {
+                    for(Objeto val : lvalores)
+                        valores += getTipo(val.tipo) + ", ";
+                    valores = valores.substring(0, valores.length() - 2);
+                }
+                ErroresGraphik.agregarError("Error semantico", "La funcion " + funcionALlamar.valor+ "(" + valores + ") no esta declara", 0, 0);
+                return null;
+            }
+        }
+        if(lid.hijos.size() > 1)
+        {//la lista de ids esta compuesta por mas de 1 id hay que buscar en el ambito del elemento actual
+            Nodo noSeEncontroError = null;
+            int i = 1;
+            while(i < lid.hijos.size() && noSeEncontroError == null)
+            {
+                String als = elemento.tipoAls;
+                if(elemento.objeto != null)
+                {//ya se le hizo nuevo al elemento
+                    Nodo id = lid.hijos.get(i);
+                    if(id.hijos.isEmpty())
+                    {
                         elemento = elemento.objeto.buscar(id.valor);
                         if(elemento == null)
                             noSeEncontroError = (Nodo) id;
-                        i++;
+                        else
+                        {//preguntar por visibilidad
+                            if(!elemento.visibilidad.equals(Const.publico))
+                            {
+                                String error = "El Als [" + als + "] no tiene un atributo [" + elemento.valor + "] publico";
+                                ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+                            }
+                        }
                     }
                     else
-                    {//la variable no ha sido inicializada
-                        noSeEncontroError = lid.hijos.get(i-1);
-                        String error = "";
-                        if(elemento.tipo == Const.tals)
-                            error = "La variable [" + elemento.nombre + "] no ha sido inicializado";
+                    {//se desea ejecutar una funcion
+                        //cargar el ambito de la clase (tipo ALS) de elemento dentro de la pila
+                        Nodo funcionALlamar = lid.hijos.get(i);
+                        Nodo LVALOR = funcionALlamar.hijos.get(0);//se obtiene la lista de valores
+                        LinkedList<Objeto> lvalores = new LinkedList();
+                        for(Nodo VALOR : LVALOR.hijos)
+                        {
+                            Objeto valor = Semantico.ejecutarValor(VALOR);
+                            lvalores.add(valor);
+                        }
+                        Nodo funcion = EjecutarArbol.buscarFuncion(funcionALlamar.valor, elemento.tipoAls, lvalores);
+                        //preguntar por la visibilidad de la funcion
+                        if(funcion.visibilidad.equals(Const.publico))
+                        {
+                            if(null != funcion)
+                            {
+                                elemento.objeto.actual = nuevo;
+                                nuevo++;
+                                Pila.pila.add(elemento.objeto);
+                                if(funcion.tipo == Const.tals)
+                                    crearAmbito(funcion.tipo, funcion.tipoAls, elemento.objeto.actual);
+                                else
+                                    crearAmbito(funcion.tipo, elemento.objeto.actual);
+                                Elemento resFun = EjecutarArbol.recorrerFuncion(funcion, lvalores);
+                                elemento = new Elemento(funcion.valor, resFun.tipo, resFun.valor);
+                                if(resFun.tipo == Const.tals)
+                                    elemento.tipoAls = funcion.tipoAls;
+                                eliminarAmbito();
+                                eliminarAmbito();
+                            }
+                            else
+                            {
+                                String valores = "";
+                                if (lvalores.size() > 0)
+                                {
+                                    for(Objeto val : lvalores)
+                                        valores += getTipo(val.tipo) + ", ";
+                                    valores = valores.substring(0, valores.length() - 2);
+                                }
+                                ErroresGraphik.agregarError("Error semantico", "La funcion " + funcionALlamar.valor+ "(" + valores + ") no esta declara", 0, 0);
+                                return null;
+                            }
+                        }
                         else
-                            error = "La variable [" + elemento.nombre + "] no es un ALS";                            
-                        ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+                        {//preguntar por visibilidad
+                            if(!elemento.visibilidad.equals(Const.publico))
+                            {
+                                String error = "El Als [" + als + "] no tiene una funcion [" + elemento.valor + "] publico";
+                                ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+                            }
+                        }
                     }
+                    i++;
+
                 }
-                if(noSeEncontroError != null)
-                {
-                        String error = "La variable [" + elemento.nombre + "] no tiene un atributo [" + noSeEncontroError.valor + "]";
-                        ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+                else
+                {//la variable no ha sido inicializada
+                    noSeEncontroError = lid.hijos.get(i-1);
+                    String error = "";
+                    if(elemento.tipo == Const.tals)
+                        error = "La variable [" + elemento.nombre + "] no ha sido inicializado";
+                    else
+                        error = "La variable [" + elemento.nombre + "] no es un ALS";                            
+                    ErroresGraphik.agregarError("Error semantico", error, 0, 0);
                 }
             }
+            if(noSeEncontroError != null)
+            {
+                    String error = "La variable [" + elemento.nombre + "] no tiene un atributo [" + noSeEncontroError.valor + "]";
+                    ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+            }
         }
+        
         return elemento;
     }
     
@@ -144,18 +259,27 @@ public class Pila {
     public static void asignarValor(String nombre, Objeto valor)
     {
         Ambito pos = buscarPosicion(nuevo - 1, nombre);
-        Elemento elemento = pila.get(pos.padre).elementos.get(pos.actual);
-        Objeto casteo = implicito(elemento.tipo, valor);
-        //verificar que el valor se pueda asignar a la variable que se desea
-        if (casteo.tipo != Const.terror)
-            elemento.valor = casteo.valor;
+        if(pos != null)
+        {
+            Elemento elemento = pila.get(pos.padre).elementos.get(pos.actual);
+            Objeto casteo = implicito(elemento.tipo, valor);
+            //verificar que el valor se pueda asignar a la variable que se desea
+            if (casteo.tipo != Const.terror)
+                elemento.valor = casteo.valor;
+            else
+                ErroresGraphik.agregarError("Error semantico", casteo.valor, 0, 0);
+        }
         else
-            ErroresGraphik.agregarError("Error semantico", casteo.valor, 0, 0);
+        {
+            String error = "La variable [" + nombre + "] no ha sido declarada";
+            ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+        }
+        
     }
     
     /**
      * Se le asigna el valor a la variable o lista de variables dentro
-     * de la tabla de simbolos realizando el casteo necesario 
+     * de la pila realizando el casteo necesario 
      * con la comprobacion de tipos
      * @param lid lista de identificadores al que se le asignara el valo
      * @param valor valor a asignar
@@ -267,7 +391,7 @@ public class Pila {
         String s = "";
         for (Ambito ambito : Pila.pila)
         {
-            s += "------- Ambito " + ambito.actual + " -------\n";
+            s += "------- Ambito " + ambito.actual + " (" + ambito.padre + ")-------\n";
             for (Elemento ele : ambito.elementos)
             {
                 s += "[" + Semantico.getTipo(ele.tipo) + "] " + ele.nombre + " = ";
@@ -360,6 +484,38 @@ public class Pila {
         pila.add((Ambito)ambito);
         nuevo++;
     }
+    
+    public static void crearAmbito(int tipo, int padre)
+    {//crea un ambito para una funcion o procedimiento donde se le asigna un elemento de retorno
+        //se crea un elemento para almacenar el retorno de las funciones
+        Ambito ambito = new Ambito(padre, nuevo);
+        Elemento ele = new Elemento(Const.retornar, tipo, null);
+        ambito.elementos.add(ele);
+        pila.add((Ambito)ambito);
+        nuevo++;
+    }
+    
+    public static void crearAmbito(int tipo, String tipoAls)
+    {//crea un ambito para una funcion o procedimiento donde se le asigna un elemento de retorno
+        //se crea un elemento para almacenar el retorno de las funciones
+        Ambito ambito = new Ambito(0, nuevo);
+        Elemento ele = new Elemento(Const.retornar, tipo, null);
+        ele.tipoAls = tipoAls;
+        ambito.elementos.add(ele);
+        pila.add((Ambito)ambito);
+        nuevo++;
+    }
+    
+    public static void crearAmbito(int tipo, String tipoAls, int padre)
+    {//crea un ambito para una funcion o procedimiento donde se le asigna un elemento de retorno
+        //se crea un elemento para almacenar el retorno de las funciones
+        Ambito ambito = new Ambito(padre, nuevo);
+        Elemento ele = new Elemento(Const.retornar, tipo, null);
+        ele.tipoAls = tipoAls;
+        ambito.elementos.add(ele);
+        pila.add((Ambito)ambito);
+        nuevo++;
+    }
 
     public static void crearAmbito()
     {//para las sentecias de control
@@ -369,11 +525,44 @@ public class Pila {
         pila.add((Ambito)ambito);
         nuevo++;
     }
+    
+    public static void colocarRetornar(Elemento retornar)
+    {
+        Elemento elemento = pila.get(pila.size() - 1).elementos.get(0);
+        elemento = (Elemento) retornar;
+    }
 
     public static void eliminarAmbito()
     {
         pila.remove(pila.size() - 1);
         nuevo--;
+    }
+    
+    public static Objeto getRetorno()
+    {
+        int tipoRetorno = pila.get(pila.size() - 1).elementos.get(0).tipo;
+        String valorRetorno = pila.get(pila.size() - 1).elementos.get(0).valor;
+        String tipoAls = pila.get(pila.size() - 1).elementos.get(0).tipoAls;
+        if(tipoRetorno == Const.tals)
+        {
+            Objeto res = new Objeto(tipoRetorno, valorRetorno, tipoAls);
+            res.objeto = (Ambito) pila.get(pila.size() - 1).elementos.get(0).objeto;
+            return res;
+        }
+        else
+            return new Objeto(tipoRetorno, valorRetorno);
+    }
+    
+    public static void setRetorno(Objeto retorno)
+    {
+        Elemento ele = new Elemento(Const.retornar, retorno.tipo, retorno.valor);
+        if(retorno.tipo == Const.tals)
+        {
+            ele.objeto = (Ambito) retorno.objeto;
+            ele.tipoAls = retorno.tipoAls;
+        }
+        pila.get(pila.size() - 1).elementos.remove(0);
+        pila.get(pila.size() - 1).elementos.add(0,ele);
     }
     // </editor-fold>
 }

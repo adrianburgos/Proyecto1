@@ -35,7 +35,7 @@ terminal acorchete, ccorchete, aparentesis, cparentesis;
 terminal String numero, dec, iden, cad, car, verdadero, falso, extgk;
 
 non terminal Nodo INICIO, FUN, LALS, ALS, CUERPO, HEREDA, LCUERPOALS, CUERPOALS, LIMPORTAR, VALOR;
-non terminal Nodo IMPORTAR, INCLUIR, LID, LVALOR, DEC, PRINCIPAL, LPAR, ASIG, ASIGNORMAL, LCORCHETES, ASIGARR;
+non terminal Nodo IMPORTAR, INCLUIR, LID, ID, LVALOR, DEC, PRINCIPAL, LPAR, ASIG, ASIGNORMAL, LCORCHETES, ASIGARR;
 non terminal Nodo LLLAVES, LLAVE, LCUERPO, ASIGNACION, SI, SELECCION, PARA, MIENTRAS, HACER, LLAMADO, LLAMADOHK, GRAFICAR;
 non terminal Nodo SINO, LCASOS, CASO, DEFECTO, LVARIABLES, PREASIG, ASIGPARA, VALPARA, IMPRIMIR, ACCESO, REL, E;
 non terminal String OPREL, VISIBILIDAD, TIPO, TIPOFUN, OP;
@@ -62,17 +62,22 @@ INICIO          ::= {:System.out.println("inicio");:} INCLUIR:INCLUIR LALS:LALS
                         System.out.println("FINALIZO");
                     :};
 
-LID             ::= LID:LID punto iden:nombre
+LID             ::= LID:LID punto ID:id
                     {:
-                        Nodo id = new Nodo(Const.id, nombre);
                         LID.hijos.add(id);
                         RESULT = (Nodo) LID;
                     :}
-                |   iden:nombre
-                    {: 
+                |   ID:id {: RESULT = NodoGeneral.crearLid(id); :};
+
+ID              ::= iden:nombre
+                    {: RESULT = new Nodo(Const.id, nombre); :}
+                |   iden:nombre aparentesis LVALOR:LVALOR cparentesis
+                    {:
                         Nodo id = new Nodo(Const.id, nombre);
-                        RESULT = NodoGeneral.crearLid(id);
+                        id.hijos.add(LVALOR);
+                        RESULT = (Nodo) id;
                     :};
+
 TIPO            ::= entero {: RESULT = Const.numero; :}
                 |   decimal {: RESULT = Const.decimal; :}
                 |   caracter {: RESULT = Const.caracter; :}
@@ -253,6 +258,7 @@ CUERPO          ::= DEC:t1 interroga {: RESULT = t1; :}
                 |   LLAMADOHK:t1 interroga {: RESULT = t1; :}
                 |   GRAFICAR:t1 interroga {: RESULT = t1; :}
                 |   IMPRIMIR:t1 interroga {: RESULT = t1; :}
+                |   LID:LID OP:OP {: RESULT = NodoGeneral.crearAumento(LID, OP); :}
                 |   retornar VALOR:t1 interroga {: RESULT = new Nodo(Const.retornar); RESULT.hijos.add(t1); :}
                 |   terminar interroga {: RESULT = new Nodo(Const.terminar); :}
                 |   continuar interroga {: RESULT = new Nodo(Const.continuar); :}
@@ -311,7 +317,7 @@ GRAFICAR        ::= graphikarfuncion aparentesis LID:LID1 coma LID:LID2 cparente
                         RESULT = NodoGeneral.crearGraficar(LID1, LID2);
                     :};
 
-LLAMADO         ::= llamar LID:LID aparentesis LVALOR:LVALOR cparentesis {: RESULT = NodoGeneral.crearLlamar(LID, LVALOR); :};
+LLAMADO         ::= llamar LID:LID {: RESULT = NodoGeneral.crearLlamar(LID); :};
 
 LLAMADOHK       ::= llamarhk iden:id aparentesis LVALOR:LVALOR cparentesis {: RESULT = NodoGeneral.crearLlamado(id, LVALOR); :};
 
