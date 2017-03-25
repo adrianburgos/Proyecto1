@@ -192,6 +192,7 @@ public class Principal extends javax.swing.JFrame {
         ErroresGraphik.generarErrores();
         if(raiz != null)
         {
+            consola = "";
             Arbol.getGrafo(raiz);
             Arbol.dibujar();
             EjecutarArbol.ejecutar(raiz);
@@ -202,7 +203,7 @@ public class Principal extends javax.swing.JFrame {
             }
             taConsola.setText("");
             taConsola.setText(consola);
-            taConsola.setText(taConsola.getText() + Pila.recorrerPila());
+            //taConsola.setText(taConsola.getText() + Pila.recorrerPila());
             System.out.println(Pila.recorrerPila());
         }
         else

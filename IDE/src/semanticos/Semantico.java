@@ -1059,7 +1059,14 @@ public class Semantico {
     
     public static void imprimir(Nodo hijo) {
         Objeto valor = ejecutarValor(hijo.hijos.get(0));
-        Principal.consola += valor.valor;
+        Objeto casteo = Pila.implicito(Const.tcadena, valor);
+        if(casteo.tipo == Const.terror)
+        {
+            ErroresGraphik.agregarError("Error semantico", casteo.valor, 0, 0);
+            ErroresGraphik.agregarError("Error semantico", "imprimir([ " + getTipo(valor.tipo) + "]) no es posible ejecutar", 0,0);
+        }
+        else
+            Principal.consola += casteo.valor + "\n";
     }
     
     static void retornar(Nodo hijo) {

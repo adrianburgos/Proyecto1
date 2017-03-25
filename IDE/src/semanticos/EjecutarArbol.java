@@ -58,8 +58,28 @@ public class EjecutarArbol {
                     if(retorno.retorno || retorno.continuar || retorno.terminar)
                         return retorno;
                     break;
+                case Const.seleccion:
+                    retorno = Semantico.si(hijo);
+                    if(retorno.retorno || retorno.continuar || retorno.terminar)
+                        return retorno;
+                    break;
+                case Const.para:
+                    retorno = Semantico.si(hijo);
+                    if(retorno.retorno || retorno.continuar || retorno.terminar)
+                        return retorno;
+                    break;
+                case Const.mientras:
+                    retorno = Semantico.si(hijo);
+                    if(retorno.retorno || retorno.continuar || retorno.terminar)
+                        return retorno;
+                    break;
+                case Const.hacer:
+                    retorno = Semantico.si(hijo);
+                    if(retorno.retorno || retorno.continuar || retorno.terminar)
+                        return retorno;
+                    break;
                 case Const.imprimir:
-                    //Semantico.imprimir(hijo);
+                    Semantico.imprimir(hijo);
                     break;
                 case Const.retornar:
                     Semantico.retornar(hijo);
