@@ -1057,6 +1057,83 @@ public class Semantico {
         return retorno;
     }
     
+    static TipoRetorno seleccion(Nodo hijo) {
+        return null;
+    }
+    static TipoRetorno para(Nodo hijo) {
+        return null;
+    }
+    static TipoRetorno mientras(Nodo hijo) {
+        TipoRetorno retorno = new TipoRetorno();
+        Objeto obj = new Objeto();
+        Nodo valor = hijo.hijos.get(0);
+        Objeto condicion = ejecutarValor(valor);
+        if (condicion.tipo == Const.tbool)
+        {
+            Pila.crearAmbito();
+            while (condicion.valor.equals(Const.verdadero))
+            {
+                retorno = EjecutarArbol.ejecutarCuerpo(hijo.hijos.get(1));
+                if (retorno.continuar)
+                    retorno.continuar = false;
+                if (retorno.terminar)
+                {
+                    retorno.terminar = false;
+                    break;
+                }
+                if (retorno.retorno)
+                    break;
+                condicion = ejecutarValor(valor);
+            }
+            if (retorno.retorno)
+            {
+                obj = (Objeto) Pila.getRetorno();
+                Pila.eliminarAmbito();
+                Pila.setRetorno(obj);
+            }
+            else
+                Pila.eliminarAmbito();
+        }
+        else
+            ErroresGraphik.agregarError("Error semantico", "La condicion de MIENTRAS no es de tipo Bool", 0,0);
+        return retorno;
+    }
+    static TipoRetorno hacer(Nodo hijo) {
+        TipoRetorno retorno = new TipoRetorno();
+        Objeto obj = new Objeto();
+        Nodo valor = hijo.hijos.get(0);
+        Objeto condicion = ejecutarValor(valor);
+        if (condicion.tipo == Const.tbool)
+        {
+            Pila.crearAmbito();
+            do
+            {
+                retorno = EjecutarArbol.ejecutarCuerpo(hijo.hijos.get(1));
+                if (retorno.continuar)
+                    retorno.continuar = false;
+                if (retorno.terminar)
+                {
+                    retorno.terminar = false;
+                    break;
+                }
+                if (retorno.retorno)
+                    break;
+                condicion = ejecutarValor(valor);
+            }while(condicion.valor.equals(Const.verdadero));
+            if (retorno.retorno)
+            {
+                obj = (Objeto) Pila.getRetorno();
+                Pila.eliminarAmbito();
+                Pila.setRetorno(obj);
+            }
+            else
+                Pila.eliminarAmbito();
+        }
+        else
+            ErroresGraphik.agregarError("Error semantico", "La condicion de MIENTRAS no es de tipo Bool", 0,0);
+        return retorno;
+    }
+    
     public static void imprimir(Nodo hijo) {
         Objeto valor = ejecutarValor(hijo.hijos.get(0));
         Objeto casteo = Pila.implicito(Const.tcadena, valor);
