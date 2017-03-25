@@ -6,6 +6,8 @@ import ide.Const;
 import java.util.LinkedList;
 import static semanticos.Semantico.getTipo;
 import static semanticos.Semantico.getTipo;
+import static semanticos.Semantico.getTipo;
+import static semanticos.Semantico.getTipo;
 
 public class Pila {
     public static LinkedList<Ambito> pila = new LinkedList<>();
@@ -265,7 +267,14 @@ public class Pila {
             Objeto casteo = implicito(elemento.tipo, valor);
             //verificar que el valor se pueda asignar a la variable que se desea
             if (casteo.tipo != Const.terror)
+            {
                 elemento.valor = casteo.valor;
+                if(casteo.tipo == Const.tals)
+                {
+                    elemento.tipoAls = casteo.tipoAls;
+                    elemento.objeto = (Ambito) casteo.objeto;
+                }
+            }
             else
                 ErroresGraphik.agregarError("Error semantico", casteo.valor, 0, 0);
         }
@@ -292,7 +301,14 @@ public class Pila {
             Objeto casteo = implicito(elemento.tipo, valor);
             //verificar que el valor se pueda asignar a la variable que se desea
             if (casteo.tipo != Const.terror)
+            {
                 elemento.valor = casteo.valor;
+                if(elemento.tipo == Const.tals)
+                {
+                    elemento.tipoAls = casteo.tipoAls;
+                    elemento.objeto = (Ambito) casteo.objeto;
+                }
+            }
             else
                 ErroresGraphik.agregarError("Error semantico", casteo.valor, 0, 0);
         }
@@ -309,7 +325,14 @@ public class Pila {
         Objeto casteo = implicito(elemento.tipo, valor);
         //verificar que el valor se pueda asignar a la variable que se desea
         if (casteo.tipo != Const.terror)
+        {
             elemento.valor = casteo.valor;
+            if(elemento.tipo == Const.tals)
+            {
+                elemento.tipoAls = casteo.tipoAls;
+                elemento.objeto = (Ambito) casteo.objeto;
+            }
+        }
         else
             ErroresGraphik.agregarError("Error semantico", casteo.valor, 0, 0);
     }
@@ -317,7 +340,7 @@ public class Pila {
     public static Objeto implicito(int tipoVar, Objeto valor)
     {
         if(tipoVar == valor.tipo)
-            return new Objeto(valor.tipo, valor.valor);
+            return (Objeto) valor;
         switch(tipoVar)
         {
             case Const.tcadena:

@@ -79,26 +79,43 @@ public class Semantico {
                 }
                 break;
             case Const.lid:
-                Elemento ele = Pila.obtenerLid(valor);
-                if(ele != null)
+                //verificar que el ultimo sea un id
+                Nodo ultimo = valor.hijos.get(valor.hijos.size() -1);
+                if(ultimo.hijos.isEmpty())
                 {
-                    res.tipo = ele.tipo;
-                    res.valor = ele.valor;
-                    if(res.tipo == Const.tals)
+                    Elemento ele = Pila.obtenerLid(valor);
+                    if(ele != null)
                     {
-                        res.objeto = (Ambito) ele.objeto;
-                        res.tipoAls = ele.tipoAls;
+                        res.tipo = ele.tipo;
+                        res.valor = ele.valor;
+                        if(res.tipo == Const.tals)
+                        {
+                            res.objeto = (Ambito) ele.objeto;
+                            res.tipoAls = ele.tipoAls;
+                        }
+                    }
+                    else
+                    {
+                        String error = "La variable [";
+                        for(Nodo nodo : valor.hijos)
+                            error += nodo.valor + ".";
+                        error = error.substring(0, error.length() - 1);
+                        error += "] no ha sido declarada";
+                        ErroresGraphik.agregarError("Error semantico", error, 0, 0);
                     }
                 }
                 else
-                {
+                {//debe de ser un llamado
                     String error = "La variable [";
                     for(Nodo nodo : valor.hijos)
                         error += nodo.valor + ".";
-                    error = error.substring(0, error.length() - 2);
-                    error += "] no ha sido declarada";
+                    error = error.substring(0, error.length() - 1);
+                    error += "] debe de llevar llamar";
                     ErroresGraphik.agregarError("Error semantico", error, 0, 0);
                 }
+                break;
+            case Const.llamar:
+                res = llamar(valor);
                 break;
             default:
                 //retornar el valor
@@ -984,7 +1001,7 @@ public class Semantico {
         }
     }
     
-    public static Objeto llamado(Nodo llamado)
+    public static Objeto llamar(Nodo llamado)
     {
         Objeto res = null;
         //verifica si la lista de ids coincide con la de un recorrerFuncion
@@ -993,6 +1010,12 @@ public class Semantico {
         if(ultimo.hijos.size() == 1)
         {//si es un recorrerFuncion
             Elemento ele = Pila.obtenerLid(lid);
+            res = new Objeto(ele.tipo, ele.valor);
+            if(res.tipo == Const.tals)
+            {
+                res.tipoAls = ele.tipoAls;
+                res.objeto = (Ambito) ele.objeto;
+            }
         }
         else
         {

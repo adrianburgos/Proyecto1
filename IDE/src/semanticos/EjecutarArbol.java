@@ -51,7 +51,7 @@ public class EjecutarArbol {
                     Semantico.declaracion(hijo);
                     break;
                 case Const.llamar:
-                    Semantico.llamado(hijo);
+                    Semantico.llamar(hijo);
                     break;
                 case Const.si:
                     retorno = Semantico.si(hijo);
@@ -64,6 +64,10 @@ public class EjecutarArbol {
                 case Const.retornar:
                     Semantico.retornar(hijo);
                     return new TipoRetorno(true, false, false);
+                case Const.continuar:
+                    return new TipoRetorno(false, true, false);
+                case Const.terminar:
+                    return new TipoRetorno(false, false, true);
             }
         }
         return retorno;
@@ -175,21 +179,21 @@ public class EjecutarArbol {
         }
         Nodo lcuerpo = funcion.hijos.get(1);
         ejecutarCuerpo(lcuerpo);
-        Objeto objRes = Pila.getRetorno();        
-        if((objRes.valor != null || objRes.objeto != null) && funcion.tipo != Const.tvacio)
+        Objeto objRet = Pila.getRetorno();        
+        if((objRet.valor != null || objRet.objeto != null) && funcion.tipo != Const.tvacio)
         {
-            if(objRes.tipo == res.tipo)
-                if(objRes.tipo == Const.tals)
+            if(objRet.tipo == res.tipo)
+                if(objRet.tipo == Const.tals)
                 {
-                    if(objRes.tipoAls.equals(res.tipoAls))
+                    if(objRet.tipoAls.equals(res.tipoAls))
                     {
-                        res = new Elemento(funcion.valor, funcion.tipo, objRes.valor);
-                        res.objeto = (Ambito) objRes.objeto;
-                        res.tipoAls = objRes.tipoAls;
-                    }    
-                } 
+                        res = new Elemento(funcion.valor, funcion.tipo, objRet.valor);
+                        res.objeto = (Ambito) objRet.objeto;
+                        res.tipoAls = objRet.tipoAls;
+                    }
+                }
                 else
-                    res = new Elemento(funcion.valor, funcion.tipo, objRes.valor);
+                    res = new Elemento(funcion.valor, funcion.tipo, objRet.valor);
         }
         else
         {// no vino retorno dentro del cuerpo de la funcion
