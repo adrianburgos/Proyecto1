@@ -2,6 +2,7 @@ package semanticos;
 
 import Reportes.ErroresGraphik;
 import fabrica.Nodo;
+import fabrica.NodoOperacion;
 import ide.Const;
 import ide.Principal;
 import java.util.LinkedList;
@@ -1058,10 +1059,108 @@ public class Semantico {
     }
     
     static TipoRetorno seleccion(Nodo hijo) {
-        return null;
+        TipoRetorno retorno = new TipoRetorno();
+        Objeto obj = new Objeto();
+        Nodo valor = hijo.hijos.get(0),
+                lcasos = hijo.hijos.get(1);
+        Nodo defecto = null;
+        if(hijo.hijos.size() == 3)
+            defecto = hijo.hijos.get(2);
+        int i = 0;
+        int pos = -1;
+        Nodo caso = null;
+        Nodo cond = null;
+        Objeto condicion = new Objeto();
+        while(i < lcasos.hijos.size() && pos == -1)
+        {
+            caso = lcasos.hijos.get(i).hijos.get(0);
+            cond = NodoOperacion.crearRelacional(Const.igualigual, valor, caso);
+            condicion = ejecutarValor(cond);
+            if(condicion.tipo == Const.tbool)
+            {
+                if(condicion.valor.equals(Const.verdadero))
+                    pos = i;
+            }
+            else
+                ErroresGraphik.agregarError("Error semantico", "El caso (" + (i + 1) + ") no coincide con el tipo de la variable", 0,0);
+            i++;
+        }
+        Pila.crearAmbito();
+        if (pos != -1)
+        {
+            while(!retorno.terminar && pos < lcasos.hijos.size())
+            {
+                Nodo cuerpo = lcasos.hijos.get(pos).hijos.get(1);
+                retorno = EjecutarArbol.ejecutarCuerpo(cuerpo);
+                pos++;
+            }
+        }
+        else
+            if(defecto != null)
+                retorno = EjecutarArbol.ejecutarCuerpo(defecto.hijos.get(0));
+        if(retorno.terminar)
+            retorno.terminar = false;
+        else
+            if(defecto != null)
+                retorno = EjecutarArbol.ejecutarCuerpo(defecto.hijos.get(0));
+        if (retorno.retorno)
+        {
+            obj = (Objeto) Pila.getRetorno();
+            Pila.eliminarAmbito();
+            Pila.setRetorno(obj);
+        }
+        else
+            Pila.eliminarAmbito();
+                
+
+        return retorno;
     }
     static TipoRetorno para(Nodo hijo) {
-        return null;
+        TipoRetorno retorno = new TipoRetorno();
+        Objeto obj = new Objeto();
+        //se obtienen los 4 hijos de la sentencia PARA
+        Nodo hijoInicio = hijo.hijos.get(0),
+                hijoCond = hijo.hijos.get(1),
+                hijoAumento = hijo.hijos.get(2),
+                cuerpo = hijo.hijos.get(3);
+        boolean esDec = false;
+        Pila.crearAmbito();
+        if(hijoInicio.nombre.equals(Const.declaracion))
+            Semantico.declaracion(hijoInicio);
+        else
+            Semantico.asignacion(hijoInicio);
+        Objeto condicion = ejecutarValor(hijoCond);
+        if (condicion.tipo == Const.tbool)
+        {
+            while (condicion.valor.equals(Const.verdadero))
+            {
+                retorno = EjecutarArbol.ejecutarCuerpo(cuerpo);
+                if (retorno.continuar)
+                    retorno.continuar = false;
+                if (retorno.terminar)
+                {
+                    retorno.terminar = false;
+                    break;
+                }
+                if (retorno.retorno)
+                    break;
+                Semantico.asignacion(hijoAumento);
+                condicion = ejecutarValor(hijoCond);
+                if(ErroresGraphik.contErrores > 0)
+                    break;
+            }
+        }
+        else
+            ErroresGraphik.agregarError("Error semantico", "La condicion de MIENTRAS no es de tipo Bool", 0,0);
+        if (retorno.retorno)
+        {
+            obj = (Objeto) Pila.getRetorno();
+            Pila.eliminarAmbito();
+            Pila.setRetorno(obj);
+        }
+        else
+            Pila.eliminarAmbito();
+        return retorno;
     }
     static TipoRetorno mientras(Nodo hijo) {
         TipoRetorno retorno = new TipoRetorno();
@@ -1140,7 +1239,7 @@ public class Semantico {
         if(casteo.tipo == Const.terror)
         {
             ErroresGraphik.agregarError("Error semantico", casteo.valor, 0, 0);
-            ErroresGraphik.agregarError("Error semantico", "imprimir([ " + getTipo(valor.tipo) + "]) no es posible ejecutar", 0,0);
+            ErroresGraphik.agregarError("Error semantico", "imprimir([" + getTipo(valor.tipo) + "]) no es posible ejecutar", 0,0);
         }
         else
             Principal.consola += casteo.valor + "\n";
@@ -1202,6 +1301,6 @@ public class Semantico {
             case Const.terror:
                 return "Error";
         }
-        return Const.als;
+        return "No tiene valor";
     }
 }

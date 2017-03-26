@@ -189,13 +189,18 @@ public class Principal extends javax.swing.JFrame {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-        ErroresGraphik.generarErrores();
         if(raiz != null)
         {
             consola = "";
             Arbol.getGrafo(raiz);
             Arbol.dibujar();
-            EjecutarArbol.ejecutar(raiz);
+            if(ErroresGraphik.contErrores > 0)
+            {
+                ErroresGraphik.generarErrores();
+                JOptionPane.showMessageDialog(this,"Errores Lexicos o Sintacticos");
+            }
+            else
+                EjecutarArbol.ejecutar(raiz);
             if(ErroresGraphik.contErrores > 0)
             {
                 ErroresGraphik.generarErrores();

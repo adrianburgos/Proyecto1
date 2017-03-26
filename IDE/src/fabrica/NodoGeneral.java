@@ -308,6 +308,7 @@ public class NodoGeneral{
     public static Nodo crearAumento(Nodo lid, String op)
     {
         Nodo numero = NodoGeneral.crearHoja(Const.numero, "1");
+        numero.tipo = Const.tnumero;
         Nodo valor;
         if (op.equals(Const.masmas))
             valor = NodoOperacion.crearNodo(Const.mas, lid, numero);

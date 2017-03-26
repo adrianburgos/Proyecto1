@@ -5,6 +5,7 @@
  */
 package semanticos;
 
+import Reportes.ErroresGraphik;
 import fabrica.Nodo;
 import ide.Const;
 import java.util.LinkedList;
@@ -195,6 +196,11 @@ public class EjecutarArbol {
         {
             Nodo par = lpar.hijos.get(i);
             Elemento elePar = new Elemento(par.valor, par.tipo, lvalores.get(i).valor);
+            if(lvalores.get(i).tipo == Const.tals)
+            {
+                elePar.tipoAls = lvalores.get(i).tipoAls;
+                elePar.objeto = (Ambito) lvalores.get(i).objeto;
+            }
             Pila.agregarElemeto(elePar);
         }
         Nodo lcuerpo = funcion.hijos.get(1);
@@ -217,7 +223,11 @@ public class EjecutarArbol {
         }
         else
         {// no vino retorno dentro del cuerpo de la funcion
-            
+            if(funcion.tipo != Const.tvacio)
+            {
+                String error = "No vino retorno dentro del cuerpo de la funcion [" + funcion.valor + "]";
+                ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+            }
         }
         return res;
     }
