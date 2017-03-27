@@ -258,7 +258,7 @@ CUERPO          ::= DEC:t1 interroga {: RESULT = t1; :}
                 |   LLAMADOHK:t1 interroga {: RESULT = t1; :}
                 |   GRAFICAR:t1 interroga {: RESULT = t1; :}
                 |   IMPRIMIR:t1 interroga {: RESULT = t1; :}
-                |   LID:LID OP:OP {: RESULT = NodoGeneral.crearAumento(LID, OP); :}
+                |   LID:LID OP:OP interroga {: RESULT = NodoGeneral.crearAumento(LID, OP); :}
                 |   retornar VALOR:t1 interroga {: RESULT = new Nodo(Const.retornar); RESULT.hijos.add(t1); :}
                 |   terminar interroga {: RESULT = new Nodo(Const.terminar); :}
                 |   continuar interroga {: RESULT = new Nodo(Const.continuar); :}

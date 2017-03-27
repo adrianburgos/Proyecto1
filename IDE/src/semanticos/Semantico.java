@@ -1088,18 +1088,20 @@ public class Semantico {
         Pila.crearAmbito();
         if (pos != -1)
         {
-            while(!retorno.terminar && pos < lcasos.hijos.size())
+            while(!(retorno.terminar || retorno.retorno || retorno.continuar) && pos < lcasos.hijos.size())
             {
                 Nodo cuerpo = lcasos.hijos.get(pos).hijos.get(1);
                 retorno = EjecutarArbol.ejecutarCuerpo(cuerpo);
                 pos++;
             }
+            if(retorno.terminar || retorno.continuar)
+            {
+                retorno.terminar = false;
+            }
+            else
+                if(defecto != null)
+                    retorno = EjecutarArbol.ejecutarCuerpo(defecto.hijos.get(0));
         }
-        else
-            if(defecto != null)
-                retorno = EjecutarArbol.ejecutarCuerpo(defecto.hijos.get(0));
-        if(retorno.terminar)
-            retorno.terminar = false;
         else
             if(defecto != null)
                 retorno = EjecutarArbol.ejecutarCuerpo(defecto.hijos.get(0));
