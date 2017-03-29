@@ -29,8 +29,6 @@ cadena = \"(\\.|[^\"])*\"
 enter = \n
 finLinea = \r|\n|\r\n
 enBlanco = {finLinea} | [ \t\f]
-comenBloque = #\/(\\.|[^\/#])*\/#
-comenLinea = #(\\.|[^\n])*\n
 
 %state STRING
 %%
@@ -94,8 +92,8 @@ comenLinea = #(\\.|[^\n])*\n
 {caracter}          { return new Symbol(symsH.caracter, yycolumn, yyline, yytext()); }
 {cadena}            { return new Symbol(symsH.cadena, yycolumn, yyline, yytext().replace("\"", "")); }
 {numero}            { return new Symbol(symsH.numero, yycolumn, yyline, yytext()); }
-{iden}              { return new Symbol(symsH.iden, yycolumn, yyline, yytext()); }
-{enter}              { return new Symbol(symsH.enter, yycolumn, yyline, yytext()); }
+{iden}              { return new Symbol(symsH.iden, yycolumn, yyline, yytext().toLowerCase()); }
+{enter}             { return new Symbol(symsH.enter, yycolumn, yyline, yytext()); }
 
 {enBlanco}  { /* ignore */ }
 }

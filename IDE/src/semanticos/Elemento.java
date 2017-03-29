@@ -11,6 +11,8 @@ public class Elemento {
     public int tipo;
     public int pos;//posicion dentro de la pila
     public Ambito objeto = null;
+    public LinkedList<Integer> dim;
+    public LinkedList<Objeto> lvalores;
 
     public Elemento(String nombre, int tipo, String valor)
     {
@@ -21,5 +23,7 @@ public class Elemento {
         this.pos = -1;
         objeto = null;
         tipoAls = "";
+        dim = new LinkedList<>();
+        lvalores = new LinkedList<>();
     }
 }

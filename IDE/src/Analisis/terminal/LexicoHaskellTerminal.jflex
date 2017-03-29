@@ -22,7 +22,7 @@ import Reportes.*;
 %unicode
 
 //expresiones regulares
-numero = [0-9]+
+numero = [0-9]+("."[0-9]+)?
 iden = [A-Za-z_][A-Za-z_0-9]*
 caracter = "'"."'"
 cadena = \"(\\.|[^\"])*\"
@@ -51,11 +51,6 @@ enBlanco = {finLinea} | [ \t\f]
 "asc"       { return new Symbol(symsHT.asc, yycolumn, yyline, yytext()); }
 "desc"      { return new Symbol(symsHT.desc, yycolumn, yyline, yytext()); }
 "length"    { return new Symbol(symsHT.length, yycolumn, yyline, yytext()); }
-"if"        { return new Symbol(symsHT._if, yycolumn, yyline, yytext()); }
-"then"      { return new Symbol(symsHT._then, yycolumn, yyline, yytext()); }
-"else"      { return new Symbol(symsHT._else, yycolumn, yyline, yytext()); }
-"end"       { return new Symbol(symsHT._end, yycolumn, yyline, yytext()); }
-"case"      { return new Symbol(symsHT._case, yycolumn, yyline, yytext()); }
 
 "++"        { return new Symbol(symsHT.masmas, yycolumn, yyline, yytext()); }
 
@@ -66,14 +61,6 @@ enBlanco = {finLinea} | [ \t\f]
 "'mod'"     { return new Symbol(symsHT.mod, yycolumn, yyline, yytext()); }
 "'sqrt'"    { return new Symbol(symsHT.sqrt, yycolumn, yyline, yytext()); }
 "'pot'"     { return new Symbol(symsHT.pot, yycolumn, yyline, yytext()); }
-"||"        { return new Symbol(symsHT.or, yycolumn, yyline, yytext()); }
-"&&"        { return new Symbol(symsHT.and, yycolumn, yyline, yytext()); }
-"<="        { return new Symbol(symsHT.menorigual, yycolumn, yyline, yytext()); }
-">="        { return new Symbol(symsHT.mayorigual, yycolumn, yyline, yytext()); }
-"<"         { return new Symbol(symsHT.menor, yycolumn, yyline, yytext()); }
-">"         { return new Symbol(symsHT.mayor, yycolumn, yyline, yytext()); }
-"!="        { return new Symbol(symsHT.diferente, yycolumn, yyline, yytext()); }
-"=="        { return new Symbol(symsHT.igualigual, yycolumn, yyline, yytext()); }
 "!!"        { return new Symbol(symsHT.poslista, yycolumn, yyline, yytext()); }
 
 "="         { return new Symbol(symsHT.igual, yycolumn, yyline, yytext()); }
@@ -88,10 +75,10 @@ enBlanco = {finLinea} | [ \t\f]
 ","         { return new Symbol(symsHT.coma, yycolumn, yyline, yytext()); }
 
 //-----------------expresiones regulares-----------------------
-{caracter}          { return new Symbol(symsHT.caracter, yycolumn, yyline, yytext()); }
-{cadena}            { return new Symbol(symsHT.cadena, yycolumn, yyline, yytext()); }
+{caracter}          { return new Symbol(symsHT.caracter, yycolumn, yyline, yytext().replace("'", "")); }
+{cadena}            { return new Symbol(symsHT.cadena, yycolumn, yyline, yytext().replace("\"", "")); }
 {numero}            { return new Symbol(symsHT.numero, yycolumn, yyline, yytext()); }
-{iden}              { return new Symbol(symsHT.iden, yycolumn, yyline, yytext()); }
+{iden}              { return new Symbol(symsHT.iden, yycolumn, yyline, yytext().toLowerCase()); }
 
 {enBlanco}  { /* ignore */ }
 }

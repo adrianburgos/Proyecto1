@@ -707,7 +707,7 @@ System.out.println("inicio");
 		int LCUERPOleft = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-1)).left;
 		int LCUERPOright = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-1)).right;
 		Nodo LCUERPO = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-1)).value;
-		 RESULT = NodoGeneral.crearFuncion(id, LPAR, LCUERPO); 
+		 RESULT = NodoGeneral.crearFuncion(id, Const.vacio, Const.publico, LPAR, LCUERPO); 
               CUP$SintacticoHaskell$result = parser.getSymbolFactory().newSymbol("FUN",22, ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.elementAt(CUP$SintacticoHaskell$top-4)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskell$result;

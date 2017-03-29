@@ -166,7 +166,7 @@ public class Pila {
                             {
                                 elemento.objeto.actual = nuevo;
                                 nuevo++;
-                                Pila.pila.add(elemento.objeto);
+                                pila.add(elemento.objeto);
                                 if(funcion.tipo == Const.tals)
                                     crearAmbito(funcion.tipo, funcion.tipoAls, elemento.objeto.actual);
                                 else
@@ -231,7 +231,7 @@ public class Pila {
             Ambito ambito = elemento.objeto;
             ambito = new Ambito(-1, 0);
             //buscar el nodo que corresponde al objeto que se le desea hacer nuevo
-            if(elemento.tipoAls == tipoAls)
+            if(elemento.tipoAls.equals(tipoAls))
             {
                 Nodo als = EjecutarArbol.buscarClase(elemento.tipoAls);
                 if(als != null)
@@ -264,7 +264,7 @@ public class Pila {
         if(pos != null)
         {
             Elemento elemento = pila.get(pos.padre).elementos.get(pos.actual);
-            Objeto casteo = implicito(elemento.tipo, valor);
+            Objeto casteo = implicito(elemento.tipo, elemento.tipoAls, valor);
             //verificar que el valor se pueda asignar a la variable que se desea
             if (casteo.tipo != Const.terror)
             {
@@ -283,7 +283,7 @@ public class Pila {
             String error = "La variable [" + nombre + "] no ha sido declarada";
             ErroresGraphik.agregarError("Error semantico", error, 0, 0);
         }
-        
+
     }
     
     /**
@@ -298,7 +298,7 @@ public class Pila {
         Elemento elemento = obtenerLid(lid);
         if(elemento != null)
         {
-            Objeto casteo = implicito(elemento.tipo, valor);
+            Objeto casteo = implicito(elemento.tipo, elemento.tipoAls, valor);
             //verificar que el valor se pueda asignar a la variable que se desea
             if (casteo.tipo != Const.terror)
             {
@@ -322,7 +322,7 @@ public class Pila {
     public static void asignarValor(String nombre, Objeto valor, Ambito ambito)
     {
         Elemento elemento = buscar(ambito, nombre);
-        Objeto casteo = implicito(elemento.tipo, valor);
+        Objeto casteo = implicito(elemento.tipo, elemento.tipoAls, valor);
         //verificar que el valor se pueda asignar a la variable que se desea
         if (casteo.tipo != Const.terror)
         {
@@ -337,10 +337,24 @@ public class Pila {
             ErroresGraphik.agregarError("Error semantico", casteo.valor, 0, 0);
     }
     
-    public static Objeto implicito(int tipoVar, Objeto valor)
+    public static Objeto implicito(int tipoVar, String tipoAls, Objeto valor)
     {
         if(tipoVar == valor.tipo)
-            return (Objeto) valor;
+        {
+            if(tipoVar == Const.tals)
+            {
+                if(valor.tipoAls.equals(tipoAls))
+                    return (Objeto) valor;
+                else
+                {
+                    String error = "No se pudo asignar [" + tipoAls + "] = [" + valor.tipoAls + "]";
+                    return new Objeto(Const.terror, error);
+                }
+            }
+            else
+                return (Objeto) valor;
+                
+        }
         switch(tipoVar)
         {
             case Const.tcadena:
@@ -412,7 +426,7 @@ public class Pila {
     public static String recorrerPila()
     {
         String s = "";
-        for (Ambito ambito : Pila.pila)
+        for (Ambito ambito : pila)
         {
             s += "------- Ambito " + ambito.actual + " (" + ambito.padre + ")-------\n";
             for (Elemento ele : ambito.elementos)

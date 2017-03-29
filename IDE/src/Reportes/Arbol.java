@@ -19,7 +19,11 @@ public class Arbol {
         grafo += "center = true;\n";
         grafo += "edge [arrowhead = odot, color = red];\n";
         grafo += "label = \" Dibujar Expresion \";\n";
-        grafo += "nodo0 [label=\"" + agregarComillas(raiz.getNombre()) + "\"];\n";
+        if(!raiz.getNombre().equals(raiz.getValor()))
+            grafo += "nodo0 [label=\"" + agregarComillas(raiz.getValor()) + "[" + agregarComillas(raiz.getNombre()) + "]\"];\n";
+        else
+            grafo += "nodo0 [label=\"" + agregarComillas(raiz.getNombre()) + "\"];\n";
+            
         contador = 1;
         recorrerAST("nodo0", raiz);
         grafo += "}";

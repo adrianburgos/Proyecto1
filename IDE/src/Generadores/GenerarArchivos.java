@@ -5,7 +5,7 @@ import java.io.File;
 public class GenerarArchivos {
     
     public static void main(String[] args) {
-        //generarLexico("src/Analisis/terminal/LexicoHaskellTerminal.jflex");
+        generarLexico("src/Analisis/terminal/LexicoHaskellTerminal.jflex");
         generarLexico("src/Analisis/haskell/LexicoHaskell.jflex");
         generarLexico("src/Analisis/graphik/LexicoGraphik.jflex");
         generarSintactico();
@@ -19,9 +19,9 @@ public class GenerarArchivos {
     
     private static void generarSintactico()
     {
-        //generarSintacticoHaskellTerminal();
         generarSintacticoHaskell();
         generarSintacticoGraphik();
+        generarSintacticoHaskellTerminal();
     }
     
     private static void generarSintacticoHaskellTerminal()

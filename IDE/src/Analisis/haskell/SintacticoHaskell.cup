@@ -62,7 +62,8 @@ LFUNCION        ::= LFUNCION:LFUNCION FUN:FUN
                             RESULT = NodoGeneral.crearLdecfun(FUN);
                     :};
 
-FUN          ::= iden:id LPAR:LPAR igual LCUERPO:LCUERPO _end {: RESULT = NodoGeneral.crearFuncion(id, LPAR, LCUERPO); :}
+FUN             ::= iden:id LPAR:LPAR igual LCUERPO:LCUERPO _end 
+                    {: RESULT = NodoGeneral.crearFuncion(id, Const.vacio, Const.publico, LPAR, LCUERPO); :}
                 |   enter {: RESULT = null; :};
 LPAR            ::= LPAR:LPAR coma iden:iden
                     {:

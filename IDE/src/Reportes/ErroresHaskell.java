@@ -76,5 +76,8 @@ public class ErroresHaskell {
         } catch (Exception e) {
             e.printStackTrace(); 
         }
+        html = "";
+        errores = "";
+        contErrores = 0;
     }
 }

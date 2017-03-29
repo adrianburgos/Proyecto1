@@ -6,6 +6,9 @@ import fabrica.NodoOperacion;
 import ide.Const;
 import ide.Principal;
 import java.util.LinkedList;
+import static semanticos.Pila.obtenerLid;
+import semanticos.terminal.EjecutarTerm;
+import semanticos.terminal.SemanticoTerm;
 
 public class Semantico {
     public static Objeto ejecutarValor(Nodo valor)
@@ -118,6 +121,10 @@ public class Semantico {
             case Const.llamar:
                 res = llamar(valor);
                 break;
+            case Const.porcentaje:
+                res = EjecutarTerm.porcentaje;
+                break;
+            case Const.nuevo:
             default:
                 //retornar el valor
                 return new Objeto(valor.tipo, valor.valor);
@@ -940,9 +947,17 @@ public class Semantico {
     // </editor-fold>
     
     public static void asignacion(Nodo hijo) {
-        Objeto valor = ejecutarValor(hijo.hijos.get(1));
-        Pila.asignarValor(hijo.hijos.get(0), valor);
-        System.out.println("VALOR: " + valor.valor + " ---- TIPO: " + getTipo(valor.tipo));
+        if(hijo.hijos.get(1).nombre.equals(Const.nuevo))
+        {
+            Elemento elemento = obtenerLid(hijo.hijos.get(0));
+            Pila.asignarNuevo(elemento, hijo.hijos.get(1).valor);
+        }
+        else
+        {
+            Objeto valor = ejecutarValor(hijo.hijos.get(1));
+            Pila.asignarValor(hijo.hijos.get(0), valor);
+            System.out.println("VALOR: " + valor.valor + " ---- TIPO: " + getTipo(valor.tipo));
+        }
     }
     
     public static void declaracion(Nodo dec) {
@@ -1237,7 +1252,7 @@ public class Semantico {
     
     public static void imprimir(Nodo hijo) {
         Objeto valor = ejecutarValor(hijo.hijos.get(0));
-        Objeto casteo = Pila.implicito(Const.tcadena, valor);
+        Objeto casteo = Pila.implicito(Const.tcadena, "", valor);
         if(casteo.tipo == Const.terror)
         {
             ErroresGraphik.agregarError("Error semantico", casteo.valor, 0, 0);

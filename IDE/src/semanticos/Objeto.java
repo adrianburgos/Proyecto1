@@ -7,6 +7,7 @@ public class Objeto {
     public String valor;
     public String tipoAls;
     public LinkedList<Integer> dim;
+    public LinkedList<Objeto> lvalores;
     public Ambito objeto = null;
 
     public Objeto(int tipo, String valor)
@@ -22,6 +23,7 @@ public class Objeto {
         this.valor = valor;
         this.tipoAls = tipoAls;
         dim = new LinkedList<>();
+        lvalores = new LinkedList<>();
     }
 
     public Objeto()
@@ -29,5 +31,6 @@ public class Objeto {
         this.tipo = 0;
         this.valor = "";
         dim = new LinkedList<>();
+        lvalores = new LinkedList<>();
     }
 }

@@ -19,8 +19,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import semanticos.EjecutarArbol;
+import semanticos.Objeto;
 import semanticos.Pila;
 import semanticos.Semantico;
+import semanticos.terminal.EjecutarTerm;
+import semanticos.terminal.PilaHaskell;
 
 /**
  *
@@ -32,6 +35,7 @@ public class Principal extends javax.swing.JFrame {
     
     public Principal() {
         initComponents();
+        PilaHaskell.crearAmbito();
     }
 
     /**
@@ -140,18 +144,52 @@ public class Principal extends javax.swing.JFrame {
                 System.out.println(ex.getMessage());
             }
             tfEntradaConsola.setText("");
-            if(ErroresHaskell.contErrores > 0)
-                ErroresHaskell.generarErrores();
-            else
+            if(raiz != null)
             {
-                if(raiz != null)
+                Arbol.getGrafo(raiz);
+                Arbol.dibujar();
+                if(ErroresHaskell.contErrores > 0)
                 {
-                    Arbol.getGrafo(raiz);
-                    Arbol.dibujar();
+                    ErroresHaskell.generarErrores();
+                    JOptionPane.showMessageDialog(this,"Errores Lexicos o Sintacticos");
                 }
                 else
-                    System.out.println("La raiz de haskel terminal es nula");
+                {
+                    EjecutarTerm.ejecutar(raiz);
+                    if(EjecutarTerm.porcentaje.lvalores.size() > 0)
+                    {
+                        String text = "[";
+                        for(Objeto obj : EjecutarTerm.porcentaje.lvalores)
+                        {
+                            if(obj.lvalores != null)
+                            {//tiene 2 dimensiones
+                                text += "[";
+                                for(Objeto val : obj.lvalores)
+                                    text += val.valor + ", ";
+                                text = text.substring(0, text.length() - 2);
+                                text += "]";
+                            }
+                            else
+                            //solo posee una dimension
+                                text += obj.valor;
+                            text += ", ";
+                        }
+                        text = text.substring(0, text.length() - 2);
+                        text += "]";
+                        taConsola.append(">" + text + "\n");
+                    }
+                    else
+                        taConsola.append(">" + EjecutarTerm.porcentaje.valor + "[" + Semantico.getTipo(EjecutarTerm.porcentaje.tipo) + "]\n");
+                    System.out.println(PilaHaskell.recorrerPila());
+                }
+                if(ErroresHaskell.contErrores > 0)
+                {
+                    ErroresHaskell.generarErrores();
+                    JOptionPane.showMessageDialog(this,"Errores semanticos");
+                }
             }
+            else
+                System.out.println("La raiz de haskel terminal es nula");
         }
     }//GEN-LAST:event_tfEntradaConsolaKeyPressed
 
