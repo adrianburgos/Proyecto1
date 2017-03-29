@@ -4,6 +4,7 @@ import Reportes.ErroresGraphik;
 import Reportes.ErroresHaskell;
 import fabrica.Nodo;
 import ide.Const;
+import semanticos.Elemento;
 import semanticos.Objeto;
 import semanticos.Semantico;
 import static semanticos.Semantico.getTipo;
@@ -211,19 +212,208 @@ public class SemanticoTerm {
         return valores;
     }
 
-    static Objeto sum(Nodo raiz) {
-        
+    static Objeto sum(Nodo nodo) {
+        Objeto res = new Objeto();
+        Nodo sum = nodo.hijos.get(0);
+        Objeto valores = new Objeto();
+        double suma = 0;
+        switch(sum.nombre)
+        {
+            case Const.lista:
+                valores = recorrerLista(sum);
+                break;
+            case Const.lcorchetes:
+                valores = recorrerCorchetes(sum);
+                break;
+            case Const.id:
+                Elemento ele = PilaHaskell.buscar(sum.valor);
+                valores.dim = ele.dim;
+                valores.lvalores = ele.lvalores;
+                break;
+        }
+        if(valores.dim.size() > 0)
+        {
+            for(Objeto obj : valores.lvalores)
+            {
+                if(obj.lvalores != null)
+                    for(Objeto obj2 : obj.lvalores)
+                        if(obj.tipo == Const.tcaracter)
+                            suma += Double.valueOf((int) obj2.valor.charAt(0));
+                        else
+                            suma += Double.valueOf(obj2.valor);
+                else
+                    if(obj.tipo == Const.tcaracter)
+                        suma += Double.valueOf((int) obj.valor.charAt(0));
+                    else
+                        suma += Double.valueOf(obj.valor);
+                    
+            }
+        }
+        else
+        {
+            String error = "[" + sum.valor + "] no es una Lista";
+            ErroresHaskell.agregarError("Error semantico", error, 0, 0);
+        }
+        res.valor = suma + "";
+        res.tipo = Const.tdecimal;
+        return res;
     }
 
-    static Objeto product(Nodo raiz) {
-        
+    static Objeto product(Nodo nodo) {
+        Objeto res = new Objeto();
+        Nodo product = nodo.hijos.get(0);
+        Objeto valores = new Objeto();
+        double prod = 1;
+        switch(product.nombre)
+        {
+            case Const.lista:
+                valores = recorrerLista(product);
+                break;
+            case Const.lcorchetes:
+                valores = recorrerCorchetes(product);
+                break;
+            case Const.id:
+                Elemento ele = PilaHaskell.buscar(product.valor);
+                valores.dim = ele.dim;
+                valores.lvalores = ele.lvalores;
+                break;
+        }
+        if(valores.dim != null )
+        {
+            for(Objeto obj : valores.lvalores)
+            {
+                if(obj.lvalores != null)
+                    for(Objeto obj2 : obj.lvalores)
+                        if(obj2.tipo == Const.tcaracter)
+                            prod *= Double.valueOf((int) obj2.valor.charAt(0));
+                        else
+                            prod *= Double.valueOf(obj2.valor);
+                else
+                    if(obj.tipo == Const.tcaracter)
+                        prod *= Double.valueOf((int) obj.valor.charAt(0));
+                    else
+                        prod *= Double.valueOf(obj.valor);
+                    
+            }
+        }
+        else
+        {
+            String error = "[" + product.valor + "] no es una Lista";
+            ErroresHaskell.agregarError("Error semantico", error, 0, 0);
+        }
+        res.valor = prod + "";
+        res.tipo = Const.tdecimal;
+        return res;
     }
 
-    static Objeto max(Nodo raiz) {
-        
+    static Objeto max(Nodo nodo) {
+        Objeto res = new Objeto();
+        Nodo max = nodo.hijos.get(0);
+        Objeto valores = new Objeto();
+        boolean esChar = false;
+        double mayor = -99999;
+        switch(max.nombre)
+        {
+            case Const.lista:
+                valores = recorrerLista(max);
+                break;
+            case Const.lcorchetes:
+                valores = recorrerCorchetes(max);
+                break;
+            case Const.id:
+                Elemento ele = PilaHaskell.buscar(max.valor);
+                valores.dim = ele.dim;
+                valores.lvalores = ele.lvalores;
+                break;
+        }
+        if(valores.dim != null )
+        {
+            for(Objeto obj : valores.lvalores)
+            {
+                if(obj.lvalores != null)
+                {
+                    for(Objeto obj2 : obj.lvalores)
+                        if(obj2.tipo == Const.tcaracter)
+                        {
+                            esChar = true;
+                            if(mayor < Double.valueOf((int) obj2.valor.charAt(0)))
+                                mayor = Double.valueOf((int) obj2.valor.charAt(0));
+                        }
+                        else
+                            if(mayor < Double.valueOf(obj2.valor))
+                                mayor = Double.valueOf(obj2.valor);
+                }
+                else
+                    if(obj.tipo == Const.tcaracter)
+                    {
+                        esChar = true;
+                        if(mayor < Double.valueOf((int) obj.valor.charAt(0)))
+                            mayor = Double.valueOf((int) obj.valor.charAt(0));
+                    }
+                    else
+                        if(mayor < Double.valueOf(obj.valor))
+                            mayor = Double.valueOf(obj.valor);
+            }
+        }
+        else
+        {
+            String error = "[" + max.valor + "] no es una Lista";
+            ErroresHaskell.agregarError("Error semantico", error, 0, 0);
+        }
+        if(esChar)
+        {
+            res.tipo = Const.tcaracter;
+            res.valor = (char) Math.round(mayor) + "";
+        }
+        else
+        {
+            res.valor = mayor + "";
+            res.tipo = Const.tdecimal;
+        }
+        return res;
     }
 
-    static Objeto length(Nodo raiz) {
-        
+    static Objeto length(Nodo nodo) {
+        Objeto res = new Objeto();
+        Nodo len = nodo.hijos.get(0);
+        Objeto valores = new Objeto();
+        boolean esChar = false;
+        double tam = 1;
+        switch(len.nombre)
+        {
+            case Const.lista:
+                valores = recorrerLista(len);
+                break;
+            case Const.lcorchetes:
+                valores = recorrerCorchetes(len);
+                break;
+            case Const.id:
+                Elemento ele = PilaHaskell.buscar(len.valor);
+                valores.dim = ele.dim;
+                valores.lvalores = ele.lvalores;
+                break;
+        }
+        tam = valores.lvalores.size();
+        if(valores.dim != null )
+        {
+            for(Integer dim : valores.dim)
+                tam *= dim;
+        }
+        else
+        {
+            String error = "[" + len.valor + "] no es una Lista";
+            ErroresHaskell.agregarError("Error semantico", error, 0, 0);
+        }
+        if(esChar)
+        {
+            res.tipo = Const.tcaracter;
+            res.valor = (char) Math.round(tam) + "";
+        }
+        else
+        {
+            res.valor = tam + "";
+            res.tipo = Const.tdecimal;
+        }
+        return res;
     }
 }

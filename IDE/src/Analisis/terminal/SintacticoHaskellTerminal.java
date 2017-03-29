@@ -714,7 +714,7 @@ System.out.println("inicio");
 		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
 		String t1 = (String)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
 		
-                        LCAR.hijos.add(NodoGeneral.crearHoja(Const.caracter, t1));
+                        LCAR.hijos.add(NodoGeneral.crearHoja(Const.caracter, t1, Const.tcaracter));
                         RESULT = (Nodo) LCAR;
                     
               CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("LCAR",16, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.elementAt(CUP$SintacticoHaskellTerminal$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
@@ -728,7 +728,7 @@ System.out.println("inicio");
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).left;
 		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()).right;
 		String t1 = (String)((java_cup.runtime.Symbol) CUP$SintacticoHaskellTerminal$stack.peek()).value;
-		 RESULT = NodoGeneral.crearLista(NodoGeneral.crearHoja(Const.caracter, t1)); 
+		 RESULT = NodoGeneral.crearLista(NodoGeneral.crearHoja(Const.caracter, t1, Const.tcaracter)); 
               CUP$SintacticoHaskellTerminal$result = parser.getSymbolFactory().newSymbol("LCAR",16, ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskellTerminal$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskellTerminal$result;

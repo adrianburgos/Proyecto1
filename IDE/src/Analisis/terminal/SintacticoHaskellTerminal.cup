@@ -72,10 +72,10 @@ LVAL            ::= LCAR:LCAR {: RESULT = LCAR; :}
                 |   cadena:t1 {: RESULT = NodoGeneral.crearHoja(Const.cadena, t1); :};
 LCAR            ::= LCAR:LCAR coma caracter:t1
                     {:
-                        LCAR.hijos.add(NodoGeneral.crearHoja(Const.caracter, t1));
+                        LCAR.hijos.add(NodoGeneral.crearHoja(Const.caracter, t1, Const.tcaracter));
                         RESULT = (Nodo) LCAR;
                     :}
-                |   caracter:t1 {: RESULT = NodoGeneral.crearLista(NodoGeneral.crearHoja(Const.caracter, t1)); :};
+                |   caracter:t1 {: RESULT = NodoGeneral.crearLista(NodoGeneral.crearHoja(Const.caracter, t1, Const.tcaracter)); :};
 
 LEXP            ::= LEXP:LEXP coma EXP:t1
                     {:
