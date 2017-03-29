@@ -3,6 +3,7 @@ public class Const {
     public static final String 
             calcular = "calcular",
             let = "let",
+            pos = "pos",
             succ = "succ",
             decc = "decc",
             min = "min",

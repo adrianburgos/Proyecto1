@@ -44,6 +44,8 @@ public class EjecutarTerm {
                 return SemanticoTerm.max(raiz);
             case Const.length:
                 return SemanticoTerm.length(raiz);
+            case Const.poslista:
+                return SemanticoTerm.poslista(raiz);
             case Const.porcentaje:
                 return porcentaje;
             case Const.list:

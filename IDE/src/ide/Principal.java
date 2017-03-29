@@ -156,7 +156,7 @@ public class Principal extends javax.swing.JFrame {
                 else
                 {
                     EjecutarTerm.ejecutar(raiz);
-                    if(EjecutarTerm.porcentaje.lvalores.size() > 0)
+                    if(EjecutarTerm.porcentaje.lvalores != null)
                     {
                         String text = "[";
                         for(Objeto obj : EjecutarTerm.porcentaje.lvalores)

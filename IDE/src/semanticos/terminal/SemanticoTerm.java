@@ -416,4 +416,38 @@ public class SemanticoTerm {
         }
         return res;
     }
+
+    static Objeto poslista(Nodo nodo) {
+        Objeto res = new Objeto();
+        Nodo lista = nodo.hijos.get(0);
+        Nodo pos = nodo.hijos.get(1);
+        Objeto list = new Objeto();
+        Objeto valor1 = new Objeto();
+        Objeto valor2 = null;
+        switch(lista.nombre)
+        {
+            case Const.lista:
+                list = recorrerLista(lista);
+                break;
+            case Const.lcorchetes:
+                list = recorrerCorchetes(lista);
+                break;
+            case Const.id:
+                Elemento ele = PilaHaskell.buscar(lista.valor);
+                list.dim = ele.dim;
+                list.lvalores = ele.lvalores;
+                break;
+        }
+        valor1 = EjecutarTerm.ejecutarInst(pos.hijos.get(0));
+        if(pos.hijos.size() == 2)
+            valor2 = EjecutarTerm.ejecutarInst(pos.hijos.get(1));
+        int pos1 = (int) Math.round(Double.valueOf(valor1.valor));
+        res = list.lvalores.get(pos1);
+        if(res.lvalores != null)
+        {
+            int pos2 = (int) Math.round(Double.valueOf(valor2.valor));
+            res = res.lvalores.get(pos2);
+        }
+        return res;
+    }
 }

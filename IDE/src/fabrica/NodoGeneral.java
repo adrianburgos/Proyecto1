@@ -50,6 +50,21 @@ public class NodoGeneral{
         return (Nodo) lista;
     }
     
+    public static Nodo crearPos(Nodo calc)
+    {
+        Nodo pos = new Nodo(Const.pos, Const.pos);
+        pos.hijos.add(calc);
+        return (Nodo) pos;
+    }
+    
+    public static Nodo crearPos(Nodo calc1, Nodo calc2)
+    {
+        Nodo pos = new Nodo(Const.pos, Const.pos);
+        pos.hijos.add(calc1);
+        pos.hijos.add(calc2);
+        return (Nodo) pos;
+    }
+    
     public static Nodo crearCaso(Nodo valor, Nodo lcuerpo)
     {
         Nodo caso = new Nodo(Const.caso);

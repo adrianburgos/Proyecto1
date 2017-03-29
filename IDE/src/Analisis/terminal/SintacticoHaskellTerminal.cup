@@ -31,7 +31,7 @@ terminal String numero, iden, cadena, caracter;
 
 non terminal Nodo INICIO, LIST, CUERPO, CALCULAR, SUCC, DECC, MIN, MAX, CONCATLISTAS, OPLIST, E, LLAMADO;
 non terminal Nodo LISTA, L, LCORCHETES, LVAL, LCAR, LEXP, OPSIST, OPLISTA, EXP, OPEXP, VALOR;
-non terminal Nodo LVALOR;
+non terminal Nodo LVALOR, POS;
 
 //precedencia menor a mayor
 precedence left mas, menos;
@@ -50,7 +50,11 @@ CUERPO          ::= LIST:t {: RESULT = t; :}
                 |   CONCATLISTAS:t {: RESULT = t; :}
                 |   OPLIST:t {: RESULT = t; :}
                 |   LLAMADO:t {: RESULT = t; :}
+                |   dolar LISTA:t1 POS:POS dolar {: RESULT = NodoGeneral.crearPosLista(t1, POS); :}
                 |   porcentaje {: RESULT = NodoGeneral.crearHoja(Const.porcentaje, Const.porcentaje); :};
+
+POS             ::= poslista CALCULAR:CALCULAR {: RESULT = NodoGeneral.crearPos(CALCULAR); :}
+                |   poslista CALCULAR:CALCULAR poslista CALCULAR:CALCULAR2 {: RESULT = NodoGeneral.crearPos(CALCULAR, CALCULAR2); :};
 
 LIST            ::= dolar let iden:id igual LISTA:LISTA dolar {: RESULT = NodoGeneral.crearLista(id, LISTA); :};
 LISTA           ::= CONCATLISTAS:CONCAT {: RESULT = CONCAT; :}
