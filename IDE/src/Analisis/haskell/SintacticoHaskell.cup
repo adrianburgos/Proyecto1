@@ -182,8 +182,8 @@ LCASOS          ::= LCASOS:LCASOS CASO:CASOS enter
                 |   CASO:CASO enter {: RESULT = NodoGeneral.crearLcasos(CASO); :};
 CASO            ::= VALCASO:VALCASO dospuntos LCUERPO:LCUERPO puntoycoma
                     {: RESULT = NodoGeneral.crearCaso(VALCASO, LCUERPO); :};
-VALCASO         ::= numero:t1 {: RESULT = NodoGeneral.crearHoja(Const.numero, t1); :} 
-                |   caracter:t1 {: RESULT = NodoGeneral.crearHoja(Const.caracter, t1); :};
+VALCASO         ::= numero:t1 {: RESULT = NodoGeneral.crearHoja(Const.numero, t1, Const.tdecimal); :} 
+                |   caracter:t1 {: RESULT = NodoGeneral.crearHoja(Const.caracter, t1, Const.tcaracter); :};
 VALCASE         ::= CALCULAR:t1 {: RESULT = t1; :}
                 |   LLAMADO:t1 {: RESULT = t1; :}
                 |   iden:t1 {: RESULT = NodoGeneral.crearHoja(Const.id, t1); :}
@@ -233,8 +233,8 @@ E               ::= E:t1 mas E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mas,
                 |   menos E:t1 {: RESULT = NodoOperacion.crearNodo(Const.menos, t1, null); :}
                 |   aparentesis E:t1 cparentesis {: RESULT = t1; :}
                 |   OPSIST:t1 {: RESULT = t1; :}
-                |   numero:t1 {: RESULT = NodoGeneral.crearHoja(Const.numero, t1); :}
-                |   iden:t1 {: RESULT = NodoGeneral.crearHoja(Const.id, t1); :}
+                |   numero:t1 {: RESULT = NodoGeneral.crearHoja(Const.numero, t1, Const.tdecimal); :}
+                |   iden:t1 {: RESULT = NodoGeneral.crearHoja(Const.id, t1, Const.tals); :}
                 |   dolar LISTA:t1 POS:POS dolar{: RESULT = NodoGeneral.crearPosLista(t1, POS); :}
                 |   OPEXP:t1 {: RESULT = t1; :}
                 |   LLAMADO:t1 {: RESULT = t1; :};

@@ -4,6 +4,7 @@ import Reportes.ErroresGraphik;
 import Reportes.ErroresHaskell;
 import fabrica.Nodo;
 import ide.Const;
+import java.util.Objects;
 import semanticos.EjecutarArbol;
 import semanticos.Elemento;
 import semanticos.Objeto;
@@ -172,7 +173,7 @@ public class SemanticoTerm {
         return res;
     }
 
-    private static Objeto recorrerLista(Nodo dim) {
+    public static Objeto recorrerLista(Nodo dim) {
         Objeto valores = new Objeto();
         Integer tamDimen = 0;
         for(Nodo val : dim.hijos)
@@ -186,7 +187,7 @@ public class SemanticoTerm {
         return valores;
     }
 
-    private static Objeto recorrerCorchetes(Nodo dim) {
+    public static Objeto recorrerCorchetes(Nodo dim) {
         Objeto valores = new Objeto();
         Objeto valor = new Objeto();
         Integer tamDimen = -1;
@@ -336,7 +337,7 @@ public class SemanticoTerm {
         {
             for(Objeto obj : valores.lvalores)
             {
-                if(obj.lvalores != null)
+                if(obj.lvalores != null && obj.lvalores.size() > 0)
                 {
                     for(Objeto obj2 : obj.lvalores)
                         if(obj2.tipo == Const.tcaracter)
@@ -451,22 +452,57 @@ public class SemanticoTerm {
 
     static Objeto si(Nodo hijo) {
         Objeto retorno = new Objeto();
-        Objeto obj = new Objeto();
         Nodo valor = hijo.hijos.get(0);
-        Objeto condicion = ejecutarValor(valor);
+        Objeto condicion = Semantico.ejecutarValor(valor);
         if (condicion.tipo == Const.tbool)
         {
             Pila.crearAmbito();
             if (condicion.valor.equals(Const.verdadero))
-                retorno = EjecutarTerm.ejecutarInst(hijo.hijos.get(1));
+                for(Nodo inst : hijo.hijos.get(1).hijos)
+                    retorno = EjecutarTerm.ejecutarInst(inst);
             else
-                if (hijo.hijos.size() == 3)
-                    retorno = EjecutarTerm.ejecutarInst(hijo.hijos.get(2));
+                for(Nodo inst : hijo.hijos.get(2).hijos)
+                    retorno = EjecutarTerm.ejecutarInst(inst);
             Pila.eliminarAmbito();
         }
         else
             ErroresGraphik.agregarError("Error semantico", "La condicion de SI en Haskell no es de tipo Bool", 0,0);
 
         return retorno;
+    }
+
+    static Objeto seleccion(Nodo hijo) {
+        Objeto res = new Objeto();
+        Nodo id = hijo.hijos.get(0);
+        Objeto valor = Semantico.ejecutarValor(id);
+        //se busca el caso con el que coincida
+        Nodo LCASOS = hijo.hijos.get(1);
+        int pos = -1;
+        int i = 0;
+        while(pos == -1 && i < LCASOS.hijos.size())
+        {
+            Nodo caso = LCASOS.hijos.get(i).hijos.get(0);
+            if(caso.tipo == valor.tipo)
+            {
+                if(caso.tipo == Const.tdecimal && Objects.equals(Double.valueOf(caso.valor), Double.valueOf(valor.valor)))
+                    pos = i;
+                else
+                    if(caso.tipo == Const.tdecimal &&caso.valor.equals(valor.valor))
+                        pos = i;
+            }
+            i++;
+        }
+        if (pos != -1)
+        {
+            Pila.crearAmbito();
+            Nodo LCUERPO = LCASOS.hijos.get(pos).hijos.get(1);
+            for(Nodo inst : LCUERPO.hijos)
+                res = EjecutarTerm.ejecutarInst(inst);
+            Pila.eliminarAmbito();
+        }
+        else
+            ErroresGraphik.agregarError("Error semantico", "El CASE no tiene ningun valor en el que coincida", 0,0);
+
+        return res;        
     }
 }

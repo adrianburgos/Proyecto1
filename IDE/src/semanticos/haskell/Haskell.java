@@ -108,12 +108,25 @@ public class Haskell {
         LinkedList<Objeto> lvalores = new LinkedList<>();
         for(Nodo VALOR : LVALOR.hijos)
         {
-            Objeto valor = EjecutarTerm.ejecutarInst(VALOR);
+            Objeto valor;
+            switch(VALOR.nombre)
+            {
+                case Const.lista:
+                    valor = SemanticoTerm.recorrerLista(VALOR);
+                    break;
+                case Const.lcorchetes:
+                    valor = SemanticoTerm.recorrerCorchetes(VALOR);
+                    break;
+                default:
+                    valor = EjecutarTerm.ejecutarInst(VALOR);
+                    break;
+            }
             lvalores.add(valor);
         }
         Nodo funcion = buscarFuncionHaskell(id, lvalores);
         if(funcion != null)
         {
+            Pila.crearAmbito(Const.tvacio, -1);
             Nodo lpar = funcion.hijos.get(0);
             for(int i = 0; i < lvalores.size(); i++)
             {
@@ -121,13 +134,17 @@ public class Haskell {
                 Elemento elePar = new Elemento(par.valor, par.tipo, lvalores.get(i).valor);
                 elePar.dim = lvalores.get(i).dim;
                 elePar.lvalores = lvalores.get(i).lvalores;
-                PilaHaskell.agregarElemeto(elePar);
+                if(elePar.lvalores == null || elePar.lvalores.size() == 0)
+                    Pila.agregarElemeto(elePar);
+                else
+                    PilaHaskell.agregarElemeto(elePar);
             }
 
             for(Nodo inst : funcion.hijos.get(1).hijos)
             {
                 res = EjecutarTerm.ejecutarInst(inst);
             }
+            Pila.eliminarAmbito();
         }
         else
         {

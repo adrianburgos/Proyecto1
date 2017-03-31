@@ -76,7 +76,7 @@ public class Principal extends javax.swing.JFrame {
         taEntrada.setColumns(20);
         taEntrada.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         taEntrada.setRows(5);
-        taEntrada.setText("ObtenerPromedio LIST = \n\t$Calcular $sum LIST$ / $length LIST$ $\nend");
+        taEntrada.setText("funcionPrueba =\n\t$succ $calcular 5$$\n\tend\n\nIncrementaSegunN n,Val = \n\tif n<=$Calcular 1$ then\n\t\t$Succ $calcular val$$\n\telse\n\t\t$Succ $IncrementaSegunN {$Calcular n-1 $,Val}$$\n\tend\nend\n\nConjuntoFuncPolinomial i,x = CASE i\n\t\t1: $Polinomial1 {x}$;\n\t\t2: $Polinomial2 {x}$;\n\t\t3: $Polinomial3 {x}$;\n\t\t4: $Polinomial4 {x}$;\n\tend\nend\nPolinomial1 x = $Calcular 3 * x'pot'5 - x 'pot'2 + 7 * x -1$ \n\t\t\t\tend\nPolinomial2 x = $Calcular 5 * x'pot'2 - x + 8 * x 'pot'(-1) -1$ \n\t\t\t\tend\nPolinomial3 x = $Calcular x'pot'4 + x 'pot'2 + (9*3) * x +80$ \n\t\t\t\tend\nPolinomial4 x = $Calcular x'pot'3 + x 'pot'2 - 4 * x -4 $ \n\t\t\t\tend\nObtenerModa LIST = $Max LIST$ \n\t\t\t\t   end\nObtenerPromedio LIST = \t$Calcular $sum LIST$ / $length LIST$ $\n\t\t\t\t\t    end\nFactorial n = \n    If n==$Calcular 0$ Then\n        $Calcular 1$\n    Else    \n        $Calcular n * $Factorial{$Calcular n-1$}$$\n  \tEnd\nEnd\nFibonacci n =\n    If n==$Calcular 0$ || n==$Calcular 1$ Then\n        $Calcular 1$\n    Else\n        $Calcular $Fibonacci{$Calcular n-1$}$ + $Fibonacci {$Calcular n-2$}$$\n    End\nEnd\nOperacion a,b, condicion =\n\tCASE condicion\n\t\t1: $Calcular a+b$;\n\t\t2: $Calcular a-b$;\n\t\t3: $Calcular a*b$;\n\t\t4: If b != $calcular 0$ Then\n\t\t\t\t$Calcular a/b$\n\t\t   else\n\t\t   \t\t$calcular 0$\t\n\t\t   End;\n\t\t5: If b != $calcular 0$ Then\n\t\t\t\t$Calcular a'mod'b$\n\t\t\telse\n\t\t\t\t$calcular 0$\n\t\t\tEnd;\n\t\t6: $Calcular a'sqrt'b$;\n\t\t7: $Calcular a'pot'b$;\n\tEnd\nEnd \nSaludo n, nombre =\n\t$Let hola = ['h','o','l','a',' ']$\n\t$Let adios = ['a','d','i','o','s',' ']$\n\tCase n\n\t\t'a': hola ++ nombre;\n\t\t'b': adios ++ nombre;\n\t\t'c': hola++['u','s','e','r',' ']++nombre ++ [' '] ++ adios;\n\tEnd\nEnd\nOperarLista lista, op = \n\tCASE op\n\t\t1: $sum lista$;\n\t\t2: $product lista$;\n\t\t3: $Length lista$;\n\t\t4: $min lista$;\n\t\t5: $max lista$;\n\t\t6: $succ $lista !! $calcular 1$$$;\n\t\t7: $decc $lista !! $calcular 1$$$;\n\tEnd\nEnd\nOperarCadena cadena, op =\n\tif op == $calcular 1$ then\n\t\t$revers cadena$\n\telse\n\t\tif op == $calcular 2$ then\n\t\t\t$impr cadena$\n\t\telse\n\t\t\tif op == $calcular 3$ then\n\t\t\t\t$par cadena$\n\t\t\telse\n\t\t\t\tif op == $calcular 4$ then\n\t\t\t\t\t$asc cadena$\n\t\t\t\telse\n\t\t\t\t\tif op == $calcular 5$ then\n\t\t\t\t\t\t$desc cadena$\n\t\t\t\t\telse\n\t\t\t\t\t\t$let vacio = cadena$\n\t\t\t\t\tEnd\n\t\t\t\tEnd\n\t\t\tEnd\n\t\tEnd\n\tEnd\nEnd");
         jScrollPane2.setViewportView(taEntrada);
 
         bEjecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/play.png"))); // NOI18N
@@ -105,7 +105,7 @@ public class Principal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1364, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1492, Short.MAX_VALUE)
                     .addComponent(tfEntradaConsola)
                     .addComponent(jScrollPane2))
                 .addContainerGap())
@@ -113,20 +113,20 @@ public class Principal extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bEjecutar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bCargar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfEntradaConsola, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(1406, 870));
+        setSize(new java.awt.Dimension(1534, 903));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -162,17 +162,17 @@ public class Principal extends javax.swing.JFrame {
                         String text = "[";
                         for(Objeto obj : EjecutarTerm.porcentaje.lvalores)
                         {
-                            if(obj.lvalores != null)
-                            {//tiene 2 dimensiones
+                            if(obj.lvalores == null || obj.lvalores.size() == 0)
+                                //solo posee una dimension
+                                text += obj.valor;
+                            else {
+                                //tiene 2 dimensiones
                                 text += "[";
                                 for(Objeto val : obj.lvalores)
                                     text += val.valor + ", ";
                                 text = text.substring(0, text.length() - 2);
                                 text += "]";
                             }
-                            else
-                            //solo posee una dimension
-                                text += obj.valor;
                             text += ", ";
                         }
                         if(text.length() > 3)
@@ -213,6 +213,10 @@ public class Principal extends javax.swing.JFrame {
             Haskell.arbol.hijos.addAll(raiz.hijos);
             Arbol.getGrafo(Haskell.arbol);
             Arbol.dibujar();
+            String x = "Se cargo a memoria: \n";
+            for(Nodo n : raiz.hijos)
+                x += "\t-" + n.valor + "-\n";
+            taConsola.setText(taConsola.getText() + x + "\n");
             //Semantico.ejecutarValor(raiz);
         }
         else
@@ -241,7 +245,11 @@ public class Principal extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this,"Errores Lexicos o Sintacticos");
             }
             else
-                EjecutarArbol.ejecutar(raiz);
+                try {
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            EjecutarArbol.ejecutar(raiz);
             if(ErroresGraphik.contErrores > 0)
             {
                 ErroresGraphik.generarErrores();

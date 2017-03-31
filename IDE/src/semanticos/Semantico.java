@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import static semanticos.Pila.obtenerLid;
 import semanticos.haskell.Haskell;
 import semanticos.terminal.EjecutarTerm;
+import semanticos.terminal.PilaHaskell;
 import semanticos.terminal.SemanticoTerm;
 
 public class Semantico {
@@ -143,7 +144,25 @@ public class Semantico {
                 Nodo lid = new Nodo(Const.lid, Const.lid);
                 lid.hijos.add(valor);
                 res = ejecutarValor(lid);
-                break;
+                if(res.tipo == 0 || res.tipo == Const.terror)
+                {
+                    Elemento x = PilaHaskell.buscar(valor.valor);
+                    if(x != null)
+                    {
+                        res = new Objeto(x.tipo, x.valor);
+                        res.dim = x.dim;
+                        res.lvalores = x.lvalores;
+                        return res;
+                    }
+                    else
+                    {
+                        String error = "La variable [" + valor.valor + "] no ha sido declarada";
+                        ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+                        return new Objeto();
+                    }
+                }
+                else
+                    return res;
             default:
                 //retornar el valor
                 return new Objeto(valor.tipo, valor.valor);

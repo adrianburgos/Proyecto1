@@ -80,6 +80,8 @@ public class EjecutarTerm {
                 return res;
             case Const.si:
                 return SemanticoTerm.si(raiz);
+            case Const.seleccion:
+                return SemanticoTerm.seleccion(raiz);
         }
         return new Objeto();
     }

@@ -1576,7 +1576,7 @@ System.out.println("inicio");
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()).left;
 		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()).right;
 		String t1 = (String)((java_cup.runtime.Symbol) CUP$SintacticoHaskell$stack.peek()).value;
-		 RESULT = NodoGeneral.crearHoja(Const.numero, t1); 
+		 RESULT = NodoGeneral.crearHoja(Const.numero, t1, Const.tdecimal); 
               CUP$SintacticoHaskell$result = parser.getSymbolFactory().newSymbol("VALCASO",31, ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskell$result;
@@ -1588,7 +1588,7 @@ System.out.println("inicio");
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()).left;
 		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()).right;
 		String t1 = (String)((java_cup.runtime.Symbol) CUP$SintacticoHaskell$stack.peek()).value;
-		 RESULT = NodoGeneral.crearHoja(Const.caracter, t1); 
+		 RESULT = NodoGeneral.crearHoja(Const.caracter, t1, Const.tcaracter); 
               CUP$SintacticoHaskell$result = parser.getSymbolFactory().newSymbol("VALCASO",31, ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskell$result;
@@ -2122,7 +2122,7 @@ System.out.println("inicio");
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()).left;
 		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()).right;
 		String t1 = (String)((java_cup.runtime.Symbol) CUP$SintacticoHaskell$stack.peek()).value;
-		 RESULT = NodoGeneral.crearHoja(Const.numero, t1); 
+		 RESULT = NodoGeneral.crearHoja(Const.numero, t1, Const.tdecimal); 
               CUP$SintacticoHaskell$result = parser.getSymbolFactory().newSymbol("E",10, ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskell$result;
@@ -2134,7 +2134,7 @@ System.out.println("inicio");
 		int t1left = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()).left;
 		int t1right = ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()).right;
 		String t1 = (String)((java_cup.runtime.Symbol) CUP$SintacticoHaskell$stack.peek()).value;
-		 RESULT = NodoGeneral.crearHoja(Const.id, t1); 
+		 RESULT = NodoGeneral.crearHoja(Const.id, t1, Const.tals); 
               CUP$SintacticoHaskell$result = parser.getSymbolFactory().newSymbol("E",10, ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoHaskell$stack.peek()), RESULT);
             }
           return CUP$SintacticoHaskell$result;

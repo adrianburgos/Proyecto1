@@ -38,7 +38,7 @@ public class Const {
             igualigual = "==",
             igual = "=",
             dolar = "$",
-            porcentaje = "%",
+            porcentaje = "porcentaje",
             masmas = "++",
             menosmenos = "--";
     
