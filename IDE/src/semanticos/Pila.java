@@ -3,6 +3,7 @@ package semanticos;
 import Reportes.ErroresGraphik;
 import fabrica.Nodo;
 import ide.Const;
+import java.text.DecimalFormat;
 import java.util.LinkedList;
 import static semanticos.Semantico.getTipo;
 import static semanticos.Semantico.getTipo;
@@ -381,6 +382,11 @@ public class Pila {
                             return new Objeto(Const.tnumero, "1");
                         else
                             return new Objeto(Const.tnumero, "0");
+                    case Const.tdecimal:
+                        Double d = Double.valueOf(valor.valor);
+                        int i = d.intValue();
+                        if(i - d == 0)
+                            return new Objeto(Const.tnumero, i + "");
                 }
             case Const.tdecimal:
                 switch (valor.tipo)

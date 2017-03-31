@@ -30,7 +30,7 @@ public class PilaHaskell {
     
     public static void agregarElemeto(Elemento elemento)
     {
-        pila.get(pila.size() - 1).elementos.add(elemento);
+        pila.get(pila.size() - 1).elementos.add(1, elemento);
     }
     
     public static void agregarElemeto(String nombre, Objeto obj)
@@ -38,7 +38,7 @@ public class PilaHaskell {
         Elemento elemento = new Elemento(nombre, obj.tipo, obj.valor);
         elemento.dim = (LinkedList <Integer>) obj.dim;
         elemento.lvalores = (LinkedList<Objeto>) obj.lvalores;
-        pila.get(pila.size() - 1).elementos.add(elemento);
+        pila.get(pila.size() - 1).elementos.add(1, elemento);
     }
     
     public static void asignarValor(String nombre, Objeto valor)

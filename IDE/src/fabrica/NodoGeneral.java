@@ -212,13 +212,13 @@ public class NodoGeneral{
     
     public static Nodo crearImportar(String id, String ext)
     {
-        Nodo limportar = new Nodo(Const.limportar, id + ext);
+        Nodo limportar = new Nodo(Const.importar, id + ext);
         return (Nodo) limportar;
     }
     
     public static Nodo crearIncluirhk(String id)
     {
-        Nodo incluir = new Nodo(Const.limportar, id);
+        Nodo incluir = new Nodo(Const.incluirhk, id);
         return (Nodo) incluir;
     }
     

@@ -7,6 +7,7 @@ import ide.Const;
 import ide.Principal;
 import java.util.LinkedList;
 import static semanticos.Pila.obtenerLid;
+import semanticos.haskell.Haskell;
 import semanticos.terminal.EjecutarTerm;
 import semanticos.terminal.SemanticoTerm;
 
@@ -121,10 +122,28 @@ public class Semantico {
             case Const.llamar:
                 res = llamar(valor);
                 break;
+            case Const.llamado:
+                res = Haskell.llamado(valor);
+                break;
+            case Const.succ:
+            case Const.decc:
+            case Const.mod:
+            case Const.sqrt:
+            case Const.sum:
+            case Const.product:
+            case Const.max:
+            case Const.length:
+            case Const.poslista:
+                res = EjecutarTerm.ejecutarInst(valor);
+                break;
             case Const.porcentaje:
                 res = EjecutarTerm.porcentaje;
                 break;
-            case Const.nuevo:
+            case Const.id:
+                Nodo lid = new Nodo(Const.lid, Const.lid);
+                lid.hijos.add(valor);
+                res = ejecutarValor(lid);
+                break;
             default:
                 //retornar el valor
                 return new Objeto(valor.tipo, valor.valor);
@@ -1045,7 +1064,7 @@ public class Semantico {
         return res;
     }
     
-    static TipoRetorno si(Nodo hijo) {
+    public static TipoRetorno si(Nodo hijo) {
         TipoRetorno retorno = new TipoRetorno();
         Objeto obj = new Objeto();
         Nodo valor = hijo.hijos.get(0);

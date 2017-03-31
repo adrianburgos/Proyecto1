@@ -31,7 +31,7 @@ terminal String numero, iden, cadena, caracter, enter;
 
 non terminal Nodo INICIO, LIST, CUERPO, CALCULAR, SUCC, DECC, MIN, MAX, CONCATLISTAS, OPLIST, E, LLAMADO;
 non terminal Nodo IF, CASE;
-non terminal Nodo LISTA, L, LCORCHETES, LVAL, LCAR, VALCASE, LVALOR;
+non terminal Nodo LISTA, L, LCORCHETES, LVAL, LCAR, VALCASE, LVALOR, POS;
 non terminal Nodo LFUNCION, FUN, LCUERPO, LPAR, COND, LCASOS, CASO, VALOR, OPEXP, VALCASO, OPLISTA, OPSIST, LEXP, EXP;
 non terminal String OPREL;
 
@@ -99,8 +99,12 @@ CUERPO          ::= LIST:t {: RESULT = t; :}
                 |   IF:t {: RESULT = t; :}
                 |   CASE:t {: RESULT = t; :}
                 |   LLAMADO:t {: RESULT = t; :}
+                |   dolar LISTA:t1 POS:POS dolar {: RESULT = NodoGeneral.crearPosLista(t1, POS); :}
                 |   enter {: RESULT = null; :}
                 |   error enter;
+
+POS             ::= poslista CALCULAR:CALCULAR {: RESULT = NodoGeneral.crearPos(CALCULAR); :}
+                |   poslista CALCULAR:CALCULAR poslista CALCULAR:CALCULAR2 {: RESULT = NodoGeneral.crearPos(CALCULAR, CALCULAR2); :};
 
 LIST            ::= dolar let iden:id igual LISTA:LISTA dolar {: RESULT = NodoGeneral.crearLista(id, LISTA); :};
 LISTA           ::= CONCATLISTAS:CONCAT {: RESULT = CONCAT; :}
@@ -205,7 +209,7 @@ VALOR           ::= CALCULAR:t1 {: RESULT = t1; :}
                 |   caracter:t1 {: RESULT = NodoGeneral.crearHoja(Const.caracter, t1); :}
                 |   cadena:t1 {: RESULT = NodoGeneral.crearHoja(Const.cadena, t1); :}
                 |   acorchete L:L ccorchete {: RESULT = L; :}
-                |   LISTA:t1 poslista CALCULAR:CALCULAR {: RESULT = NodoGeneral.crearPosLista(t1, CALCULAR); :};
+                |   dolar LISTA:t1 POS:POS dolar{: RESULT = NodoGeneral.crearPosLista(t1, POS); :};
 
 CONCATLISTAS    ::= LISTA:t1 masmas LISTA:t2 {: RESULT = NodoOperacion.crearNodo(Const.masmas, t1, t2); :}; 
 
@@ -226,10 +230,11 @@ E               ::= E:t1 mas E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mas,
                 |   E:t1 mod E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mod, t1, t2); :}
                 |   E:t1 pot E:t2 {: RESULT = NodoOperacion.crearNodo(Const.pot, t1, t2); :}
                 |   E:t1 sqrt E:t2 {: RESULT = NodoOperacion.crearNodo(Const.sqrt, t1, t2); :}
-                |   menos E:t1 {: RESULT = NodoOperacion.crearNodo(Const.unario, t1, null); :}
+                |   menos E:t1 {: RESULT = NodoOperacion.crearNodo(Const.menos, t1, null); :}
                 |   aparentesis E:t1 cparentesis {: RESULT = t1; :}
                 |   OPSIST:t1 {: RESULT = t1; :}
                 |   numero:t1 {: RESULT = NodoGeneral.crearHoja(Const.numero, t1); :}
                 |   iden:t1 {: RESULT = NodoGeneral.crearHoja(Const.id, t1); :}
-                |   LISTA:t1 poslista CALCULAR:CALCULAR {: RESULT = NodoGeneral.crearPosLista(t1, CALCULAR); :}
-                |   OPEXP:t1 {: RESULT = t1; :};
+                |   dolar LISTA:t1 POS:POS dolar{: RESULT = NodoGeneral.crearPosLista(t1, POS); :}
+                |   OPEXP:t1 {: RESULT = t1; :}
+                |   LLAMADO:t1 {: RESULT = t1; :};

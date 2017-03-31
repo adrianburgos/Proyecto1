@@ -4,12 +4,16 @@ import Reportes.ErroresGraphik;
 import Reportes.ErroresHaskell;
 import fabrica.Nodo;
 import ide.Const;
+import semanticos.EjecutarArbol;
 import semanticos.Elemento;
 import semanticos.Objeto;
+import semanticos.Pila;
 import semanticos.Semantico;
+import static semanticos.Semantico.ejecutarValor;
 import static semanticos.Semantico.getTipo;
 import static semanticos.Semantico.quitarComillas;
 import static semanticos.Semantico.getTipo;
+import semanticos.TipoRetorno;
 
 public class SemanticoTerm {
     public static Objeto ejecutarValor(Nodo valor)
@@ -133,6 +137,7 @@ public class SemanticoTerm {
         Objeto res;
         res = EjecutarTerm.ejecutarInst(succ.hijos.get(0));
         res.valor = Double.valueOf(res.valor) + 1 + "";
+        res.tipo = Const.tdecimal;
         return res;
     }
 
@@ -140,6 +145,7 @@ public class SemanticoTerm {
         Objeto res;
         res = EjecutarTerm.ejecutarInst(decc.hijos.get(0));
         res.valor = Double.valueOf(res.valor) - 1 + "";
+        res.tipo = Const.tdecimal;
         return res;
     }
 
@@ -396,24 +402,16 @@ public class SemanticoTerm {
         tam = valores.lvalores.size();
         if(valores.dim != null )
         {
-            for(Integer dim : valores.dim)
-                tam *= dim;
+            if(valores.lvalores.get(0).lvalores != null)
+                tam *= valores.lvalores.get(0).lvalores.size();
         }
         else
         {
             String error = "[" + len.valor + "] no es una Lista";
             ErroresHaskell.agregarError("Error semantico", error, 0, 0);
         }
-        if(esChar)
-        {
-            res.tipo = Const.tcaracter;
-            res.valor = (char) Math.round(tam) + "";
-        }
-        else
-        {
-            res.valor = tam + "";
-            res.tipo = Const.tdecimal;
-        }
+        res.valor = tam + "";
+        res.tipo = Const.tdecimal;
         return res;
     }
 
@@ -443,11 +441,32 @@ public class SemanticoTerm {
             valor2 = EjecutarTerm.ejecutarInst(pos.hijos.get(1));
         int pos1 = (int) Math.round(Double.valueOf(valor1.valor));
         res = list.lvalores.get(pos1);
-        if(res.lvalores != null)
+        if(res.lvalores != null && valor2 != null)
         {
             int pos2 = (int) Math.round(Double.valueOf(valor2.valor));
             res = res.lvalores.get(pos2);
         }
         return res;
+    }
+
+    static Objeto si(Nodo hijo) {
+        Objeto retorno = new Objeto();
+        Objeto obj = new Objeto();
+        Nodo valor = hijo.hijos.get(0);
+        Objeto condicion = ejecutarValor(valor);
+        if (condicion.tipo == Const.tbool)
+        {
+            Pila.crearAmbito();
+            if (condicion.valor.equals(Const.verdadero))
+                retorno = EjecutarTerm.ejecutarInst(hijo.hijos.get(1));
+            else
+                if (hijo.hijos.size() == 3)
+                    retorno = EjecutarTerm.ejecutarInst(hijo.hijos.get(2));
+            Pila.eliminarAmbito();
+        }
+        else
+            ErroresGraphik.agregarError("Error semantico", "La condicion de SI en Haskell no es de tipo Bool", 0,0);
+
+        return retorno;
     }
 }

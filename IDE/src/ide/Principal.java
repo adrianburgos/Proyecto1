@@ -22,6 +22,7 @@ import semanticos.EjecutarArbol;
 import semanticos.Objeto;
 import semanticos.Pila;
 import semanticos.Semantico;
+import semanticos.haskell.Haskell;
 import semanticos.terminal.EjecutarTerm;
 import semanticos.terminal.PilaHaskell;
 
@@ -75,7 +76,7 @@ public class Principal extends javax.swing.JFrame {
         taEntrada.setColumns(20);
         taEntrada.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         taEntrada.setRows(5);
-        taEntrada.setText("importar Nodo.gk?  \nincluir_HK FormCuadraticaPositiva?\nincluir_HK FormCuadraticaNegativa?\nincluir_HK Permutacion?\nincluir_HK FuncionPolinomial1?  \nALS objeto : publico { \n\tvar Nodo a:publico = nuevo Nodo()?\n\tvacio inicio(){\n\t\tvar NodO x = llamar creacion_nodos()?\n\t}\n\tcadena FormCuadraticaPositiva(){\n\t\ta = (5*2)^2 - 4?\n\t\tvar entero b = 3?\n\t\tvar entero c = 8?\n\t\timprimir(llamarHK FormCuadraticaPositiva(a, b, c))?\n\t\tretornar \"Primer función ejecutada con éxito\"?\n\t}\n\tcadena FormCuadraticaNegativa():privado{\n\t\tvar decimal arreglo[3] = {96, 3, 8}?\n\t\timprimir(llamarHK FormCuadraticaNegativa(arreglo[0], arreglo[1], arreglo[2]))?\n\t\tretornar \"Segunda función ejecutada con éxito\"?\n\t}\n\tvacio FuncionPolinomial1(entero valor_entrada){\n\t\tvar entero arreglo[5]?\n\t\tvar int i?\n\t\tPara(i=0: i<5: i++){\n\t\t\tarreglo[i] = llamarHK FuncionPolinomial1(valor_entrada * i)?\n\t\t\timprimir(\"polinomial: \" + arreglo[i])?\n\t\t}\n\t} \n\tentero Permutacion_gk(entero n, entero r){\n\t\tMientras(r>0){\n\t\t\timprimir(\"Factorial: \" + llamarHK Permuctacion(n,r))?\n\t\t\tr = r - 1?\n\t\t}\n\t}\n\tNodo creacion_nodos(){\n\t\tvar Nodo nod1 = nuevo Nodo()?\n\t\tnod1.nombre = \"primero\"?\n\t\tnod1.numero = 1?\n\t\tretornar nod1?\n\t}\n}\n\nALS Nodo : publico{\n\tvar cadena nombre : publico = \"\"?\n\tvar entero  numero : publico = 0?\n\tvar bool bandera : publico = verdadero?  \n\tvacio cambiar_bandera(){\n\t\tBANDEra = faLsO?\n\t\tSi(bandera == falso){\n\t\t\tbandera = verdadero?\n\t\t}Sino{\n\t\t\tSi(bandera == verdadero){\n\t\t\t\tbandera = falso?\n\t\t\t}\n\t\t}\n\t} \n} ");
+        taEntrada.setText("ObtenerPromedio LIST = \n\t$Calcular $sum LIST$ / $length LIST$ $\nend");
         jScrollPane2.setViewportView(taEntrada);
 
         bEjecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/play.png"))); // NOI18N
@@ -156,7 +157,7 @@ public class Principal extends javax.swing.JFrame {
                 else
                 {
                     EjecutarTerm.ejecutar(raiz);
-                    if(EjecutarTerm.porcentaje.lvalores != null)
+                    if(EjecutarTerm.porcentaje.lvalores != null && EjecutarTerm.porcentaje.lvalores.size() > 0)
                     {
                         String text = "[";
                         for(Objeto obj : EjecutarTerm.porcentaje.lvalores)
@@ -174,7 +175,8 @@ public class Principal extends javax.swing.JFrame {
                                 text += obj.valor;
                             text += ", ";
                         }
-                        text = text.substring(0, text.length() - 2);
+                        if(text.length() > 3)
+                            text = text.substring(0, text.length() - 2);
                         text += "]";
                         taConsola.append(">" + text + "\n");
                     }
@@ -208,7 +210,8 @@ public class Principal extends javax.swing.JFrame {
             ErroresHaskell.generarErrores();
         if(raiz != null)
         {
-            Arbol.getGrafo(raiz);
+            Haskell.arbol.hijos.addAll(raiz.hijos);
+            Arbol.getGrafo(Haskell.arbol);
             Arbol.dibujar();
             //Semantico.ejecutarValor(raiz);
         }

@@ -89,7 +89,7 @@ enBlanco = {finLinea} | [ \t\f]
 ";"         { return new Symbol(symsH.puntoycoma, yycolumn, yyline, yytext()); }
 
 //-----------------expresiones regulares-----------------------
-{caracter}          { return new Symbol(symsH.caracter, yycolumn, yyline, yytext()); }
+{caracter}          { return new Symbol(symsH.caracter, yycolumn, yyline, yytext().replace("'", "")); }
 {cadena}            { return new Symbol(symsH.cadena, yycolumn, yyline, yytext().replace("\"", "")); }
 {numero}            { return new Symbol(symsH.numero, yycolumn, yyline, yytext()); }
 {iden}              { return new Symbol(symsH.iden, yycolumn, yyline, yytext().toLowerCase()); }

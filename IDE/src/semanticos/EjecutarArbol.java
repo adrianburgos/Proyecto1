@@ -231,5 +231,14 @@ public class EjecutarArbol {
         }
         return res;
     }
+    
+    public static boolean buscarIncluye(String nombre)
+    {
+        Nodo LIMPORTAR = raiz.hijos.get(0);
+        for(Nodo importar : LIMPORTAR.hijos)
+            if(importar.nombre.equals(Const.incluirhk) && importar.valor.equals(nombre))
+                return true;
+        return false;
+    }
 
 }

@@ -154,6 +154,7 @@ E               ::= E:t1 mas E:t2 {: RESULT = NodoOperacion.crearNodo(Const.mas,
                 |   OPSIST:t1 {: RESULT = t1; :}
                 |   numero:t1 {: RESULT = NodoGeneral.crearHoja(Const.numero, t1, Const.tdecimal); :}
                 |   iden:t1 {: RESULT = NodoGeneral.crearHoja(Const.id, t1, Const.tals); :}
-                |   LISTA:t1 poslista CALCULAR:CALCULAR {: RESULT = NodoGeneral.crearPosLista(t1, CALCULAR); :}
+                |   dolar LISTA:t1 POS:POS dolar{: RESULT = NodoGeneral.crearPosLista(t1, POS); :}
                 |   OPEXP:t1 {: RESULT = t1; :}
+                |   LLAMADO:t1 {: RESULT = t1; :}
                 |   porcentaje {: RESULT = NodoGeneral.crearHoja(Const.porcentaje, Const.porcentaje); :};
