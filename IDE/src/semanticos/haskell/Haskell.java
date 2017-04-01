@@ -84,7 +84,7 @@ public class Haskell {
                 {
                     res = EjecutarTerm.ejecutarInst(inst);
                 }
-                //Pila.eliminarAmbito();
+                Pila.eliminarAmbito();
             }
             else
             {

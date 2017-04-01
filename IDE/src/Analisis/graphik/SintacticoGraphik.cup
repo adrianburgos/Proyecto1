@@ -194,18 +194,9 @@ LVARIABLES      ::= LVARIABLES:LVARIABLES coma iden:id VISIBILIDAD:VISIBILIDAD
                         RESULT = (Nodo) lvar;
                     :};
 ASIG            ::= igual ASIGNORMAL:ASIGNORMAL {: RESULT = ASIGNORMAL; :}
-                |   LCORCHETES ASIGARR {: RESULT = null; :};
+                |   LCORCHETES:LCORCHETES ASIGARR:ASIGARR {: RESULT = NodoGeneral.crearAsigArr(LCORCHETES, ASIGARR); :};
 ASIGNORMAL      ::= VALOR:VALOR {: RESULT = VALOR; :}
                 |   nuevo iden:id aparentesis cparentesis {: RESULT = new Nodo(Const.nuevo, id); :};
-
-
-/*--------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------
-------------------------------------------FALTA LA ASIGNACION DE UN ARREGLO-------------------------------
-----------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------*/
 LCORCHETES      ::= LCORCHETES:LCORCHETES acorchete VALOR:VALOR ccorchete
                     {:
                         LCORCHETES.hijos.add(VALOR);
@@ -215,19 +206,22 @@ LCORCHETES      ::= LCORCHETES:LCORCHETES acorchete VALOR:VALOR ccorchete
                     {:
                         RESULT = NodoGeneral.crearLcorchetes(VALOR);
                     :};
-ASIGARR         ::= igual LLLAVES
-                |   ;
-LLLAVES         ::= LLLAVES coma allave LLAVE cllave
-                |   allave LLAVE cllave;
-LLAVE           ::= LVALOR
-                |   LLLAVES;
-/*--------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------*/
+ASIGARR         ::= igual LLAVE:LLAVE {: RESULT = LLAVE; :}
+                |   {: RESULT = null; :};
+LLAVE           ::= allave LLLAVES:LLLAVES cllave {: RESULT = LLLAVES; :}
+                |   allave LVALOR:LVALOR cllave {: RESULT = LVALOR; :};
+LLLAVES         ::= LLLAVES:LLLAVE coma LLAVE:LLAVE
+                    {:
+                        if(LLAVE != null)
+                            LLLAVE.hijos.add(LLAVE);
+                        RESULT = (Nodo) LLLAVE;
+                    :}
+                |   LLAVE:LLAVE
+                    {: 
+                        RESULT = new Nodo(Const.lllave);
+                        if(LLAVE != null)
+                            RESULT = NodoGeneral.crearLlave(LLAVE);
+                    :};
 
 PRINCIPAL       ::= vacio inicio aparentesis cparentesis allave LCUERPO:LCUERPO cllave
                     {:

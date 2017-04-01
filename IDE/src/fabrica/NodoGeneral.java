@@ -12,6 +12,22 @@ public class NodoGeneral{
         return (Nodo) lcuerpo;
     }
     
+    public static Nodo crearLlave(Nodo nodo)
+    {
+        Nodo lllave = new Nodo(Const.lllave);
+        lllave.hijos.add(nodo);
+        return (Nodo) lllave;
+    }
+    
+    public static Nodo crearAsigArr(Nodo lcorchetes, Nodo asigArr)
+    {
+        Nodo asig = new Nodo(Const.asignacionArr);
+        asig.hijos.add(lcorchetes);
+        if(asigArr != null)
+            asig.hijos.add(asigArr);
+        return (Nodo) asig;
+    }
+    
     public static Nodo crearLdecfun(Nodo nodo)
     {
         Nodo ldecfun = new Nodo(Const.ldecfun);
