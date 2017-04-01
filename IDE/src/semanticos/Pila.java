@@ -441,10 +441,21 @@ public class Pila {
                 if(ele.objeto != null)
                     s += recorrerPila(ele.objeto, 1);
                 else
-                    if(ele.valor == null)
-                        s+= "null\n";
+                    if(ele.dim != null && ele.dim.size() > 0)
+                    {
+                        for(Integer i : ele.dim)
+                            s += "[" + i + "] ";
+                        s += "\n\t{";
+                        for(Objeto obj : ele.lvalores)
+                            s += obj.valor + ", ";
+                        s = s.substring(0,s.length() - 2);
+                        s += "}\n";
+                    }
                     else
-                        s += ele.valor + "\n";
+                        if(ele.valor == null)
+                            s+= "null\n";
+                        else
+                            s += ele.valor + "\n";
             }
         }
         return s;
@@ -462,10 +473,21 @@ public class Pila {
             if(ele.objeto != null)
                 s += recorrerPila(ele.objeto, profundidad + 1);
             else
-                if(ele.valor == null)
-                    s+= "null\n";
-                else
-                    s += ele.valor + "\n";
+                if(ele.dim != null && ele.dim.size() > 0)
+                    {
+                        for(Integer i : ele.dim)
+                            s += "[" + i + "] ";
+                        s += "\n\t" + tabs + "{";
+                        for(Objeto obj : ele.lvalores)
+                            s += obj.valor + ", ";
+                        s = s.substring(0,s.length() - 2);
+                        s += "}\n";
+                    }
+                    else
+                        if(ele.valor == null)
+                            s+= "null\n";
+                        else
+                            s += ele.valor + "\n";
         }
         return s;
     }
@@ -608,4 +630,71 @@ public class Pila {
         pila.get(pila.size() - 1).elementos.add(0,ele);
     }
     // </editor-fold>
+
+    public static void asignarArreglo(Elemento ele, Nodo asig) {
+        ele.dim = new LinkedList<>();
+        Nodo LCORCHETES = asig.hijos.get(0);
+        Nodo VAL = asig.hijos.get(1);
+        int tam = 1;
+        for(Nodo dim : LCORCHETES.hijos)
+        {
+            Objeto obj = Semantico.ejecutarValor(dim);
+            if(obj.tipo == Const.tnumero)
+            {
+                tam *= Integer.valueOf(obj.valor);
+                ele.dim.add(Integer.valueOf(obj.valor));
+            }
+            else
+            {
+                String error = "La variable [" + ele.nombre + "] no posee una dimension entera [" + Semantico.getTipo(obj.tipo) + "]";
+                ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+            }
+        }
+        if(!resolverArreglo(ele, VAL, ele.dim.size() - 1))
+        {
+            ele.lvalores.clear();
+            for(int i = 0; i < tam; i++)
+            {
+                Objeto obj = new Objeto();
+                obj.tipo = ele.tipo;
+                obj.valor = null;
+                ele.lvalores.add(obj);
+            }
+        }
+    }
+
+    private static boolean resolverArreglo(Elemento ele, Nodo nodo, int pos) {
+        boolean estaBien = true;
+        if(ele.dim.get(pos) == nodo.hijos.size())
+        {
+            if(nodo.nombre.equals(Const.lvalor))
+            {
+                for(Nodo val : nodo.hijos)
+                {
+                    Objeto obj = Semantico.ejecutarValor(val);
+                    Objeto casteo = implicito(ele.tipo, "", obj);
+                    if(casteo.tipo != Const.terror)
+                        ele.lvalores.add(casteo);
+                    else
+                    {
+                        String error = "Al arreglo [" + ele.nombre + "] Se le asigno un valor erroneo [" + obj.valor + "]";
+                        ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+                        estaBien = false;
+                    }
+                }
+            }
+            else
+            {
+                for(Nodo val : nodo.hijos)
+                    estaBien = resolverArreglo(ele, val, pos - 1);
+            }
+        }
+        else
+        {
+            String error = "Al arreglo [" + ele.nombre + "] no posee dimension de tamaño [" + nodo.hijos.size() + "]";
+            ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+            estaBien = false;
+        }
+        return estaBien;
+    }
 }

@@ -1020,6 +1020,9 @@ public class Semantico {
                 case Const.nuevo:
                         Pila.asignarNuevo(elemento, tipoAls);
                     break;
+                case Const.asignacionArr:
+                        Pila.asignarArreglo(elemento, asig);
+                    break;
                 default:
                     valor = ejecutarValor(dec.hijos.get(0));
                     Pila.asignarValor(nombre, valor);                    
