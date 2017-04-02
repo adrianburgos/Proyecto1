@@ -1530,7 +1530,7 @@ System.out.println("inicio");
           case 55: // ASIGARR ::= 
             {
               Nodo RESULT =null;
-		 RESULT = null; 
+		 RESULT = new Nodo(Const.lllave); 
               CUP$SintacticoGraphik$result = parser.getSymbolFactory().newSymbol("ASIGARR",21, ((java_cup.runtime.Symbol)CUP$SintacticoGraphik$stack.peek()), RESULT);
             }
           return CUP$SintacticoGraphik$result;

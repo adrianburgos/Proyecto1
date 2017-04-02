@@ -87,17 +87,26 @@ public class Semantico {
             case Const.lid:
                 //verificar que el ultimo sea un id
                 Nodo ultimo = valor.hijos.get(valor.hijos.size() -1);
-                if(ultimo.hijos.isEmpty())
+                if(ultimo.hijos.isEmpty() || ultimo.nombre.equals(Const.lcorchetes))
                 {
                     Elemento ele = Pila.obtenerLid(valor);
                     if(ele != null)
                     {
-                        res.tipo = ele.tipo;
-                        res.valor = ele.valor;
-                        if(res.tipo == Const.tals)
+                        if(ultimo.nombre.equals(Const.lcorchetes))
                         {
-                            res.objeto = (Ambito) ele.objeto;
-                            res.tipoAls = ele.tipoAls;
+                            int map = Pila.mapeo(ultimo, ele);
+                            res.tipo = ele.tipo;
+                            res.valor = ele.lvalores.get(map).valor;
+                        }
+                        else
+                        {
+                            res.tipo = ele.tipo;
+                            res.valor = ele.valor;
+                            if(res.tipo == Const.tals)
+                            {
+                                res.objeto = (Ambito) ele.objeto;
+                                res.tipoAls = ele.tipoAls;
+                            }
                         }
                     }
                     else

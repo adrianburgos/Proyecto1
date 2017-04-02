@@ -207,7 +207,7 @@ LCORCHETES      ::= LCORCHETES:LCORCHETES acorchete VALOR:VALOR ccorchete
                         RESULT = NodoGeneral.crearLcorchetes(VALOR);
                     :};
 ASIGARR         ::= igual LLAVE:LLAVE {: RESULT = LLAVE; :}
-                |   {: RESULT = null; :};
+                |   {: RESULT = new Nodo(Const.lllave); :};
 LLAVE           ::= allave LLLAVES:LLLAVES cllave {: RESULT = LLLAVES; :}
                 |   allave LVALOR:LVALOR cllave {: RESULT = LVALOR; :};
 LLLAVES         ::= LLLAVES:LLLAVE coma LLAVE:LLAVE

@@ -3,11 +3,7 @@ package semanticos;
 import Reportes.ErroresGraphik;
 import fabrica.Nodo;
 import ide.Const;
-import java.text.DecimalFormat;
 import java.util.LinkedList;
-import static semanticos.Semantico.getTipo;
-import static semanticos.Semantico.getTipo;
-import static semanticos.Semantico.getTipo;
 import static semanticos.Semantico.getTipo;
 
 public class Pila {
@@ -128,7 +124,7 @@ public class Pila {
         {//la lista de ids esta compuesta por mas de 1 id hay que buscar en el ambito del elemento actual
             Nodo noSeEncontroError = null;
             int i = 1;
-            while(i < lid.hijos.size() && noSeEncontroError == null)
+            while(i < lid.hijos.size() && noSeEncontroError == null && !lid.hijos.get(i).nombre.equals(Const.lcorchetes))
             {
                 String als = elemento.tipoAls;
                 if(elemento.objeto != null)
@@ -303,11 +299,21 @@ public class Pila {
             //verificar que el valor se pueda asignar a la variable que se desea
             if (casteo.tipo != Const.terror)
             {
-                elemento.valor = casteo.valor;
-                if(elemento.tipo == Const.tals)
+                
+                Nodo ultimo = lid.hijos.get(lid.hijos.size() - 1);
+                if(ultimo.nombre.equals(Const.lcorchetes))
                 {
-                    elemento.tipoAls = casteo.tipoAls;
-                    elemento.objeto = (Ambito) casteo.objeto;
+                    int map = mapeo(ultimo, elemento);
+                    elemento.lvalores.get(map).valor = casteo.valor;
+                }
+                else
+                {
+                    elemento.valor = casteo.valor;
+                    if(elemento.tipo == Const.tals)
+                    {
+                        elemento.tipoAls = casteo.tipoAls;
+                        elemento.objeto = (Ambito) casteo.objeto;
+                    }
                 }
             }
             else
@@ -650,7 +656,7 @@ public class Pila {
                 ErroresGraphik.agregarError("Error semantico", error, 0, 0);
             }
         }
-        if(!resolverArreglo(ele, VAL, ele.dim.size() - 1))
+        if(VAL.hijos.isEmpty() || !resolverArreglo(ele, VAL, 0))
         {
             ele.lvalores.clear();
             for(int i = 0; i < tam; i++)
@@ -665,7 +671,7 @@ public class Pila {
 
     private static boolean resolverArreglo(Elemento ele, Nodo nodo, int pos) {
         boolean estaBien = true;
-        if(ele.dim.get(pos) == nodo.hijos.size())
+        if(ele.dim.size() - 1 >= pos && ele.dim.get(pos) == nodo.hijos.size())
         {
             if(nodo.nombre.equals(Const.lvalor))
             {
@@ -686,15 +692,47 @@ public class Pila {
             else
             {
                 for(Nodo val : nodo.hijos)
-                    estaBien = resolverArreglo(ele, val, pos - 1);
+                    estaBien = resolverArreglo(ele, val, pos + 1);
             }
         }
         else
         {
-            String error = "Al arreglo [" + ele.nombre + "] no posee dimension de tamaño [" + nodo.hijos.size() + "]";
+            String error = "No se puede asignar la dimension [" + (pos + 1) + "] del arreglo [" + ele.nombre + "] no es de tamaño [" + nodo.hijos.size() + "]";
             ErroresGraphik.agregarError("Error semantico", error, 0, 0);
             estaBien = false;
         }
         return estaBien;
+    }
+    
+    public static int mapeo(Nodo lcorchetes, Elemento ele)
+    {
+        Nodo num = lcorchetes.hijos.get(0);
+        int pos = 0;
+        Objeto val = Semantico.ejecutarValor(num);
+            if(val.tipo == Const.tnumero)
+                pos = Integer.valueOf(val.valor);
+        for(int i = 1; i < lcorchetes.hijos.size(); i++)
+        {
+            num = lcorchetes.hijos.get(i);
+            val = Semantico.ejecutarValor(num);
+            if(val.tipo == Const.tnumero)
+            {
+                if(Integer.valueOf(val.valor) < ele.dim.get(i) && Integer.valueOf(val.valor) > 0)
+                    pos = pos * ele.dim.get(i) + Integer.valueOf(val.valor);
+                else
+                {
+                    String error = "[" + val.valor + "] sobrepasa la dimension [" + (i + 1) + "] de [" + ele.nombre + "]";
+                    ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+                    pos = 0;
+                }
+            }
+            else
+            {
+                String error = "La dimension [" + (i + 1) + "] del arreglo [" + ele.nombre + "] no es de tipo entero.";
+                ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+                pos = 0;
+            }
+        }
+        return pos;
     }
 }

@@ -352,10 +352,10 @@ public class NodoGeneral{
 
     public static Nodo crearAsignacion(Nodo lid, Nodo valor, Nodo lcorchetes) {
         Nodo asig = new Nodo(Const.asignacion);
+        if(lcorchetes != null)
+            lid.hijos.add(lcorchetes);
         asig.hijos.add(lid);
         asig.hijos.add(valor);
-        if(lcorchetes != null)
-            asig.hijos.add(lcorchetes);
         return (Nodo) asig;        
     }
 
