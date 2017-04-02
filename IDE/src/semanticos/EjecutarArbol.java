@@ -82,6 +82,9 @@ public class EjecutarArbol {
                 case Const.imprimir:
                     Semantico.imprimir(hijo);
                     break;
+                case Const.graficar:
+                    Semantico.graficar(hijo);
+                    break;
                 case Const.retornar:
                     Semantico.retornar(hijo);
                     return new TipoRetorno(true, false, false);

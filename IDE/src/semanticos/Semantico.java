@@ -5,12 +5,23 @@ import fabrica.Nodo;
 import fabrica.NodoOperacion;
 import ide.Const;
 import ide.Principal;
-import java.util.LinkedList;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import javax.swing.JFrame;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+import org.w3c.dom.css.RGBColor;
 import static semanticos.Pila.obtenerLid;
 import semanticos.haskell.Haskell;
 import semanticos.terminal.EjecutarTerm;
 import semanticos.terminal.PilaHaskell;
-import semanticos.terminal.SemanticoTerm;
 
 public class Semantico {
     public static Objeto ejecutarValor(Nodo valor)
@@ -1310,6 +1321,54 @@ public class Semantico {
         }
         else
             Principal.consola += casteo.valor + "\n";
+    }
+    
+    static void graficar(Nodo graphikar) {
+        Elemento ele1 = Pila.obtenerLid(graphikar.hijos.get(0));
+        Elemento ele2 = Pila.obtenerLid(graphikar.hijos.get(1));
+        if(ele1.dim != null && ele1.dim.size() > 0 && ele2.dim != null && ele2.dim.size() > 0)
+        {
+            if(ele1.dim.size() == 1 && ele2.dim.size() == 1)
+            {
+                XYSeries g = new XYSeries("Graphikar Funcion");
+                for(int i = 0; i < ele1.lvalores.size(); i++)
+                {
+                    Double x = Double.valueOf(ele1.lvalores.get(i).valor);
+                    Double y = Double.valueOf(ele2.lvalores.get(i).valor);
+                    g.add(x, y);
+                }
+                XYSeriesCollection dataset = new XYSeriesCollection();
+                dataset.addSeries(g);
+ 
+                JFreeChart xylineChart = ChartFactory.createXYLineChart(
+                                "Grafica",
+                                "X",
+                                "Y",
+                                dataset,
+                                PlotOrientation.VERTICAL, true, true, false);
+ 
+               
+                XYPlot plot = xylineChart.getXYPlot();
+               
+                XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+               
+                renderer.setSeriesPaint(0, Color.BLUE);
+                renderer.setSeriesStroke(0, new BasicStroke(2.0f));
+                plot.setRenderer(renderer);
+               
+                ChartPanel panel = new ChartPanel(xylineChart);
+ 
+                // Creamos la ventana
+                JFrame ventana = new JFrame("Salida");
+                ventana.setVisible(true);
+                ventana.setSize(800, 600);
+                ventana.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+ 
+                ventana.add(panel);
+            }
+        }
+        else
+            ErroresGraphik.agregarError("Error semantico", "Alguno de los parametros de graphikar_funcion no es un arreglo", 0,0);
     }
     
     static void retornar(Nodo hijo) {

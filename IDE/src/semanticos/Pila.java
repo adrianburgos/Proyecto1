@@ -717,7 +717,7 @@ public class Pila {
             val = Semantico.ejecutarValor(num);
             if(val.tipo == Const.tnumero)
             {
-                if(Integer.valueOf(val.valor) < ele.dim.get(i) && Integer.valueOf(val.valor) > 0)
+                if(Integer.valueOf(val.valor) < ele.dim.get(i) && Integer.valueOf(val.valor) >= 0)
                     pos = pos * ele.dim.get(i) + Integer.valueOf(val.valor);
                 else
                 {
