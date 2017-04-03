@@ -393,4 +393,42 @@ public class NodoGeneral{
         llamar.hijos.add(lid);
         return (Nodo) llamar;        
     }
+
+    public static Nodo crearColumna(Nodo nodo) {
+        Nodo n = new Nodo(Const.columna);
+        n.hijos.add(nodo);
+        return (Nodo) n;
+    }
+
+    public static Nodo crearDatos(Nodo nodo, Nodo nodo2) {
+        Nodo n = new Nodo(Const.datos);
+        n.hijos.add(nodo);
+        n.hijos.add(nodo2);
+        return (Nodo) n;
+    }
+
+    public static Nodo crearProcesar(Nodo nodo) {
+        Nodo n = new Nodo(Const.procesar);
+        n.hijos.add(nodo);
+        return (Nodo) n;
+    }
+
+    public static Nodo crearDonde(Nodo nodo, Nodo nodo2) {
+        Nodo n = new Nodo(Const.donde);
+        n.hijos.add(nodo);
+        n.hijos.add(nodo2);
+        return (Nodo) n;
+    }
+
+    public static Nodo crearDondeCada(Nodo nodo) {
+        Nodo n = new Nodo(Const.dondecada);
+        n.hijos.add(nodo);
+        return (Nodo) n;
+    }
+
+    public static Nodo crearDondeTodo(Nodo nodo) {
+        Nodo n = new Nodo(Const.dondetodo);
+        n.hijos.add(nodo);
+        return (Nodo) n;
+    }
 }

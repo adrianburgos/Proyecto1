@@ -36,8 +36,8 @@ terminal String numero, dec, iden, cad, car, verdadero, falso, extgk;
 
 non terminal Nodo INICIO, FUN, LALS, ALS, CUERPO, HEREDA, LCUERPOALS, CUERPOALS, LIMPORTAR, VALOR;
 non terminal Nodo IMPORTAR, INCLUIR, LID, ID, LVALOR, DEC, PRINCIPAL, LPAR, ASIG, ASIGNORMAL, LCORCHETES, ASIGARR;
-non terminal Nodo LLLAVES, LLAVE, LCUERPO, ASIGNACION, SI, SELECCION, PARA, MIENTRAS, HACER, LLAMADO, LLAMADOHK, GRAFICAR;
-non terminal Nodo SINO, LCASOS, CASO, DEFECTO, LVARIABLES, PREASIG, ASIGPARA, VALPARA, IMPRIMIR, ACCESO, REL, E;
+non terminal Nodo LLLAVES, LLAVE, LCUERPO, ASIGNACION, SI, SELECCION, PARA, MIENTRAS, HACER, LLAMADO, LLAMADOHK, GRAFICAR, CUERPODATOS;
+non terminal Nodo SINO, LCASOS, CASO, DEFECTO, LVARIABLES, PREASIG, ASIGPARA, VALPARA, IMPRIMIR, ACCESO, REL, E, DATOS, DONDE, PROCESAR;
 non terminal String OPREL, VISIBILIDAD, TIPO, TIPOFUN, OP;
 
 //precedencia menor a mayor
@@ -151,7 +151,8 @@ LCUERPOALS      ::= LCUERPOALS:LCUERPOALS CUERPOALS:CUERPOALS
 
 CUERPOALS       ::= FUN:FUN {: RESULT = FUN; :}
                 |   DEC:DEC interroga {: RESULT = DEC; :}
-                |   PRINCIPAL:PRINCIPAL {: RESULT = PRINCIPAL; :};
+                |   PRINCIPAL:PRINCIPAL {: RESULT = PRINCIPAL; :}
+                |   DATOS:DATOS{: RESULT = DATOS; :};
 
 FUN             ::= TIPOFUN:tipo iden:id aparentesis LPAR:LPAR cparentesis VISIBILIDAD:VISIBILIDAD allave LCUERPO:LCUERPO cllave
                     {: RESULT = NodoGeneral.crearFuncion(id, tipo, VISIBILIDAD, LPAR, LCUERPO); :};
@@ -249,6 +250,7 @@ CUERPO          ::= DEC:t1 interroga {: RESULT = t1; :}
                 |   MIENTRAS:t1 {: RESULT = t1; :}
                 |   HACER:t1 {: RESULT = t1; :}
                 |   LLAMADO:t1 interroga {: RESULT = t1; :}
+                |   llamar datos aparentesis cparentesis interroga {: Nodo nodo = new Nodo(Const.datos, Const.datos); RESULT = NodoGeneral.crearLlamar(nodo); :}
                 |   LLAMADOHK:t1 interroga {: RESULT = t1; :}
                 |   GRAFICAR:t1 interroga {: RESULT = t1; :}
                 |   IMPRIMIR:t1 interroga {: RESULT = t1; :}
@@ -338,7 +340,8 @@ VALOR           ::= VALOR:t1 or VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Con
                 |   VALOR:t1 xor VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.xor, t1, t2); :}
                 |   VALOR:t1 and VALOR:t2 {: RESULT = NodoOperacion.crearNodo(Const.and, t1, t2); :}
                 |   not VALOR:t1 {: RESULT = NodoOperacion.crearNodo(Const.not, t1, null); :}
-                |   REL:REL {: RESULT = REL; :};
+                |   REL:REL {: RESULT = REL; :}
+                |   columna aparentesis VALOR:VALOR cparentesis {: RESULT = NodoGeneral.crearColumna(VALOR); :};
 
 REL             ::= E:t1 OPREL:op E:t2 {: RESULT = NodoOperacion.crearRelacional(op, t1, t2); :}
                 |   E:E {: RESULT = E; :};
@@ -356,3 +359,15 @@ OPREL           ::= menor {: RESULT = Const.menor; :}
                 |   mayorigual {: RESULT = Const.mayorigual; :}
                 |   igualigual {: RESULT = Const.igualigual; :}
                 |   diferente {: RESULT = Const.diferente; :};
+
+DATOS           ::= vacio datos aparentesis cparentesis allave CUERPODATOS:CUERPODATOS cllave  {: RESULT = CUERPODATOS; :};
+
+CUERPODATOS     ::= PROCESAR:PROCESAR DONDE:DONDE  {: RESULT = NodoGeneral.crearDatos(PROCESAR, DONDE); :}
+                |   DONDE:DONDE PROCESAR:PROCESAR  {: RESULT = NodoGeneral.crearDatos(PROCESAR, DONDE); :};
+
+PROCESAR        ::= procesar igual VALOR:VALOR interroga  {: RESULT = NodoGeneral.crearProcesar(VALOR); :};
+
+DONDE           ::= donde aparentesis VALOR:VALOR cparentesis igual VALOR:VALOR2 interroga {: RESULT = NodoGeneral.crearDonde(VALOR, VALOR2); :}
+                |   dondecada aparentesis VALOR:VALOR cparentesis interroga {: RESULT = NodoGeneral.crearDondeCada(VALOR); :}
+                |   dondetodo aparentesis VALOR:VALOR cparentesis interroga {: RESULT = NodoGeneral.crearDondeTodo(VALOR); :};
+

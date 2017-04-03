@@ -117,7 +117,7 @@ public class Pila {
                     valores = valores.substring(0, valores.length() - 2);
                 }
                 ErroresGraphik.agregarError("Error semantico", "La funcion " + funcionALlamar.valor+ "(" + valores + ") no esta declara", 0, 0);
-                return null;
+                return new Elemento("", -1, "");
             }
         }
         if(lid.hijos.size() > 1)

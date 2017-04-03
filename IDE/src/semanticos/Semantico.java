@@ -1,12 +1,15 @@
 package semanticos;
 
 import Reportes.ErroresGraphik;
+import Reportes.ReporteProcesar;
 import fabrica.Nodo;
 import fabrica.NodoOperacion;
 import ide.Const;
+import ide.Fila;
 import ide.Principal;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.util.LinkedList;
 import javax.swing.JFrame;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -18,6 +21,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.w3c.dom.css.RGBColor;
+import static semanticos.EjecutarArbol.raiz;
 import static semanticos.Pila.obtenerLid;
 import semanticos.haskell.Haskell;
 import semanticos.terminal.EjecutarTerm;
@@ -159,6 +163,28 @@ public class Semantico {
                 break;
             case Const.porcentaje:
                 res = EjecutarTerm.porcentaje;
+                break;
+            case Const.columna:
+                Objeto pos = ejecutarValor(valor.hijos.get(0));
+                Objeto col = new Objeto();
+                if(pos.tipo == Const.tnumero)
+                {
+                    Integer x = Integer.valueOf(pos.valor);
+                    Fila fila = Principal.datos.get(Principal.fila);
+                    col = fila.datos.get(x - 1);
+                    if(col.tipo != Const.tnumero && col.tipo != Const.tdecimal)
+                    {
+                        String error = "La columna [" + (x - 1) + "] no contiene valores numericos (entero o decimal)";
+                        ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+                        return new Objeto();
+                    }
+                }
+                else
+                {
+                    String error = "El valor para columna debe de ser tipo entero [" + pos.valor + "]";
+                    ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+                }
+                res = col;
                 break;
             case Const.id:
                 Nodo lid = new Nodo(Const.lid, Const.lid);
@@ -1339,17 +1365,8 @@ public class Semantico {
                 }
                 XYSeriesCollection dataset = new XYSeriesCollection();
                 dataset.addSeries(g);
- 
-                JFreeChart xylineChart = ChartFactory.createXYLineChart(
-                                "Grafica",
-                                "X",
-                                "Y",
-                                dataset,
-                                PlotOrientation.VERTICAL, true, true, false);
- 
-               
+                JFreeChart xylineChart = ChartFactory.createXYLineChart( "Grafica", "X", "Y", dataset, PlotOrientation.VERTICAL, true, true, false);
                 XYPlot plot = xylineChart.getXYPlot();
-               
                 XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
                
                 renderer.setSeriesPaint(0, Color.BLUE);
@@ -1380,6 +1397,94 @@ public class Semantico {
     {
         s = s.replace("\"", "");
         return s;
+    }
+    
+    static void llamarDatos(Nodo hijo)
+    {
+        Principal.procesar.clear();
+        Nodo arbolAls = EjecutarArbol.buscarClasePrincipal(EjecutarArbol.raiz.hijos.get(1)).get(0);
+        Nodo funcion = null;
+        if(arbolAls != null)
+            for(Nodo h : arbolAls.hijos.get(1).hijos)//se busca en los hijos de LCUERPOALS
+                if(h.nombre.equals(Const.datos))
+                    funcion = h;
+        if(funcion != null)
+        {
+            Nodo DONDE = funcion.hijos.get(1);
+            Nodo PROCESAR = funcion.hijos.get(0);
+            Fila fila = new Fila();
+            for(Principal.fila = 0; Principal.fila < Principal.datos.size(); Principal.fila++ )
+            {
+                Objeto dondePos = ejecutarValor(DONDE.hijos.get(0));
+                fila = new Fila();
+                switch(DONDE.nombre)
+                {
+                    case Const.donde:
+                        if(dondePos.tipo == Const.tnumero)
+                        {
+                            Principal.filtro = ejecutarValor(DONDE.hijos.get(1)).valor;
+                            Principal.colFiltro = Integer.valueOf(dondePos.valor) - 1;
+                            if(Principal.datos.get(Principal.fila).datos.get(Principal.colFiltro).valor.equals(Principal.filtro))
+                            {
+                                Principal.filtro = ejecutarValor(DONDE.hijos.get(1)).valor;
+                                Objeto valor = ejecutarValor(PROCESAR.hijos.get(0));
+                                fila.datos.add(new Objeto(0, Principal.filtro));
+                                fila.datos.add(valor);
+                                Principal.procesar.add(fila);
+                            }
+                        }
+                        else
+                            ErroresGraphik.agregarError("Error semantico", "La referencia para la columna de Donde no es de tipo entero [" + dondePos.valor + "]", 0,0);
+                        break;
+                    case Const.dondecada:
+                        if(dondePos.tipo == Const.tnumero)
+                        {
+                            Principal.colFiltro = Integer.valueOf(dondePos.valor) - 1;
+                            Fila f = Principal.datos.get(Principal.fila);
+                            Principal.filtro = f.datos.get(Principal.colFiltro).valor;
+                            Objeto valor = ejecutarValor(PROCESAR.hijos.get(0)); //ejecuta el procesar
+                            Fila filaFiltro = buscarFiltro();
+                            if(filaFiltro != null)
+                            {
+                                Objeto x = filaFiltro.datos.get(1);
+                                x.valor = Double.valueOf(x.valor) + Double.valueOf(valor.valor) + "";
+                            }
+                            else
+                            {
+                                fila.datos.add(new Objeto(0, Principal.filtro));
+                                fila.datos.add(valor);
+                                Principal.procesar.add(fila);
+                            }
+                        }
+                        break;
+                }
+            }
+            if(DONDE.nombre.equals(Const.dondetodo))
+            {
+                Objeto dondePos = ejecutarValor(DONDE.hijos.get(0));
+                Double x = 0.0;
+                if(dondePos.tipo == Const.tnumero)
+                {
+                    for(Principal.fila = 0; Principal.fila < Principal.datos.size(); Principal.fila++ )
+                    {
+                        Objeto valor = ejecutarValor(PROCESAR.hijos.get(0)); //ejecuta el procesar
+                        x += Double.valueOf(valor.valor);
+                    }
+                }
+                fila.datos.add(new Objeto(0, "Todo"));
+                fila.datos.add(new Objeto(Const.tdecimal, x + ""));
+                Principal.procesar.add(fila);
+            }
+            ReporteProcesar.generarProcesar(DONDE.nombre);
+        }
+    }
+    
+    public static Fila buscarFiltro()
+    {
+        for(Fila f : Principal.procesar)
+            if(f.datos.get(0).valor.equals(Principal.filtro))
+                return f;
+        return null;
     }
     
     public static int getTipo(String tipo)

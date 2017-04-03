@@ -11,12 +11,18 @@ import Analisis.haskell.*;
 import Reportes.Arbol;
 import Reportes.ErroresGraphik;
 import Reportes.ErroresHaskell;
+import com.csvreader.CsvReader;
 import com.sun.glass.events.KeyEvent;
 import fabrica.*;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.StringReader;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import semanticos.EjecutarArbol;
@@ -34,6 +40,12 @@ import semanticos.terminal.PilaHaskell;
 public class Principal extends javax.swing.JFrame {
 
     public static String consola = "";
+    public static LinkedList<Fila> datos = new LinkedList<>();
+    public static LinkedList<Fila> procesar = new LinkedList<>();
+    public static int fila = 0;
+    public static int colFiltro = 0;
+    public static int tipoDonde = 3;//donde todo por defecto
+    public static String filtro = "";
 //    public static JPanel panel = new JPanel();
     public Principal() {
         initComponents();
@@ -56,6 +68,7 @@ public class Principal extends javax.swing.JFrame {
         taEntrada = new javax.swing.JTextArea();
         bEjecutar = new javax.swing.JButton();
         bCargar = new javax.swing.JButton();
+        bCsv = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,7 +90,7 @@ public class Principal extends javax.swing.JFrame {
         taEntrada.setColumns(20);
         taEntrada.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         taEntrada.setRows(5);
-        taEntrada.setText("importar Nodo.gk?  \nincluir_HK FormCuadraticaPositiva?\nincluir_HK FormCuadraticaNegativa?\nincluir_HK Permutacion?\nincluir_HK FuncionPolinomial1?  \nincluir_HK funcionPrueba?  \nALS objeto : publico { \n\tvacio inicio(){\n\t\tvar entero x = 0?\n\t\tvar entero arreglo[6] = {1,2,3,4,5,6}?\n\t\tgraphikar_funcion(arreglo, arreglo)?\n\t}\n\tcadena FormCuadraticaPositiva(){\n\t\ta = (5*2)^2 - 4?\n\t\tvar entero b = 3?\n\t\tvar entero c = 8?\n\t\timprimir(llamarHK FormCuadraticaPositiva(a, b, c))?\n\t\tretornar \"Primer función ejecutada con éxito\"?\n\t}\n\tcadena FormCuadraticaNegativa():privado{\n\t\tvar decimal arreglo[3] = {96, 3, 8}?\n\t\timprimir(llamarHK FormCuadraticaNegativa(arreglo[0], arreglo[1], arreglo[2]))?\n\t\tretornar \"Segunda función ejecutada con éxito\"?\n\t}\n\tvacio FuncionPolinomial1(entero valor_entrada){\n\t\tvar entero arreglo[5]?\n\t\tvar int i?\n\t\tPara(i=0: i<5: i++){\n\t\t\tarreglo[i] = llamarHK FuncionPolinomial1(valor_entrada * i)?\n\t\t\timprimir(\"polinomial: \" + arreglo[i])?\n\t\t}\n\t} \n\tentero Permutacion_gk(entero n, entero r){\n\t\tMientras(r>0){\n\t\t\timprimir(\"Factorial: \" + llamarHK Permuctacion(n,r))?\n\t\t\tr = r - 1?\n\t\t}\n\t}\n\tNodo creacion_nodos(){\n\t\tvar Nodo nod1 = nuevo Nodo()?\n\t\tnod1.nombre = \"primero\"?\n\t\tnod1.numero = 1?\n\t\tretornar nod1?\n\t}\n}\n\nALS Nodo : publico{\n\tvar cadena nombre : publico = \"\"?\n\tvar entero  numero : publico = 0?\n\tvar bool bandera : publico = verdadero?  \n\tvacio cambiar_bandera(){\n\t\tSi(bandera == falso){\n\t\t\tbandera = verdadero?\n\t\t}Sino{\n\t\t\tSi(bandera == verdadero){\n\t\t\t\tbandera = falso?\n\t\t\t}\n\t\t}\n\t} \n} ");
+        taEntrada.setText("ALS Nodo : publico{ \n\tvacio inicio(){\n\t\tllamar Datos()?\n\t}  \n\tvacio Datos(){\n\t\tProcesar = llamar sumar(columna(3-1), columna(3))?\n\t\tDonde(1) = \"Guatemala\"?\n\t}\n\tdecimal sumar(decimal x, decimal y)\n\t{\n\t\tretornar x + y?\n\t}\n}");
         jScrollPane2.setViewportView(taEntrada);
 
         bEjecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/play.png"))); // NOI18N
@@ -94,6 +107,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        bCsv.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/csv.png"))); // NOI18N
+        bCsv.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCsvActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -101,14 +121,16 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1492, Short.MAX_VALUE)
+                    .addComponent(tfEntradaConsola)
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1492, Short.MAX_VALUE)
-                    .addComponent(tfEntradaConsola)
-                    .addComponent(jScrollPane2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bCsv, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -117,13 +139,14 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bCsv, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfEntradaConsola, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -265,6 +288,52 @@ public class Principal extends javax.swing.JFrame {
             System.out.println("La raiz de graphik terminal es nula");
     }//GEN-LAST:event_bEjecutarActionPerformed
 
+    private void bCsvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCsvActionPerformed
+        try {
+            datos.clear();
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                CsvReader archivo = new CsvReader(fileChooser.getSelectedFile().getAbsolutePath());
+                archivo.readHeaders();
+
+                while (archivo.readRecord())
+                {
+                    Fila fila = new Fila();
+                    for(String val : archivo.getValues())
+                    {
+                        val = val.replace("\"", "");
+                        val = val.replace("{", "");
+                        val = val.replace("}", "");
+                        Objeto obj = new Objeto();
+                        obj.valor = val;
+                        try {
+                            Integer.valueOf(val);
+                            obj.tipo = Const.tnumero;
+                        } catch (Exception e1) {
+                            try {
+                                Double.valueOf(val);
+                                obj.tipo = Const.tdecimal;
+                            } catch (Exception e2) {
+                                obj.tipo = Const.tcadena;
+                            }
+                        }
+                        fila.datos.add(obj);
+                    }
+                    System.out.println(archivo.get(0) + " - " + archivo.get(1));
+                    datos.add(fila);
+                }
+            }
+         
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        
+    }//GEN-LAST:event_bCsvActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -302,6 +371,7 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCargar;
+    private javax.swing.JButton bCsv;
     private javax.swing.JButton bEjecutar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

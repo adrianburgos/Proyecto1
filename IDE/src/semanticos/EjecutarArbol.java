@@ -52,7 +52,10 @@ public class EjecutarArbol {
                     Semantico.declaracion(hijo);
                     break;
                 case Const.llamar:
-                    Semantico.llamar(hijo);
+                    if(hijo.hijos.get(0).nombre.equals(Const.datos))
+                        Semantico.llamarDatos(hijo);
+                    else
+                        Semantico.llamar(hijo);
                     break;
                 case Const.si:
                     retorno = Semantico.si(hijo);
@@ -97,7 +100,7 @@ public class EjecutarArbol {
         return retorno;
     }
     
-    private static LinkedList<Nodo> buscarClasePrincipal(Nodo lals)
+    public static LinkedList<Nodo> buscarClasePrincipal(Nodo lals)
     {
         LinkedList clasePrincipal = null;
         for(Nodo als : lals.hijos)
@@ -212,6 +215,7 @@ public class EjecutarArbol {
         if((objRet.valor != null || objRet.objeto != null) && funcion.tipo != Const.tvacio)
         {
             if(objRet.tipo == res.tipo)
+            {
                 if(objRet.tipo == Const.tals)
                 {
                     if(objRet.tipoAls.equals(res.tipoAls))
@@ -223,6 +227,12 @@ public class EjecutarArbol {
                 }
                 else
                     res = new Elemento(funcion.valor, funcion.tipo, objRet.valor);
+            }
+            else
+            {
+                String error = "La funcion [" + funcion.valor + "] su retorno debe de ser de tipo [" + Semantico.getTipo(res.tipo) + "] y se esta retornando de tipo [" + Semantico.getTipo(objRet.tipo) + "]";
+                ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+            }
         }
         else
         {// no vino retorno dentro del cuerpo de la funcion

@@ -1,6 +1,12 @@
 package ide;
 public class Const {
     public static final String 
+            columna = "columna",
+            datos = "datos",
+            procesar = "procesar",
+            donde = "Donde",
+            dondecada = "DondeCada",
+            dondetodo = "DondeTodo",
             calcular = "calcular",
             let = "let",
             pos = "pos",
