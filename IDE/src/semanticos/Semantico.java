@@ -1395,7 +1395,6 @@ public class Semantico {
     
     public static String quitarComillas(String s)
     {
-        s = s.replace("\"", "");
         return s;
     }
     

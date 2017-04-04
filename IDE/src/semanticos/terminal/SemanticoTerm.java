@@ -380,6 +380,73 @@ public class SemanticoTerm {
         return res;
     }
 
+    static Objeto min(Nodo nodo) {
+        Objeto res = new Objeto();
+        Nodo min = nodo.hijos.get(0);
+        Objeto valores = new Objeto();
+        boolean esChar = false;
+        double menor = 999999;
+        switch(min.nombre)
+        {
+            case Const.lista:
+                valores = recorrerLista(min);
+                break;
+            case Const.lcorchetes:
+                valores = recorrerCorchetes(min);
+                break;
+            case Const.id:
+                Elemento ele = PilaHaskell.buscar(min.valor);
+                valores.dim = ele.dim;
+                valores.lvalores = ele.lvalores;
+                break;
+        }
+        if(valores.dim != null )
+        {
+            for(Objeto obj : valores.lvalores)
+            {
+                if(obj.lvalores != null && obj.lvalores.size() > 0)
+                {
+                    for(Objeto obj2 : obj.lvalores)
+                        if(obj2.tipo == Const.tcaracter)
+                        {
+                            esChar = true;
+                            if(menor > Double.valueOf((int) obj2.valor.charAt(0)))
+                                menor = Double.valueOf((int) obj2.valor.charAt(0));
+                        }
+                        else
+                            if(menor > Double.valueOf(obj2.valor))
+                                menor = Double.valueOf(obj2.valor);
+                }
+                else
+                    if(obj.tipo == Const.tcaracter)
+                    {
+                        esChar = true;
+                        if(menor > Double.valueOf((int) obj.valor.charAt(0)))
+                            menor = Double.valueOf((int) obj.valor.charAt(0));
+                    }
+                    else
+                        if(menor > Double.valueOf(obj.valor))
+                            menor = Double.valueOf(obj.valor);
+            }
+        }
+        else
+        {
+            String error = "[" + min.valor + "] no es una Lista";
+            ErroresHaskell.agregarError("Error semantico", error, 0, 0);
+        }
+        if(esChar)
+        {
+            res.tipo = Const.tcaracter;
+            res.valor = (char) Math.round(menor) + "";
+        }
+        else
+        {
+            res.valor = menor + "";
+            res.tipo = Const.tdecimal;
+        }
+        return res;
+    }
+
     static Objeto length(Nodo nodo) {
         Objeto res = new Objeto();
         Nodo len = nodo.hijos.get(0);

@@ -66,6 +66,8 @@ public class EjecutarTerm {
                 return SemanticoTerm.product(raiz);
             case Const.max:
                 return SemanticoTerm.max(raiz);
+            case Const.min:
+                return SemanticoTerm.min(raiz);
             case Const.length:
                 return SemanticoTerm.length(raiz);
             case Const.poslista:

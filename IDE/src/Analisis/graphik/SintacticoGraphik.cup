@@ -32,7 +32,7 @@ terminal datos, columna, procesar, donde, dondecada, dondetodo, imprimir;
 terminal masmas, menosmenos, mas, menos, por, dividido, pot, and, or, xor, not, menorigual, mayorigual;
 terminal menor, mayor, diferente, igualigual, interroga, dospuntos, igual, punto, coma, allave, cllave;
 terminal acorchete, ccorchete, aparentesis, cparentesis;
-terminal String numero, dec, iden, cad, car, verdadero, falso, extgk;
+terminal String numero, dec, iden, idengk, idenhk, cad, car, verdadero, falso;
 
 non terminal Nodo INICIO, FUN, LALS, ALS, CUERPO, HEREDA, LCUERPOALS, CUERPOALS, LIMPORTAR, VALOR;
 non terminal Nodo IMPORTAR, INCLUIR, LID, ID, LVALOR, DEC, PRINCIPAL, LPAR, ASIG, ASIGNORMAL, LCORCHETES, ASIGARR;
@@ -107,7 +107,7 @@ LIMPORTAR         ::= LIMPORTAR:LIMPORTAR IMPORTAR:IMPORTAR
                         if(IMPORTAR != null)
                             RESULT = NodoGeneral.crearLimportar(IMPORTAR);
                     :};
-IMPORTAR        ::= importar iden:id extgk:ext interroga {: RESULT = NodoGeneral.crearImportar(id, ext); :}
+IMPORTAR        ::= importar idengk:id interroga {: RESULT = NodoGeneral.crearImportar(id, ""); :}
                 |   incluirhk iden:id interroga {: RESULT = NodoGeneral.crearIncluirhk(id); :};
 
 LALS         ::= LALS:LALS ALS:ALS

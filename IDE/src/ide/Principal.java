@@ -14,9 +14,11 @@ import Reportes.ErroresHaskell;
 import com.csvreader.CsvReader;
 import com.sun.glass.events.KeyEvent;
 import fabrica.*;
+import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.LinkedList;
@@ -25,6 +27,11 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.Style;
 import semanticos.EjecutarArbol;
 import semanticos.Objeto;
 import semanticos.Pila;
@@ -46,6 +53,7 @@ public class Principal extends javax.swing.JFrame {
     public static int colFiltro = 0;
     public static int tipoDonde = 3;//donde todo por defecto
     public static String filtro = "";
+    public static String ruta = "";
 //    public static JPanel panel = new JPanel();
     public Principal() {
         initComponents();
@@ -64,11 +72,16 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         taConsola = new javax.swing.JTextArea();
         tfEntradaConsola = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        taEntrada = new javax.swing.JTextArea();
         bEjecutar = new javax.swing.JButton();
         bCargar = new javax.swing.JButton();
         bCsv = new javax.swing.JButton();
+        bNuevo = new javax.swing.JButton();
+        bAbrir = new javax.swing.JButton();
+        bGuardar = new javax.swing.JButton();
+        bGuardarComo = new javax.swing.JButton();
+        bEliminar = new javax.swing.JButton();
+        tpArchivos = new javax.swing.JTabbedPane();
+        bNuevo1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -86,12 +99,6 @@ public class Principal extends javax.swing.JFrame {
                 tfEntradaConsolaKeyPressed(evt);
             }
         });
-
-        taEntrada.setColumns(20);
-        taEntrada.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        taEntrada.setRows(5);
-        taEntrada.setText("ALS Nodo : publico{ \n\tvacio inicio(){\n\t\tllamar Datos()?\n\t}  \n\tvacio Datos(){\n\t\tProcesar = llamar sumar(columna(3-1), columna(3))?\n\t\tDonde(1) = \"Guatemala\"?\n\t}\n\tdecimal sumar(decimal x, decimal y)\n\t{\n\t\tretornar x + y?\n\t}\n}");
-        jScrollPane2.setViewportView(taEntrada);
 
         bEjecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/play.png"))); // NOI18N
         bEjecutar.addActionListener(new java.awt.event.ActionListener() {
@@ -114,22 +121,61 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        bNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevoGK.png"))); // NOI18N
+        bNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bNuevoActionPerformed(evt);
+            }
+        });
+
+        bAbrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/abrir.png"))); // NOI18N
+        bAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAbrirActionPerformed(evt);
+            }
+        });
+
+        bGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/guardar.png"))); // NOI18N
+
+        bGuardarComo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/guardar_como.png"))); // NOI18N
+
+        bEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar.png"))); // NOI18N
+
+        bNuevo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevoHK.png"))); // NOI18N
+        bNuevo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bNuevo1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1492, Short.MAX_VALUE)
-                    .addComponent(tfEntradaConsola)
-                    .addComponent(jScrollPane2)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(tpArchivos)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tfEntradaConsola, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(bEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bCsv, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bNuevo1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bAbrir, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bGuardarComo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -140,13 +186,19 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bCsv, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bCsv, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bAbrir, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bGuardarComo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bNuevo1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tpArchivos, javax.swing.GroupLayout.PREFERRED_SIZE, 637, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfEntradaConsola, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -220,81 +272,90 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_tfEntradaConsolaKeyPressed
 
     private void bCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCargarActionPerformed
-        String texto = taEntrada.getText();
-        LexicoHaskell lhaskell = new LexicoHaskell(new BufferedReader(new StringReader(texto)));
-        SintacticoHaskell shaskell = new SintacticoHaskell(lhaskell);
-        Nodo raiz = new Nodo();
-        try {
-            shaskell.parse();
-            raiz = shaskell.raiz;
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-        if(ErroresHaskell.contErrores > 0)
-            ErroresHaskell.generarErrores();
-        if(raiz != null)
+        if(tpArchivos.getTitleAt(tpArchivos.getSelectedIndex()).endsWith(".hk"))
         {
-            Haskell.arbol.hijos.addAll(raiz.hijos);
-            Arbol.getGrafo(Haskell.arbol);
-            Arbol.dibujar();
-            String x = "Se cargo a memoria: \n";
-            for(Nodo n : raiz.hijos)
-                x += "\t-" + n.valor + "-\n";
-            taConsola.setText(taConsola.getText() + x + "\n");
-            //Semantico.ejecutarValor(raiz);
+            JScrollPane sp = (JScrollPane) tpArchivos.getSelectedComponent().getComponentAt(0,0);
+            JTextArea ta = (JTextArea) sp.getViewport().getView();
+            String texto = ta.getText();
+            LexicoHaskell lhaskell = new LexicoHaskell(new BufferedReader(new StringReader(texto)));
+            SintacticoHaskell shaskell = new SintacticoHaskell(lhaskell);
+            Nodo raiz = new Nodo();
+            try {
+                shaskell.parse();
+                raiz = shaskell.raiz;
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+            if(ErroresHaskell.contErrores > 0)
+                ErroresHaskell.generarErrores();
+            else
+            if(raiz != null)
+            {
+                Haskell.arbol.hijos.addAll(raiz.hijos);
+                Arbol.getGrafo(Haskell.arbol);
+                Arbol.dibujar();
+                String x = "Se cargo a memoria: \n";
+                for(Nodo n : raiz.hijos)
+                    x += "\t-" + n.valor + "-\n";
+                taConsola.setText(taConsola.getText() + x + "\n");
+                //Semantico.ejecutarValor(raiz);
+                if(ErroresHaskell.contErrores > 0)
+                    ErroresHaskell.generarErrores();
+            }
+            else
+                System.out.println("La raiz de haskel terminal es nula");
         }
-        else
-            System.out.println("La raiz de haskel terminal es nula");
     }//GEN-LAST:event_bCargarActionPerformed
 
     private void bEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEjecutarActionPerformed
-        String texto = taEntrada.getText();
-        LexicoGraphik lgraphik = new LexicoGraphik(new BufferedReader(new StringReader(texto)));
-        SintacticoGraphik sgraphik = new SintacticoGraphik(lgraphik);
-        Nodo raiz = new Nodo();
-        try {
-            sgraphik.parse();
-            raiz = sgraphik.raiz;
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-        if(raiz != null)
+        if(tpArchivos.getTitleAt(tpArchivos.getSelectedIndex()).endsWith(".gk"))
         {
-            consola = "";
-            Arbol.getGrafo(raiz);
-            Arbol.dibujar();
-            if(ErroresGraphik.contErrores > 0)
+            JScrollPane sp = (JScrollPane) tpArchivos.getSelectedComponent().getComponentAt(0,0);
+            JTextArea ta = (JTextArea) sp.getViewport().getView();
+            String texto = ta.getText();
+            LexicoGraphik lgraphik = new LexicoGraphik(new BufferedReader(new StringReader(texto)));
+            SintacticoGraphik sgraphik = new SintacticoGraphik(lgraphik);
+            Nodo raiz = new Nodo();
+            try {
+                sgraphik.parse();
+                raiz = sgraphik.raiz;
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+            if(raiz != null)
             {
-                ErroresGraphik.generarErrores();
-                JOptionPane.showMessageDialog(this,"Errores Lexicos o Sintacticos");
+                consola = "";
+                if(ErroresGraphik.contErrores > 0)
+                {
+                    ErroresGraphik.generarErrores();
+                    JOptionPane.showMessageDialog(this,"Errores Lexicos o Sintacticos");
+                }
+                else
+                    EjecutarArbol.ejecutar(raiz);
+                if(ErroresGraphik.contErrores > 0)
+                {
+                    ErroresGraphik.generarErrores();
+                    JOptionPane.showMessageDialog(this,"Errores semanticos");
+                }
+                taConsola.setText("");
+                taConsola.setText(consola);
+                //taConsola.setText(taConsola.getText() + Pila.recorrerPila());
+                System.out.println(Pila.recorrerPila());
             }
             else
-                try {
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-            EjecutarArbol.ejecutar(raiz);
-            if(ErroresGraphik.contErrores > 0)
-            {
-                ErroresGraphik.generarErrores();
-                JOptionPane.showMessageDialog(this,"Errores semanticos");
-            }
-            taConsola.setText("");
-            taConsola.setText(consola);
-            //taConsola.setText(taConsola.getText() + Pila.recorrerPila());
-            System.out.println(Pila.recorrerPila());
+                System.out.println("La raiz de graphik terminal es nula");
         }
-        else
-            System.out.println("La raiz de graphik terminal es nula");
     }//GEN-LAST:event_bEjecutarActionPerformed
 
     private void bCsvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCsvActionPerformed
         try {
             datos.clear();
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-            int result = fileChooser.showOpenDialog(this);
-            if (result == JFileChooser.APPROVE_OPTION) {
+            fileChooser.setCurrentDirectory(new File("C:\\Users\\AdrianFernando\\Desktop"));
+            FileFilter filtro = new FileNameExtensionFilter("Archivos","csv");
+            fileChooser.setFileFilter(filtro);
+            if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+            {
                 CsvReader archivo = new CsvReader(fileChooser.getSelectedFile().getAbsolutePath());
                 archivo.readHeaders();
 
@@ -334,6 +395,55 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_bCsvActionPerformed
 
+    private void bNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNuevoActionPerformed
+        JTextArea ta = new JTextArea();
+        ta.setFont(new Font("Tahoma", 0, 18));
+        JScrollPane sp = new JScrollPane(ta);
+        tpArchivos.addTab("Nuevo.gk", sp);
+        tpArchivos.setSelectedIndex(tpArchivos.getTabCount() - 1);
+    }//GEN-LAST:event_bNuevoActionPerformed
+
+    private void bNuevo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNuevo1ActionPerformed
+        JTextArea ta = new JTextArea();
+        ta.setFont(new Font("Tahoma", 0, 18));
+        JScrollPane sp = new JScrollPane(ta);
+        tpArchivos.addTab("Nuevo.gh", sp);
+        tpArchivos.setSelectedIndex(tpArchivos.getTabCount() - 1);
+    }//GEN-LAST:event_bNuevo1ActionPerformed
+
+    private void bAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAbrirActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("C:\\Users\\AdrianFernando\\Desktop"));
+        FileFilter filtro = new FileNameExtensionFilter("Archivos","hk","gk");
+        fileChooser.setFileFilter(filtro);
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+        {
+            ruta = fileChooser.getSelectedFile().getParent();
+            
+            JTextArea ta = new JTextArea();
+            ta.setFont(new Font("Tahoma", 0, 18));
+            JScrollPane sp = new JScrollPane(ta);
+            tpArchivos.addTab(fileChooser.getSelectedFile().getName(), sp);
+            tpArchivos.setSelectedIndex(tpArchivos.getTabCount() - 1);
+            File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+            BufferedReader br = null;
+            try{
+                br =new BufferedReader(new FileReader(fileChooser.getSelectedFile().getAbsolutePath()));
+                String linea = br.readLine();
+                while (null!=linea) {
+                   ta.append(linea + "\n");
+                   linea = br.readLine();
+                }
+                br.close();
+
+            }
+            catch (Exception e)
+            {
+                System.err.println("Error! "+e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_bAbrirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -370,13 +480,18 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bAbrir;
     private javax.swing.JButton bCargar;
     private javax.swing.JButton bCsv;
     private javax.swing.JButton bEjecutar;
+    private javax.swing.JButton bEliminar;
+    private javax.swing.JButton bGuardar;
+    private javax.swing.JButton bGuardarComo;
+    private javax.swing.JButton bNuevo;
+    private javax.swing.JButton bNuevo1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea taConsola;
-    private javax.swing.JTextArea taEntrada;
     private javax.swing.JTextField tfEntradaConsola;
+    private javax.swing.JTabbedPane tpArchivos;
     // End of variables declaration//GEN-END:variables
 }

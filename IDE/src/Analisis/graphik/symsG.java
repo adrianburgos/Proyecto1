@@ -16,7 +16,6 @@ public class symsG {
   public static final int acorchete = 63;
   public static final int importar = 13;
   public static final int cllave = 62;
-  public static final int extgk = 74;
   public static final int mas = 41;
   public static final int cadena = 7;
   public static final int dospuntos = 57;
@@ -27,6 +26,7 @@ public class symsG {
   public static final int imprimir = 38;
   public static final int llamar = 18;
   public static final int privado = 11;
+  public static final int idenhk = 71;
   public static final int sino = 22;
   public static final int procesar = 34;
   public static final int decimal = 5;
@@ -40,11 +40,12 @@ public class symsG {
   public static final int mayorigual = 51;
   public static final int nuevo = 3;
   public static final int datos = 32;
+  public static final int idengk = 70;
   public static final int dondecada = 36;
   public static final int bool = 8;
   public static final int menosmenos = 40;
   public static final int seleccion = 23;
-  public static final int car = 71;
+  public static final int car = 73;
   public static final int protegido = 12;
   public static final int columna = 33;
   public static final int vacio = 9;
@@ -53,14 +54,14 @@ public class symsG {
   public static final int mayor = 53;
   public static final int cparentesis = 66;
   public static final int xor = 48;
-  public static final int cad = 70;
+  public static final int cad = 72;
   public static final int iden = 69;
   public static final int EOF = 0;
   public static final int inicio = 19;
-  public static final int falso = 73;
+  public static final int falso = 75;
   public static final int numero = 67;
   public static final int publico = 10;
-  public static final int verdadero = 72;
+  public static final int verdadero = 74;
   public static final int error = 1;
   public static final int continuar = 29;
   public static final int diferente = 54;
@@ -154,11 +155,12 @@ public class symsG {
   "numero",
   "dec",
   "iden",
+  "idengk",
+  "idenhk",
   "cad",
   "car",
   "verdadero",
-  "falso",
-  "extgk"
+  "falso"
   };
 }
 

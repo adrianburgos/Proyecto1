@@ -5,10 +5,19 @@
  */
 package semanticos;
 
+import Analisis.graphik.LexicoGraphik;
+import Analisis.graphik.SintacticoGraphik;
+import Reportes.Arbol;
 import Reportes.ErroresGraphik;
 import fabrica.Nodo;
 import ide.Const;
+import ide.Principal;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.StringReader;
 import java.util.LinkedList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,15 +29,86 @@ public class EjecutarArbol {
     public static void ejecutar(Nodo raizPar)
     {
         raiz = raizPar;
-        //incluye e importar
-        
-        //hereda
-        
-        //crear tabla de simbolos
-        LinkedList<Nodo> clasePrincipal = buscarClasePrincipal(raiz.hijos.get(1));
-        Pila.inicializarPila(clasePrincipal.get(0).hijos.get(1));
-        //ejecutar principal
-        ejecutarPrincipal(clasePrincipal.get(1));
+        //importar
+        recorrerImportar(raiz);
+        Arbol.getGrafo(raiz);
+        Arbol.dibujar();
+        if(ErroresGraphik.contErrores > 0)
+        {
+            ErroresGraphik.generarErrores();
+        }
+        else
+        {
+            //hereda
+
+            //crear tabla de simbolos
+            LinkedList<Nodo> clasePrincipal = buscarClasePrincipal(raiz.hijos.get(1));
+            Pila.inicializarPila(clasePrincipal.get(0).hijos.get(1));
+            //ejecutar principal
+            ejecutarPrincipal(clasePrincipal.get(1));
+        }
+    }
+    
+    public static void recorrerImportar(Nodo raiz)
+    {
+        for(Nodo importar : raiz.hijos.get(0).hijos)
+        {
+            if(importar.nombre.equals(Const.importar))
+            {
+                String archivo = textoArchivo(importar.valor);
+                if(archivo != null)
+                {//el archivo existe
+                    LexicoGraphik lgraphik = new LexicoGraphik(new BufferedReader(new StringReader(archivo)));
+                    SintacticoGraphik sgraphik = new SintacticoGraphik(lgraphik);
+                    Nodo raizImportar = null;
+                    try {
+                        sgraphik.parse();
+                        raizImportar = sgraphik.raiz;
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                    if(ErroresGraphik.contErrores > 0)
+                    {
+                        JOptionPane.showMessageDialog(null,"Errores Lexicos o Sintacticos en archivo " + importar.valor);
+                    }
+                    else
+                    {
+                        if(raizImportar != null)
+                        {
+                            recorrerImportar(raizImportar);
+                            Nodo LALS = raizImportar.hijos.get(1);
+                            for(Nodo als : LALS.hijos)
+                            {
+                                raiz.hijos.get(1).hijos.add(als);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private static String textoArchivo(String nombre)
+    {
+        String s = "";
+        nombre = Principal.ruta + "\\" + nombre;
+        BufferedReader br = null;
+        try{
+            br =new BufferedReader(new FileReader(nombre));
+            String linea = br.readLine();
+            while (null!=linea) {
+               s += linea + "\n";
+               linea = br.readLine();
+            }
+            br.close();
+
+        }
+        catch (Exception e)
+        {
+            System.err.println("Error! "+e.getMessage());
+            return null;
+        }
+        return s;
     }
     
     private static void ejecutarPrincipal(Nodo nodo) {

@@ -25,6 +25,7 @@ import Reportes.*;
 numero = [0-9]+
 dec = [0-9]+"."[0-9]+
 iden = [A-Za-z_][A-Za-z_0-9]*
+idengk = [A-Za-z_][A-Za-z_0-9]*".gk"
 car = "'"."'"
 cad = \"(\\.|[^\"])*\"
 finLinea = \r|\n|\r\n
@@ -52,7 +53,6 @@ comenLinea = #(\\.|[^\n])*\n
 "protegido"     { return new Symbol(symsG.protegido, yycolumn, yyline, yytext().toLowerCase()); }
 "privado"       { return new Symbol(symsG.privado, yycolumn, yyline, yytext().toLowerCase()); }
 "importar"      { return new Symbol(symsG.importar, yycolumn, yyline, yytext().toLowerCase()); }
-".gk"           { return new Symbol(symsG.extgk, yycolumn, yyline, yytext().toLowerCase()); }
 "als"           { return new Symbol(symsG.als, yycolumn, yyline, yytext().toLowerCase()); }
 "hereda"        { return new Symbol(symsG.hereda, yycolumn, yyline, yytext().toLowerCase()); }
 "retornar"      { return new Symbol(symsG.retornar, yycolumn, yyline, yytext().toLowerCase()); }
@@ -118,6 +118,7 @@ comenLinea = #(\\.|[^\n])*\n
 {cad}           { return new Symbol(symsG.cad, yycolumn, yyline, yytext().replace("\"", "")); }
 {numero}        { return new Symbol(symsG.numero, yycolumn, yyline, Integer.valueOf(yytext()) + ""); }
 {dec}           { return new Symbol(symsG.dec, yycolumn, yyline, Double.valueOf(yytext()) + ""); }
+{idengk}        { return new Symbol(symsG.idengk, yycolumn, yyline, yytext()); }
 {iden}          { return new Symbol(symsG.iden, yycolumn, yyline, yytext().toLowerCase()); }
 
 {enBlanco}  { /* ignore */ }
