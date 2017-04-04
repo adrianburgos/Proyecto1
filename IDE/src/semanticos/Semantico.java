@@ -122,6 +122,12 @@ public class Semantico {
                                 res.objeto = (Ambito) ele.objeto;
                                 res.tipoAls = ele.tipoAls;
                             }
+                            else
+                                if(ele.dim != null && ele.dim.size() > 0)
+                                {
+                                    res.dim = ele.dim;
+                                    res.lvalores = ele.lvalores;
+                                }
                         }
                     }
                     else
@@ -227,442 +233,443 @@ public class Semantico {
     private static Objeto ejecutarAritmetica(Objeto valIzq, Objeto valDer, String operador)
     {
         Objeto res = new Objeto();
-        switch (operador)
-        {
-            case Const.mas:
-                switch (valDer.tipo + valIzq.tipo)
-                {
-                    case 2://numero + numero
-                        res.tipo = Const.tnumero;
-                        res.valor = Integer.valueOf(valIzq.valor) + Integer.valueOf(valDer.valor) + "";
-                        break;
-                    case 4://numero + decimal
-                    case 6://decimal + decimal
-                        res.tipo = Const.tdecimal;
-                        res.valor = Double.valueOf(valIzq.valor) + Double.valueOf(valDer.valor) + "";
-                        break;
-                    case 8://numero + caracter
-                        res.tipo = Const.tnumero;
-                        int num1 = 0;
-                        int num2 = 0;
-                        if(valIzq.tipo == 1)
-                        {
-                            num1 = Integer.valueOf(valIzq.valor);
-                            num2 = (int) valDer.valor.charAt(0);
-                        }
-                        else
-                        {
-                            num1 = (int) valIzq.valor.charAt(0);
-                            num2 = Integer.valueOf(valDer.valor);
-                        }
-                        res.valor = num1 + num2 + "";            
-                        break;
-                    case 10://decimal + caracter
-                        res.tipo = Const.tdecimal;
-                        double dec1 = 0;
-                        double dec2 = 0;
-                        if(valIzq.tipo == 1)
-                        {
-                            dec1 = Double.valueOf(valIzq.valor);
-                            dec2 = (int) valDer.valor.charAt(0);
-                        }
-                        else
-                        {
-                            dec1 = (int) valIzq.valor.charAt(0);
-                            dec2 = Double.valueOf(valDer.valor);
-                        }
-                        res.valor = dec1 + dec2 + "";            
-                        break;
-                    case 11://numero + cadena
-                    case 13://decimal + cadena
-                    case 14://caracter + caracter
-                    case 17://caracter + cadena
-                    case 20://cadena + cadena
-                    case 25://cadena + Bool
-                        res.tipo = Const.tcadena;
-                        res.valor = quitarComillas(valIzq.valor) + quitarComillas(valDer.valor);
-                        break;
-                    case 16://numero + Bool
-                        res.tipo = Const.tnumero;
-                        if (valIzq.valor.equals(Const.verdadero))
-                            valIzq.valor = "1";
-                        if (valIzq.valor.equals(Const.falso))
-                            valIzq.valor = "0";
-                        if (valDer.valor.equals(Const.verdadero))
-                            valDer.valor = "1";
-                        if (valDer.valor.equals(Const.falso))
-                            valDer.valor = "0";
-                        res.valor = Integer.valueOf(valIzq.valor) + Integer.valueOf(valDer.valor) + "";
-                        break;
-                    case 18://decimal + Bool
-                        res.tipo = Const.tdecimal;
-                        if (valIzq.valor.equals(Const.verdadero))
-                            valIzq.valor = "1";
-                        if (valIzq.valor.equals(Const.falso))
-                            valIzq.valor = "0";
-                        if (valDer.valor.equals(Const.verdadero))
-                            valDer.valor = "1";
-                        if (valDer.valor.equals(Const.falso))
-                            valDer.valor = "0";
-                        res.valor = Double.valueOf(valIzq.valor) + Double.valueOf(valDer.valor) + "";
-                        break;
-                    case 22://caracter + Bool
-                        res.tipo = Const.terror;
-                        res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] + [" + getTipo(valDer.tipo) + "]";
-                        break;
-                    case 30://Bool + Bool
-                        res.tipo = Const.tbool;
-                        res.valor = Const.falso;
-                        if (valIzq.valor.equals(Const.verdadero) || valDer.valor.equals(Const.verdadero))
-                            res.valor = Const.verdadero;
-                        break;
-                }
-                break;//case suma
-            case Const.menos:
-                switch (valDer.tipo + valIzq.tipo)
-                {
-                    case 2://numero - numero
-                        res.tipo = Const.tnumero;
-                        res.valor = Integer.valueOf(valIzq.valor) - Integer.valueOf(valDer.valor) + "";
-                        break;
-                    case 4://numero + decimal
-                    case 6://decimal + decimal
-                        res.tipo = Const.tdecimal;
-                        res.valor = Double.valueOf(valIzq.valor) - Double.valueOf(valDer.valor) + "";
-                        break;
-                    case 8://numero - caracter
-                        res.tipo = Const.tnumero;
-                        int num1 = 0;
-                        int num2 = 0;
-                        if(valIzq.tipo == 1)
-                        {
-                            num1 = Integer.valueOf(valIzq.valor);
-                            num2 = (int) valDer.valor.charAt(0);
-                        }
-                        else
-                        {
-                            num1 = (int) valIzq.valor.charAt(0);
-                            num2 = Integer.valueOf(valDer.valor);
-                        }
-                        res.valor = num1 - num2 + "";            
-                        break;
-                    case 10://decimal - caracter
-                        res.tipo = Const.tdecimal;
-                        double dec1 = 0;
-                        double dec2 = 0;
-                        if(valIzq.tipo == 1)
-                        {
-                            dec1 = Double.valueOf(valIzq.valor);
-                            dec2 = (int) valDer.valor.charAt(0);
-                        }
-                        else
-                        {
-                            dec1 = (int) valIzq.valor.charAt(0);
-                            dec2 = Double.valueOf(valDer.valor);
-                        }
-                        res.valor = dec1 - dec2 + "";            
-                        break;
-                    case 16://numero - Bool
-                        res.tipo = Const.tnumero;
-                        if (valIzq.valor.equals(Const.verdadero))
-                            valIzq.valor = "1";
-                        if (valIzq.valor.equals(Const.falso))
-                            valIzq.valor = "0";
-                        if (valDer.valor.equals(Const.verdadero))
-                            valDer.valor = "1";
-                        if (valDer.valor.equals(Const.falso))
-                            valDer.valor = "0";
-                        res.valor = Integer.valueOf(valIzq.valor) - Integer.valueOf(valDer.valor) + "";
-                        break;
-                    case 18://decimal - Bool
-                        res.tipo = Const.tdecimal;
-                        if (valIzq.valor.equals(Const.verdadero))
-                            valIzq.valor = "1";
-                        if (valIzq.valor.equals(Const.falso))
-                            valIzq.valor = "0";
-                        if (valDer.valor.equals(Const.verdadero))
-                            valDer.valor = "1";
-                        if (valDer.valor.equals(Const.falso))
-                            valDer.valor = "0";
-                        res.valor = Double.valueOf(valIzq.valor) - Double.valueOf(valDer.valor) + "";
-                        break;
-                    case 11://numero - cadena
-                    case 13://decimal - cadena
-                    case 14://caracter - caracter
-                    case 17://caracter - cadena
-                    case 20://cadena - cadena
-                    case 22://caracter - Bool
-                    case 25://cadena - Bool
-                    case 30://Bool - Bool
-                        res.tipo = Const.terror;
-                        res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] - [" + getTipo(valDer.tipo) + "]";
-                        break;
-                }
-                break;//case menos
-            case Const.por:
-                switch (valDer.tipo + valIzq.tipo)
-                {
-                    case 2://numero * numero
-                        res.tipo = Const.tnumero;
-                        res.valor = Integer.valueOf(valIzq.valor) * Integer.valueOf(valDer.valor) + "";
-                        break;
-                    case 4://numero * decimal
-                    case 6://decimal * decimal
-                        res.tipo = Const.tdecimal;
-                        res.valor = Double.valueOf(valIzq.valor) * Double.valueOf(valDer.valor) + "";
-                        break;
-                    case 8://numero * caracter
-                        res.tipo = Const.tnumero;
-                        int num1 = 0;
-                        int num2 = 0;
-                        if(valIzq.tipo == 1)
-                        {
-                            num1 = Integer.valueOf(valIzq.valor);
-                            num2 = (int) valDer.valor.charAt(0);
-                        }
-                        else
-                        {
-                            num1 = (int) valIzq.valor.charAt(0);
-                            num2 = Integer.valueOf(valDer.valor);
-                        }
-                        res.valor = num1 * num2 + "";            
-                        break;
-                    case 10://decimal * caracter
-                        res.tipo = Const.tdecimal;
-                        double dec1 = 0;
-                        double dec2 = 0;
-                        if(valIzq.tipo == 1)
-                        {
-                            dec1 = Double.valueOf(valIzq.valor);
-                            dec2 = (int) valDer.valor.charAt(0);
-                        }
-                        else
-                        {
-                            dec1 = (int) valIzq.valor.charAt(0);
-                            dec2 = Double.valueOf(valDer.valor);
-                        }
-                        res.valor = dec1 * dec2 + "";
-                        break;
-                    case 16://numero * Bool
-                        res.tipo = Const.tnumero;
-                        if (valIzq.valor.equals(Const.verdadero))
-                            valIzq.valor = "1";
-                        if (valIzq.valor.equals(Const.falso))
-                            valIzq.valor = "0";
-                        if (valDer.valor.equals(Const.verdadero))
-                            valDer.valor = "1";
-                        if (valDer.valor.equals(Const.falso))
-                            valDer.valor = "0";
-                        res.valor = Integer.valueOf(valIzq.valor) * Integer.valueOf(valDer.valor) + "";
-                        break;
-                    case 18://decimal * Bool
-                        res.tipo = Const.tdecimal;
-                        if (valIzq.valor.equals(Const.verdadero))
-                            valIzq.valor = "1";
-                        if (valIzq.valor.equals(Const.falso))
-                            valIzq.valor = "0";
-                        if (valDer.valor.equals(Const.verdadero))
-                            valDer.valor = "1";
-                        if (valDer.valor.equals(Const.falso))
-                            valDer.valor = "0";
-                        res.valor = Double.valueOf(valIzq.valor) * Double.valueOf(valDer.valor) + "";
-                        break;
-                    case 11://numero * cadena
-                    case 13://decimal * cadena
-                    case 14://caracter * caracter
-                    case 17://caracter * cadena
-                    case 20://cadena * cadena
-                    case 22://caracter * Bool
-                    case 25://cadena * Bool
-                        res.tipo = Const.terror;
-                        res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] * [" + getTipo(valDer.tipo) + "]";
-                        break;
-                    case 30://Bool * Bool
-                        res.tipo = Const.tbool;
-                        res.valor = Const.falso;
-                        if (valIzq.valor.equals(Const.verdadero) && valDer.valor.equals(Const.verdadero))
-                            res.valor = Const.verdadero;
-                        break;
-                }
-                break;//case por
-            case Const.dividido:
-                switch (valDer.tipo + valIzq.tipo)
-                {
-                    case 2://numero / numero
-                        res.tipo = Const.tdecimal;
-                        if (Integer.valueOf(valDer.valor) != 0)
-                            res.valor = Double.valueOf(valIzq.valor) / Double.valueOf(valDer.valor) + "";
-                        else
-                        {
+        if(valIzq != null && valDer != null && valIzq.valor != null && valDer.valor != null)
+            switch (operador)
+            {
+                case Const.mas:
+                    switch (valDer.tipo + valIzq.tipo)
+                    {
+                        case 2://numero + numero
+                            res.tipo = Const.tnumero;
+                            res.valor = Integer.valueOf(valIzq.valor) + Integer.valueOf(valDer.valor) + "";
+                            break;
+                        case 4://numero + decimal
+                        case 6://decimal + decimal
+                            res.tipo = Const.tdecimal;
+                            res.valor = Double.valueOf(valIzq.valor) + Double.valueOf(valDer.valor) + "";
+                            break;
+                        case 8://numero + caracter
+                            res.tipo = Const.tnumero;
+                            int num1 = 0;
+                            int num2 = 0;
+                            if(valIzq.tipo == 1)
+                            {
+                                num1 = Integer.valueOf(valIzq.valor);
+                                num2 = (int) valDer.valor.charAt(0);
+                            }
+                            else
+                            {
+                                num1 = (int) valIzq.valor.charAt(0);
+                                num2 = Integer.valueOf(valDer.valor);
+                            }
+                            res.valor = num1 + num2 + "";            
+                            break;
+                        case 10://decimal + caracter
+                            res.tipo = Const.tdecimal;
+                            double dec1 = 0;
+                            double dec2 = 0;
+                            if(valIzq.tipo == Const.tdecimal)
+                            {
+                                dec1 = Double.valueOf(valIzq.valor);
+                                dec2 = (int) valDer.valor.charAt(0);
+                            }
+                            else
+                            {
+                                dec1 = (int) valIzq.valor.charAt(0);
+                                dec2 = Double.valueOf(valDer.valor);
+                            }
+                            res.valor = dec1 + dec2 + "";            
+                            break;
+                        case 11://numero + cadena
+                        case 13://decimal + cadena
+                        case 14://caracter + caracter
+                        case 17://caracter + cadena
+                        case 20://cadena + cadena
+                        case 25://cadena + Bool
+                            res.tipo = Const.tcadena;
+                            res.valor = quitarComillas(valIzq.valor) + quitarComillas(valDer.valor);
+                            break;
+                        case 16://numero + Bool
+                            res.tipo = Const.tnumero;
+                            if (valIzq.valor.equals(Const.verdadero))
+                                valIzq.valor = "1";
+                            if (valIzq.valor.equals(Const.falso))
+                                valIzq.valor = "0";
+                            if (valDer.valor.equals(Const.verdadero))
+                                valDer.valor = "1";
+                            if (valDer.valor.equals(Const.falso))
+                                valDer.valor = "0";
+                            res.valor = Integer.valueOf(valIzq.valor) + Integer.valueOf(valDer.valor) + "";
+                            break;
+                        case 18://decimal + Bool
+                            res.tipo = Const.tdecimal;
+                            if (valIzq.valor.equals(Const.verdadero))
+                                valIzq.valor = "1";
+                            if (valIzq.valor.equals(Const.falso))
+                                valIzq.valor = "0";
+                            if (valDer.valor.equals(Const.verdadero))
+                                valDer.valor = "1";
+                            if (valDer.valor.equals(Const.falso))
+                                valDer.valor = "0";
+                            res.valor = Double.valueOf(valIzq.valor) + Double.valueOf(valDer.valor) + "";
+                            break;
+                        case 22://caracter + Bool
                             res.tipo = Const.terror;
-                            res.valor = "Division entre 0";
-                        }
-                        break;
-                    case 4://numero / decimal
-                    case 6://decimal / decimal
-                        res.tipo = Const.tdecimal;
-                        if (Double.valueOf(valDer.valor) != 0)
-                            res.valor = Double.valueOf(valIzq.valor) / Double.valueOf(valDer.valor) + "";
-                        else
-                        {
+                            res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] + [" + getTipo(valDer.tipo) + "]";
+                            break;
+                        case 30://Bool + Bool
+                            res.tipo = Const.tbool;
+                            res.valor = Const.falso;
+                            if (valIzq.valor.equals(Const.verdadero) || valDer.valor.equals(Const.verdadero))
+                                res.valor = Const.verdadero;
+                            break;
+                    }
+                    break;//case suma
+                case Const.menos:
+                    switch (valDer.tipo + valIzq.tipo)
+                    {
+                        case 2://numero - numero
+                            res.tipo = Const.tnumero;
+                            res.valor = Integer.valueOf(valIzq.valor) - Integer.valueOf(valDer.valor) + "";
+                            break;
+                        case 4://numero + decimal
+                        case 6://decimal + decimal
+                            res.tipo = Const.tdecimal;
+                            res.valor = Double.valueOf(valIzq.valor) - Double.valueOf(valDer.valor) + "";
+                            break;
+                        case 8://numero - caracter
+                            res.tipo = Const.tnumero;
+                            int num1 = 0;
+                            int num2 = 0;
+                            if(valIzq.tipo == 1)
+                            {
+                                num1 = Integer.valueOf(valIzq.valor);
+                                num2 = (int) valDer.valor.charAt(0);
+                            }
+                            else
+                            {
+                                num1 = (int) valIzq.valor.charAt(0);
+                                num2 = Integer.valueOf(valDer.valor);
+                            }
+                            res.valor = num1 - num2 + "";            
+                            break;
+                        case 10://decimal - caracter
+                            res.tipo = Const.tdecimal;
+                            double dec1 = 0;
+                            double dec2 = 0;
+                            if(valIzq.tipo == 1)
+                            {
+                                dec1 = Double.valueOf(valIzq.valor);
+                                dec2 = (int) valDer.valor.charAt(0);
+                            }
+                            else
+                            {
+                                dec1 = (int) valIzq.valor.charAt(0);
+                                dec2 = Double.valueOf(valDer.valor);
+                            }
+                            res.valor = dec1 - dec2 + "";            
+                            break;
+                        case 16://numero - Bool
+                            res.tipo = Const.tnumero;
+                            if (valIzq.valor.equals(Const.verdadero))
+                                valIzq.valor = "1";
+                            if (valIzq.valor.equals(Const.falso))
+                                valIzq.valor = "0";
+                            if (valDer.valor.equals(Const.verdadero))
+                                valDer.valor = "1";
+                            if (valDer.valor.equals(Const.falso))
+                                valDer.valor = "0";
+                            res.valor = Integer.valueOf(valIzq.valor) - Integer.valueOf(valDer.valor) + "";
+                            break;
+                        case 18://decimal - Bool
+                            res.tipo = Const.tdecimal;
+                            if (valIzq.valor.equals(Const.verdadero))
+                                valIzq.valor = "1";
+                            if (valIzq.valor.equals(Const.falso))
+                                valIzq.valor = "0";
+                            if (valDer.valor.equals(Const.verdadero))
+                                valDer.valor = "1";
+                            if (valDer.valor.equals(Const.falso))
+                                valDer.valor = "0";
+                            res.valor = Double.valueOf(valIzq.valor) - Double.valueOf(valDer.valor) + "";
+                            break;
+                        case 11://numero - cadena
+                        case 13://decimal - cadena
+                        case 14://caracter - caracter
+                        case 17://caracter - cadena
+                        case 20://cadena - cadena
+                        case 22://caracter - Bool
+                        case 25://cadena - Bool
+                        case 30://Bool - Bool
                             res.tipo = Const.terror;
-                            res.valor = "Division entre 0";
-                        }
-                        break;
-                    case 8://numero / caracter
-                    case 10://decimal / caracter
-                        res.tipo = Const.tdecimal;
-                        double dec1 = 0;
-                        double dec2 = 0;
-                        if(valIzq.tipo == 1)
-                        {
-                            dec1 = Double.valueOf(valIzq.valor);
-                            dec2 = (int) valDer.valor.charAt(0);
-                        }
-                        else
-                        {
-                            dec1 = (int) valIzq.valor.charAt(0);
-                            dec2 = Double.valueOf(valDer.valor);
-                        }
-                        if (dec2 != 0)
+                            res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] - [" + getTipo(valDer.tipo) + "]";
+                            break;
+                    }
+                    break;//case menos
+                case Const.por:
+                    switch (valDer.tipo + valIzq.tipo)
+                    {
+                        case 2://numero * numero
+                            res.tipo = Const.tnumero;
+                            res.valor = Integer.valueOf(valIzq.valor) * Integer.valueOf(valDer.valor) + "";
+                            break;
+                        case 4://numero * decimal
+                        case 6://decimal * decimal
+                            res.tipo = Const.tdecimal;
+                            res.valor = Double.valueOf(valIzq.valor) * Double.valueOf(valDer.valor) + "";
+                            break;
+                        case 8://numero * caracter
+                            res.tipo = Const.tnumero;
+                            int num1 = 0;
+                            int num2 = 0;
+                            if(valIzq.tipo == 1)
+                            {
+                                num1 = Integer.valueOf(valIzq.valor);
+                                num2 = (int) valDer.valor.charAt(0);
+                            }
+                            else
+                            {
+                                num1 = (int) valIzq.valor.charAt(0);
+                                num2 = Integer.valueOf(valDer.valor);
+                            }
+                            res.valor = num1 * num2 + "";            
+                            break;
+                        case 10://decimal * caracter
+                            res.tipo = Const.tdecimal;
+                            double dec1 = 0;
+                            double dec2 = 0;
+                            if(valIzq.tipo == 1)
+                            {
+                                dec1 = Double.valueOf(valIzq.valor);
+                                dec2 = (int) valDer.valor.charAt(0);
+                            }
+                            else
+                            {
+                                dec1 = (int) valIzq.valor.charAt(0);
+                                dec2 = Double.valueOf(valDer.valor);
+                            }
                             res.valor = dec1 * dec2 + "";
-                        else
-                        {
+                            break;
+                        case 16://numero * Bool
+                            res.tipo = Const.tnumero;
+                            if (valIzq.valor.equals(Const.verdadero))
+                                valIzq.valor = "1";
+                            if (valIzq.valor.equals(Const.falso))
+                                valIzq.valor = "0";
+                            if (valDer.valor.equals(Const.verdadero))
+                                valDer.valor = "1";
+                            if (valDer.valor.equals(Const.falso))
+                                valDer.valor = "0";
+                            res.valor = Integer.valueOf(valIzq.valor) * Integer.valueOf(valDer.valor) + "";
+                            break;
+                        case 18://decimal * Bool
+                            res.tipo = Const.tdecimal;
+                            if (valIzq.valor.equals(Const.verdadero))
+                                valIzq.valor = "1";
+                            if (valIzq.valor.equals(Const.falso))
+                                valIzq.valor = "0";
+                            if (valDer.valor.equals(Const.verdadero))
+                                valDer.valor = "1";
+                            if (valDer.valor.equals(Const.falso))
+                                valDer.valor = "0";
+                            res.valor = Double.valueOf(valIzq.valor) * Double.valueOf(valDer.valor) + "";
+                            break;
+                        case 11://numero * cadena
+                        case 13://decimal * cadena
+                        case 14://caracter * caracter
+                        case 17://caracter * cadena
+                        case 20://cadena * cadena
+                        case 22://caracter * Bool
+                        case 25://cadena * Bool
                             res.tipo = Const.terror;
-                            res.valor = "Division entre 0";
-                        }
-                        break;
-                    case 16://numero / Bool
-                        res.tipo = Const.tdecimal;
-                        if (valIzq.valor.equals(Const.verdadero))
-                            valIzq.valor = "1";
-                        if (valIzq.valor.equals(Const.falso))
-                            valIzq.valor = "0";
-                        if (valDer.valor.equals(Const.verdadero))
-                            valDer.valor = "1";
-                        if (valDer.valor.equals(Const.falso))
-                            valDer.valor = "0";
-                        if (Integer.valueOf(valDer.valor) != 0)
-                                res.valor = Integer.valueOf(valIzq.valor) / Integer.valueOf(valDer.valor) + "";
-                        else
-                        {
+                            res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] * [" + getTipo(valDer.tipo) + "]";
+                            break;
+                        case 30://Bool * Bool
+                            res.tipo = Const.tbool;
+                            res.valor = Const.falso;
+                            if (valIzq.valor.equals(Const.verdadero) && valDer.valor.equals(Const.verdadero))
+                                res.valor = Const.verdadero;
+                            break;
+                    }
+                    break;//case por
+                case Const.dividido:
+                    switch (valDer.tipo + valIzq.tipo)
+                    {
+                        case 2://numero / numero
+                            res.tipo = Const.tdecimal;
+                            if (Integer.valueOf(valDer.valor) != 0)
+                                res.valor = Double.valueOf(valIzq.valor) / Double.valueOf(valDer.valor) + "";
+                            else
+                            {
+                                res.tipo = Const.terror;
+                                res.valor = "Division entre 0";
+                            }
+                            break;
+                        case 4://numero / decimal
+                        case 6://decimal / decimal
+                            res.tipo = Const.tdecimal;
+                            if (Double.valueOf(valDer.valor) != 0)
+                                res.valor = Double.valueOf(valIzq.valor) / Double.valueOf(valDer.valor) + "";
+                            else
+                            {
+                                res.tipo = Const.terror;
+                                res.valor = "Division entre 0";
+                            }
+                            break;
+                        case 8://numero / caracter
+                        case 10://decimal / caracter
+                            res.tipo = Const.tdecimal;
+                            double dec1 = 0;
+                            double dec2 = 0;
+                            if(valIzq.tipo == 1)
+                            {
+                                dec1 = Double.valueOf(valIzq.valor);
+                                dec2 = (int) valDer.valor.charAt(0);
+                            }
+                            else
+                            {
+                                dec1 = (int) valIzq.valor.charAt(0);
+                                dec2 = Double.valueOf(valDer.valor);
+                            }
+                            if (dec2 != 0)
+                                res.valor = dec1 * dec2 + "";
+                            else
+                            {
+                                res.tipo = Const.terror;
+                                res.valor = "Division entre 0";
+                            }
+                            break;
+                        case 16://numero / Bool
+                            res.tipo = Const.tdecimal;
+                            if (valIzq.valor.equals(Const.verdadero))
+                                valIzq.valor = "1";
+                            if (valIzq.valor.equals(Const.falso))
+                                valIzq.valor = "0";
+                            if (valDer.valor.equals(Const.verdadero))
+                                valDer.valor = "1";
+                            if (valDer.valor.equals(Const.falso))
+                                valDer.valor = "0";
+                            if (Integer.valueOf(valDer.valor) != 0)
+                                    res.valor = Integer.valueOf(valIzq.valor) / Integer.valueOf(valDer.valor) + "";
+                            else
+                            {
+                                res.tipo = Const.terror;
+                                res.valor = "Division entre 0";
+                            }
+                            break;
+                        case 18://decimal / Bool
+                            res.tipo = Const.tdecimal;
+                            if (valIzq.valor.equals(Const.verdadero))
+                                valIzq.valor = "1";
+                            if (valIzq.valor.equals(Const.falso))
+                                valIzq.valor = "0";
+                            if (valDer.valor.equals(Const.verdadero))
+                                valDer.valor = "1";
+                            if (valDer.valor.equals(Const.falso))
+                                valDer.valor = "0";
+                            if (Double.valueOf(valDer.valor) != 0)
+                                res.valor = Double.valueOf(valIzq.valor) / Double.valueOf(valDer.valor) + "";
+                            else
+                            {
+                                res.tipo = Const.terror;
+                                res.valor = "Division entre 0";
+                            }
+                            break;
+                        case 11://numero / cadena
+                        case 13://decimal / cadena
+                        case 14://caracter / caracter
+                        case 17://caracter / cadena
+                        case 20://cadena / cadena
+                        case 22://caracter / Bool
+                        case 25://cadena / Bool
+                        case 30://Bool / Bool
                             res.tipo = Const.terror;
-                            res.valor = "Division entre 0";
-                        }
-                        break;
-                    case 18://decimal / Bool
-                        res.tipo = Const.tdecimal;
-                        if (valIzq.valor.equals(Const.verdadero))
-                            valIzq.valor = "1";
-                        if (valIzq.valor.equals(Const.falso))
-                            valIzq.valor = "0";
-                        if (valDer.valor.equals(Const.verdadero))
-                            valDer.valor = "1";
-                        if (valDer.valor.equals(Const.falso))
-                            valDer.valor = "0";
-                        if (Double.valueOf(valDer.valor) != 0)
-                            res.valor = Double.valueOf(valIzq.valor) / Double.valueOf(valDer.valor) + "";
-                        else
-                        {
+                            res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] / [" + getTipo(valDer.tipo) + "]";
+                            break;
+                    }
+                    break;//case dividido
+                    case Const.pot:
+                    switch (valDer.tipo + valIzq.tipo)
+                    {
+                        case 2://numero ^ numero
+                            res.tipo = Const.tnumero;
+                            res.valor = Math.round(Math.pow(Integer.valueOf(valIzq.valor) , Integer.valueOf(valDer.valor))) + "";
+                            break;
+                        case 4://numero ^ decimal
+                        case 6://decimal ^ decimal
+                            res.tipo = Const.tdecimal;
+                            res.valor = Math.pow(Double.valueOf(valIzq.valor) , Double.valueOf(valDer.valor)) + "";
+                            break;
+                        case 8://numero ^ caracter
+                            res.tipo = Const.tnumero;
+                            int num1 = 0;
+                            int num2 = 0;
+                            if(valIzq.tipo == 1)
+                            {
+                                num1 = Integer.valueOf(valIzq.valor);
+                                num2 = (int) valDer.valor.charAt(0);
+                            }
+                            else
+                            {
+                                num1 = (int) valIzq.valor.charAt(0);
+                                num2 = Integer.valueOf(valDer.valor);
+                            }
+                            res.valor = Math.round(Math.pow(num1 , num2)) + "";            
+                            break;
+                        case 10://decimal ^ caracter
+                            res.tipo = Const.tdecimal;
+                            double dec1 = 0;
+                            double dec2 = 0;
+                            if(valIzq.tipo == 1)
+                            {
+                                dec1 = Double.valueOf(valIzq.valor);
+                                dec2 = (int) valDer.valor.charAt(0);
+                            }
+                            else
+                            {
+                                dec1 = (int) valIzq.valor.charAt(0);
+                                dec2 = Double.valueOf(valDer.valor);
+                            }
+                            res.valor = Math.pow(dec1 , dec2) + "";
+                            break;
+                        case 16://numero ^ Bool
+                            res.tipo = Const.tnumero;
+                            if (valIzq.valor.equals(Const.verdadero))
+                                valIzq.valor = "1";
+                            if (valIzq.valor.equals(Const.falso))
+                                valIzq.valor = "0";
+                            if (valDer.valor.equals(Const.verdadero))
+                                valDer.valor = "1";
+                            if (valDer.valor.equals(Const.falso))
+                                valDer.valor = "0";
+                            res.valor = Math.round(Math.pow(Integer.valueOf(valIzq.valor) , Integer.valueOf(valDer.valor))) + "";
+                            break;
+                        case 18://decimal ^ Bool
+                            res.tipo = Const.tdecimal;
+                            if (valIzq.valor.equals(Const.verdadero))
+                                valIzq.valor = "1";
+                            if (valIzq.valor.equals(Const.falso))
+                                valIzq.valor = "0";
+                            if (valDer.valor.equals(Const.verdadero))
+                                valDer.valor = "1";
+                            if (valDer.valor.equals(Const.falso))
+                                valDer.valor = "0";
+                            res.valor = Math.pow(Double.valueOf(valIzq.valor) , Double.valueOf(valDer.valor)) + "";
+                            break;
+                        case 11://numero ^ cadena
+                        case 13://decimal ^ cadena
+                        case 14://caracter ^ caracter
+                        case 17://caracter ^ cadena
+                        case 20://cadena ^ cadena
+                        case 22://caracter ^ Bool
+                        case 25://cadena ^ Bool
+                        case 30://Bool ^ Bool
                             res.tipo = Const.terror;
-                            res.valor = "Division entre 0";
-                        }
-                        break;
-                    case 11://numero / cadena
-                    case 13://decimal / cadena
-                    case 14://caracter / caracter
-                    case 17://caracter / cadena
-                    case 20://cadena / cadena
-                    case 22://caracter / Bool
-                    case 25://cadena / Bool
-                    case 30://Bool / Bool
-                        res.tipo = Const.terror;
-                        res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] / [" + getTipo(valDer.tipo) + "]";
-                        break;
-                }
-                break;//case dividido
-                case Const.pot:
-                switch (valDer.tipo + valIzq.tipo)
-                {
-                    case 2://numero ^ numero
-                        res.tipo = Const.tnumero;
-                        res.valor = Math.round(Math.pow(Integer.valueOf(valIzq.valor) , Integer.valueOf(valDer.valor))) + "";
-                        break;
-                    case 4://numero ^ decimal
-                    case 6://decimal ^ decimal
-                        res.tipo = Const.tdecimal;
-                        res.valor = Math.pow(Double.valueOf(valIzq.valor) , Double.valueOf(valDer.valor)) + "";
-                        break;
-                    case 8://numero ^ caracter
-                        res.tipo = Const.tnumero;
-                        int num1 = 0;
-                        int num2 = 0;
-                        if(valIzq.tipo == 1)
-                        {
-                            num1 = Integer.valueOf(valIzq.valor);
-                            num2 = (int) valDer.valor.charAt(0);
-                        }
-                        else
-                        {
-                            num1 = (int) valIzq.valor.charAt(0);
-                            num2 = Integer.valueOf(valDer.valor);
-                        }
-                        res.valor = Math.round(Math.pow(num1 , num2)) + "";            
-                        break;
-                    case 10://decimal ^ caracter
-                        res.tipo = Const.tdecimal;
-                        double dec1 = 0;
-                        double dec2 = 0;
-                        if(valIzq.tipo == 1)
-                        {
-                            dec1 = Double.valueOf(valIzq.valor);
-                            dec2 = (int) valDer.valor.charAt(0);
-                        }
-                        else
-                        {
-                            dec1 = (int) valIzq.valor.charAt(0);
-                            dec2 = Double.valueOf(valDer.valor);
-                        }
-                        res.valor = Math.pow(dec1 , dec2) + "";
-                        break;
-                    case 16://numero ^ Bool
-                        res.tipo = Const.tnumero;
-                        if (valIzq.valor.equals(Const.verdadero))
-                            valIzq.valor = "1";
-                        if (valIzq.valor.equals(Const.falso))
-                            valIzq.valor = "0";
-                        if (valDer.valor.equals(Const.verdadero))
-                            valDer.valor = "1";
-                        if (valDer.valor.equals(Const.falso))
-                            valDer.valor = "0";
-                        res.valor = Math.round(Math.pow(Integer.valueOf(valIzq.valor) , Integer.valueOf(valDer.valor))) + "";
-                        break;
-                    case 18://decimal ^ Bool
-                        res.tipo = Const.tdecimal;
-                        if (valIzq.valor.equals(Const.verdadero))
-                            valIzq.valor = "1";
-                        if (valIzq.valor.equals(Const.falso))
-                            valIzq.valor = "0";
-                        if (valDer.valor.equals(Const.verdadero))
-                            valDer.valor = "1";
-                        if (valDer.valor.equals(Const.falso))
-                            valDer.valor = "0";
-                        res.valor = Math.pow(Double.valueOf(valIzq.valor) , Double.valueOf(valDer.valor)) + "";
-                        break;
-                    case 11://numero ^ cadena
-                    case 13://decimal ^ cadena
-                    case 14://caracter ^ caracter
-                    case 17://caracter ^ cadena
-                    case 20://cadena ^ cadena
-                    case 22://caracter ^ Bool
-                    case 25://cadena ^ Bool
-                    case 30://Bool ^ Bool
-                        res.tipo = Const.terror;
-                        res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] ^ [" + getTipo(valDer.tipo) + "]";
-                        break;
-                }
-                break;//case potencia
-        }
+                            res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] ^ [" + getTipo(valDer.tipo) + "]";
+                            break;
+                    }
+                    break;//case potencia
+            }
         return res;
     }
     

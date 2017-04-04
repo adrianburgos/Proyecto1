@@ -329,8 +329,16 @@ public class SemanticoTerm {
                 break;
             case Const.id:
                 Elemento ele = PilaHaskell.buscar(max.valor);
-                valores.dim = ele.dim;
-                valores.lvalores = ele.lvalores;
+                if(ele != null)
+                {
+                    valores.dim = ele.dim;
+                    valores.lvalores = ele.lvalores;
+                }
+                else
+                {
+                    String error = "[" + max.valor + "] No ha sido declarada como lista";
+                    ErroresHaskell.agregarError("Error semantico", error, 0, 0);
+                }
                 break;
         }
         if(valores.dim != null )

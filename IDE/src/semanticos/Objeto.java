@@ -28,8 +28,8 @@ public class Objeto {
 
     public Objeto()
     {
-        this.tipo = 0;
-        this.valor = "";
+        this.tipo = -1;
+        this.valor = " ";
         dim = new LinkedList<>();
         lvalores = new LinkedList<>();
     }

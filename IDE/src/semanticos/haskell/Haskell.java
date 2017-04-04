@@ -67,23 +67,37 @@ public class Haskell {
             if(funcion != null)
             {
                 Pila.crearAmbito(Const.tvacio, -1);
+                PilaHaskell.crearAmbito(Const.tvacio, -1);
                 Nodo lpar = funcion.hijos.get(0);
                 for(int i = 0; i < lvalores.size(); i++)
                 {
                     Nodo par = lpar.hijos.get(i);
                     Elemento elePar = new Elemento(par.valor, par.tipo, lvalores.get(i).valor);
-                    if(lvalores.get(i).tipo == Const.tals)
-                    {
-                        elePar.tipoAls = lvalores.get(i).tipoAls;
-                        elePar.objeto = (Ambito) lvalores.get(i).objeto;
+                    switch (lvalores.get(i).tipo) {
+                        case Const.tcadena:
+                            elePar.tipo = Const.tcaracter;
+                            elePar.valor = "";
+                            elePar.dim.add(lvalores.get(i).valor.length());
+                            for(int j = 0; j < lvalores.get(i).valor.length(); j++)
+                            {
+                                Objeto obj = new Objeto(Const.tcaracter, lvalores.get(i).valor.charAt(j) + "");
+                                elePar.lvalores.add(obj);
+                            }
+                            PilaHaskell.agregarElemeto(elePar);
+                            break;
+                        case Const.tals:
+                            String error = "Una funcion de Haskell no puede tener un ALS como parametro";
+                            ErroresGraphik.agregarError("Error semantico", error, 0, 0);
+                            break;
+                        default:
+                            Pila.agregarElemeto(elePar);
+                            break;
                     }
-                    Pila.agregarElemeto(elePar);
                 }
                 
                 for(Nodo inst : funcion.hijos.get(1).hijos)
-                {
                     res = EjecutarTerm.ejecutarInst(inst);
-                }
+                PilaHaskell.eliminarAmbito();
                 Pila.eliminarAmbito();
             }
             else

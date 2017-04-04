@@ -326,6 +326,12 @@ public class EjecutarArbol {
                 elePar.tipoAls = lvalores.get(i).tipoAls;
                 elePar.objeto = (Ambito) lvalores.get(i).objeto;
             }
+            else
+                if(lvalores.get(i).dim != null && lvalores.get(i).dim.size() > 0)
+                {
+                    elePar.dim = lvalores.get(i).dim;
+                    elePar.lvalores = lvalores.get(i).lvalores;
+                }
             Pila.agregarElemeto(elePar);
         }
         Nodo lcuerpo = funcion.hijos.get(1);

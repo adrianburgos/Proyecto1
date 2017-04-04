@@ -439,7 +439,7 @@ public class Principal extends javax.swing.JFrame {
         JTextArea ta = new JTextArea();
         ta.setFont(new Font("Tahoma", 0, 18));
         JScrollPane sp = new JScrollPane(ta);
-        tpArchivos.addTab("Nuevo.gh", sp);
+        tpArchivos.addTab("Nuevo.hk", sp);
         tpArchivos.setSelectedIndex(tpArchivos.getTabCount() - 1);
     }//GEN-LAST:event_bNuevo1ActionPerformed
 
@@ -531,15 +531,15 @@ public class Principal extends javax.swing.JFrame {
         JScrollPane sp = (JScrollPane) tpArchivos.getSelectedComponent().getComponentAt(0,0);
         JTextArea texto = (JTextArea) sp.getViewport().getView();
         try {
-            pintarPalabra(texto,"[#][/](.|\n)*[/][#]",Color.GRAY);//comentario multi linea
-            pintarPalabra(texto,"[#](.)*[\n]",Color.GRAY);//comentario una linea
-            pintarPalabra(texto,"([\"](.)*[\"])|(['](.)*['])",Color.green);
             pintarPalabra(texto,"(?i)(entero|decimal|cadena|vacio|caracter|bool"
                     + "|publico|privado|protegido|var|mientras|hacer|para|selecciona"
                     + "|retornar|llamar|llamarHK|als|hereda|nuevo|inicio|importar|incluir"
                     + "|sino|caso|defecto|columna|continuar|terminar|graphikar_funcion|datos"
-                    + "|procesar|donde|dondecada|dondetodo|imprimir|falso|verdadero)",new Color(51, 153, 255));//palabras reservadas
-            pintarPalabra(texto,"\\w",Color.ORANGE);//identificador
+                    + "|procesar|donde|dondecada|dondetodo|imprimir|falso|verdadero)",new Color(51, 153, 255));
+            pintarPalabra(texto,"\\w",Color.ORANGE);
+            pintarPalabra(texto,"([\"](.)*[\"])|(['](.)*['])",Color.green);
+            pintarPalabra(texto,"[#][/](.|\n)*[/][#]",Color.GRAY);
+            pintarPalabra(texto,"[#](.)*[\n]",Color.GRAY);
             
             
         } catch (Exception ex) {
