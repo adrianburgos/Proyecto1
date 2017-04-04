@@ -4,6 +4,7 @@ import java_cup.runtime.Symbol;
 import Reportes.*;
 import fabrica.*;
 import ide.Const;
+import semanticos.haskell.Haskell;
 parser code
 {:
     public Nodo raiz = new Nodo(); 
@@ -31,7 +32,7 @@ terminal String numero, iden, cadena, caracter, enter;
 
 non terminal Nodo INICIO, LIST, CUERPO, CALCULAR, SUCC, DECC, MIN, MAX, CONCATLISTAS, OPLIST, E, LLAMADO;
 non terminal Nodo IF, CASE;
-non terminal Nodo LISTA, L, LCORCHETES, LVAL, LCAR, VALCASE, LVALOR, POS;
+non terminal Nodo LISTA, L, LCORCHETES, LVAL, LCAR, LCAD, VALCASE, LVALOR, POS;
 non terminal Nodo LFUNCION, FUN, LCUERPO, LPAR, COND, LCASOS, CASO, VALOR, OPEXP, VALCASO, OPLISTA, OPSIST, LEXP, EXP;
 non terminal String OPREL;
 
@@ -109,12 +110,29 @@ POS             ::= poslista CALCULAR:CALCULAR {: RESULT = NodoGeneral.crearPos(
 LIST            ::= dolar let iden:id igual LISTA:LISTA dolar {: RESULT = NodoGeneral.crearLista(id, LISTA); :};
 LISTA           ::= CONCATLISTAS:CONCAT {: RESULT = CONCAT; :}
                 |   acorchete L:L ccorchete {: RESULT = L; :}
-                |   cadena:t1 {: RESULT = NodoGeneral.crearHoja(Const.cadena, t1); :}
+                |   cadena:t1 {: RESULT = Haskell.convertirCadena(t1); :}
                 |   OPLISTA:OP {: RESULT = OP; :}
                 |   iden:t1 {: RESULT = NodoGeneral.crearHoja(Const.id, t1); :}
                 |   LLAMADO:t1 {: RESULT = t1; :};
 L               ::= LCORCHETES:LCORCHETES {: RESULT = LCORCHETES; :}
-                |   LVAL:LVAL {: RESULT = LVAL; :};
+                |   LVAL:LVAL {: RESULT = LVAL; :}
+                |   LCAD:LCAD
+                {:
+                    Nodo cor = new Nodo(Const.lcorchetes);
+                    cor.hijos.addAll(LCAD.hijos);
+                    RESULT = (Nodo) cor;
+                :};
+LCAD            ::= LCAD:LCAD coma cadena:t1
+                {:
+                    LCAD.hijos.add(Haskell.convertirCadena(t1));
+                    RESULT = LCAD;
+                :}
+                |   cadena:t1
+                {:
+                    Nodo lcad = new Nodo("LCAD");
+                    lcad.hijos.add(Haskell.convertirCadena(t1));
+                    RESULT = (Nodo) lcad;
+                :};
 LCORCHETES      ::= LCORCHETES:LCORCHETES coma acorchete LVAL:LVAL ccorchete 
                     {:
                         LCORCHETES.hijos.add(LVAL);
@@ -122,8 +140,7 @@ LCORCHETES      ::= LCORCHETES:LCORCHETES coma acorchete LVAL:LVAL ccorchete
                     :}
                 |   acorchete LVAL:LVAL ccorchete {: RESULT = NodoGeneral.crearLcorchetes(LVAL); :};
 LVAL            ::= LCAR:LCAR {: RESULT = LCAR; :}
-                |   LEXP:LEXP {: RESULT = LEXP; :}
-                |   cadena:t1 {: RESULT = NodoGeneral.crearHoja(Const.cadena, t1); :};
+                |   LEXP:LEXP {: RESULT = LEXP; :};
 LCAR            ::= LCAR:LCAR coma caracter:t1
                     {:
                         LCAR.hijos.add(NodoGeneral.crearHoja(Const.caracter, t1));
@@ -207,7 +224,7 @@ VALOR           ::= CALCULAR:t1 {: RESULT = t1; :}
                 |   OPEXP:OP {: RESULT = OP; :}
                 |   iden:t1 {: RESULT = NodoGeneral.crearHoja(Const.id, t1); :}
                 |   caracter:t1 {: RESULT = NodoGeneral.crearHoja(Const.caracter, t1); :}
-                |   cadena:t1 {: RESULT = NodoGeneral.crearHoja(Const.cadena, t1); :}
+                |   cadena:t1 {: RESULT = Haskell.convertirCadena(t1); :}
                 |   acorchete L:L ccorchete {: RESULT = L; :}
                 |   dolar LISTA:t1 POS:POS dolar{: RESULT = NodoGeneral.crearPosLista(t1, POS); :};
 

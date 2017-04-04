@@ -40,13 +40,52 @@ public class EjecutarArbol {
         else
         {
             //hereda
-
-            //crear tabla de simbolos
-            LinkedList<Nodo> clasePrincipal = buscarClasePrincipal(raiz.hijos.get(1));
-            Pila.inicializarPila(clasePrincipal.get(0).hijos.get(1));
-            //ejecutar principal
-            ejecutarPrincipal(clasePrincipal.get(1));
+            recorrerHereda();
+            Arbol.getGrafo(raiz);
+            Arbol.dibujar();
+            if(ErroresGraphik.contErrores > 0)
+            {
+                ErroresGraphik.generarErrores();
+            }
+            else
+            {
+                //crear tabla de simbolos
+                LinkedList<Nodo> clasePrincipal = buscarClasePrincipal(raiz.hijos.get(1));
+                Pila.inicializarPila(clasePrincipal.get(0).hijos.get(1));
+                //ejecutar principal
+                ejecutarPrincipal(clasePrincipal.get(1));
+                Pila.eliminarAmbito();
+            }
         }
+    }
+    
+    public static void recorrerHereda()
+    {
+        for(Nodo ALS : raiz.hijos.get(1).hijos)
+        {
+            if(!ALS.hijos.get(0).valor.equals(Const.hereda))
+            {
+                Nodo hereda = buscarClase(ALS.hijos.get(0).valor);
+                if(hereda != null)
+                {
+                    heredar(ALS, hereda);
+                }
+            }
+        }
+    }
+    
+    public static void heredar(Nodo ALS, Nodo hereda)
+    {
+        if(!hereda.hijos.get(0).valor.equals(Const.hereda))
+        {
+            Nodo hereda2 = buscarClase(hereda.hijos.get(0).valor);
+            if(hereda2 != null)
+                heredar(hereda, hereda2);
+        }
+        for(Nodo dec : hereda.hijos.get(1).hijos)
+            if(dec.visibilidad.equals(Const.publico) || dec.visibilidad.equals(Const.protegido))
+                ALS.hijos.get(1).hijos.add(dec);
+        hereda.hijos.get(0).valor = Const.hereda;
     }
     
     public static void recorrerImportar(Nodo raiz)
@@ -115,7 +154,7 @@ public class EjecutarArbol {
         //se crea el ambito para Principal
         Pila.crearAmbito(Const.tvacio);
         ejecutarCuerpo(nodo.hijos.get(0));
-        //Pila.eliminarAmbito();
+        Pila.eliminarAmbito();
     }
     
     public static TipoRetorno ejecutarCuerpo(Nodo cuerpo)

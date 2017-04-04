@@ -32,7 +32,7 @@ terminal datos, columna, procesar, donde, dondecada, dondetodo, imprimir;
 terminal masmas, menosmenos, mas, menos, por, dividido, pot, and, or, xor, not, menorigual, mayorigual;
 terminal menor, mayor, diferente, igualigual, interroga, dospuntos, igual, punto, coma, allave, cllave;
 terminal acorchete, ccorchete, aparentesis, cparentesis;
-terminal String numero, dec, iden, idengk, idenhk, cad, car, verdadero, falso;
+terminal String numero, dec, iden, idengk, cad, car, verdadero, falso;
 
 non terminal Nodo INICIO, FUN, LALS, ALS, CUERPO, HEREDA, LCUERPOALS, CUERPOALS, LIMPORTAR, VALOR;
 non terminal Nodo IMPORTAR, INCLUIR, LID, ID, LVALOR, DEC, PRINCIPAL, LPAR, ASIG, ASIGNORMAL, LCORCHETES, ASIGARR;
@@ -129,7 +129,7 @@ ALS             ::= als iden:id HEREDA:HEREDA VISIBILIDAD:VISIBILIDAD allave LCU
                     :};
 
 HEREDA          ::= hereda iden:id {: RESULT = new Nodo(Const.hereda, id); :}
-                |   {: RESULT = new Nodo(Const.hereda); :};
+                |   {: RESULT = new Nodo(Const.hereda,Const.hereda); :};
 
 VISIBILIDAD     ::= dospuntos publico {: RESULT = Const.publico; :}
                 |   dospuntos protegido {: RESULT = Const.protegido; :}

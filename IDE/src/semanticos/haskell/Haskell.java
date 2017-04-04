@@ -153,4 +153,15 @@ public class Haskell {
         }
         return res;
     }
+    
+    public static Nodo convertirCadena(String cadena)
+    {
+        Nodo lista = new Nodo(Const.lista);
+        for(int i = 0; i < cadena.length(); i++)
+        {
+            Nodo car = new Nodo(Const.caracter, cadena.charAt(i) + "", Const.tcaracter);
+            lista.hijos.add(car);
+        }
+        return lista;
+    }
 }

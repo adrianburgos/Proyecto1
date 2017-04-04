@@ -278,6 +278,7 @@ public class Semantico {
                     case 14://caracter + caracter
                     case 17://caracter + cadena
                     case 20://cadena + cadena
+                    case 25://cadena + Bool
                         res.tipo = Const.tcadena;
                         res.valor = quitarComillas(valIzq.valor) + quitarComillas(valDer.valor);
                         break;
@@ -306,7 +307,6 @@ public class Semantico {
                         res.valor = Double.valueOf(valIzq.valor) + Double.valueOf(valDer.valor) + "";
                         break;
                     case 22://caracter + Bool
-                    case 25://cadena + Bool
                         res.tipo = Const.terror;
                         res.valor = "No se pudo operar [" + getTipo(valIzq.tipo) + "] + [" + getTipo(valDer.tipo) + "]";
                         break;

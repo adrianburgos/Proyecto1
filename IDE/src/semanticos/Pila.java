@@ -124,6 +124,7 @@ public class Pila {
         {//la lista de ids esta compuesta por mas de 1 id hay que buscar en el ambito del elemento actual
             Nodo noSeEncontroError = null;
             int i = 1;
+            String nombreId = "";
             while(i < lid.hijos.size() && noSeEncontroError == null && !lid.hijos.get(i).nombre.equals(Const.lcorchetes))
             {
                 String als = elemento.tipoAls;
@@ -391,8 +392,7 @@ public class Pila {
                     case Const.tdecimal:
                         Double d = Double.valueOf(valor.valor);
                         int i = d.intValue();
-                        if(i - d == 0)
-                            return new Objeto(Const.tnumero, i + "");
+                        return new Objeto(Const.tnumero, i + "");
                 }
             case Const.tdecimal:
                 switch (valor.tipo)

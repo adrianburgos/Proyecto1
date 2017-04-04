@@ -11,26 +11,36 @@ import Analisis.haskell.*;
 import Reportes.Arbol;
 import Reportes.ErroresGraphik;
 import Reportes.ErroresHaskell;
+import static Reportes.ErroresHaskell.getHTML;
 import com.csvreader.CsvReader;
 import com.sun.glass.events.KeyEvent;
 import fabrica.*;
+import java.awt.Color;
 import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter.DefaultHighlightPainter;
+import javax.swing.text.Highlighter;
 import javax.swing.text.Style;
 import semanticos.EjecutarArbol;
 import semanticos.Objeto;
@@ -136,10 +146,31 @@ public class Principal extends javax.swing.JFrame {
         });
 
         bGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/guardar.png"))); // NOI18N
+        bGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bGuardarActionPerformed(evt);
+            }
+        });
 
         bGuardarComo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/guardar_como.png"))); // NOI18N
+        bGuardarComo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bGuardarComoActionPerformed(evt);
+            }
+        });
 
         bEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar.png"))); // NOI18N
+        bEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bEliminarActionPerformed(evt);
+            }
+        });
+
+        tpArchivos.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tpArchivosStateChanged(evt);
+            }
+        });
 
         bNuevo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevoHK.png"))); // NOI18N
         bNuevo1.addActionListener(new java.awt.event.ActionListener() {
@@ -194,15 +225,15 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(bEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bNuevo1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tpArchivos, javax.swing.GroupLayout.PREFERRED_SIZE, 637, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tpArchivos, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfEntradaConsola, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(1534, 903));
+        setSize(new java.awt.Dimension(1534, 941));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -344,6 +375,7 @@ public class Principal extends javax.swing.JFrame {
             }
             else
                 System.out.println("La raiz de graphik terminal es nula");
+            colores();
         }
     }//GEN-LAST:event_bEjecutarActionPerformed
 
@@ -435,7 +467,6 @@ public class Principal extends javax.swing.JFrame {
                    linea = br.readLine();
                 }
                 br.close();
-
             }
             catch (Exception e)
             {
@@ -444,6 +475,93 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bAbrirActionPerformed
 
+    private void tpArchivosStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tpArchivosStateChanged
+        
+    }//GEN-LAST:event_tpArchivosStateChanged
+
+    private void bEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEliminarActionPerformed
+        if (tpArchivos.getSelectedIndex() >= 0) {
+            tpArchivos.remove(tpArchivos.getSelectedIndex());
+        }
+    }//GEN-LAST:event_bEliminarActionPerformed
+
+    private void bGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bGuardarActionPerformed
+        String archivo = ruta + "\\" + tpArchivos.getTitleAt(tpArchivos.getSelectedIndex());
+        try
+        {
+            JScrollPane sp = (JScrollPane) tpArchivos.getSelectedComponent().getComponentAt(0,0);
+            JTextArea texto = (JTextArea) sp.getViewport().getView();
+            FileWriter fw = new FileWriter(archivo);
+            PrintWriter pw = new PrintWriter(fw);
+            pw.print(texto.getText());
+            fw.close();
+            taConsola.append("Se ha guardado: " + archivo + "\n");
+        } catch (Exception e) {
+            e.printStackTrace(); 
+        }
+    }//GEN-LAST:event_bGuardarActionPerformed
+
+    private void bGuardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bGuardarComoActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("C:\\Users\\AdrianFernando\\Desktop"));
+        FileFilter filtro = new FileNameExtensionFilter("Archivos","hk","gk");
+        fileChooser.setFileFilter(filtro);
+        if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
+        {
+            String archivo = fileChooser.getSelectedFile().getPath();
+            try
+            {
+                JScrollPane sp = (JScrollPane) tpArchivos.getSelectedComponent().getComponentAt(0,0);
+                JTextArea texto = (JTextArea) sp.getViewport().getView();
+                FileWriter fw = new FileWriter(fileChooser.getSelectedFile().getPath());
+                PrintWriter pw = new PrintWriter(fw);
+                pw.print(texto.getText());
+                fw.close();
+                ruta = fileChooser.getSelectedFile().getParent();
+                taConsola.append("Se ha guardado como: " + archivo + "\n");
+            } catch (Exception e) {
+                e.printStackTrace(); 
+            }
+        }
+    }//GEN-LAST:event_bGuardarComoActionPerformed
+
+    
+    private void colores()
+    {
+        JScrollPane sp = (JScrollPane) tpArchivos.getSelectedComponent().getComponentAt(0,0);
+        JTextArea texto = (JTextArea) sp.getViewport().getView();
+        try {
+            pintarPalabra(texto,"[#][/](.|\n)*[/][#]",Color.GRAY);//comentario multi linea
+            pintarPalabra(texto,"[#](.)*[\n]",Color.GRAY);//comentario una linea
+            pintarPalabra(texto,"([\"](.)*[\"])|(['](.)*['])",Color.green);
+            pintarPalabra(texto,"(?i)(entero|decimal|cadena|vacio|caracter|bool"
+                    + "|publico|privado|protegido|var|mientras|hacer|para|selecciona"
+                    + "|retornar|llamar|llamarHK|als|hereda|nuevo|inicio|importar|incluir"
+                    + "|sino|caso|defecto|columna|continuar|terminar|graphikar_funcion|datos"
+                    + "|procesar|donde|dondecada|dondetodo|imprimir|falso|verdadero)",new Color(51, 153, 255));//palabras reservadas
+            pintarPalabra(texto,"\\w",Color.ORANGE);//identificador
+            
+            
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    private void pintarPalabra(JTextArea ta, String texto, Color color) throws BadLocationException {
+        if (texto.length() >= 1) {
+            DefaultHighlightPainter highlightPainter = new DefaultHighlightPainter(color);
+            Highlighter h = ta.getHighlighter();
+            //h.removeAllHighlights();
+            String cadena = ta.getText();
+            String caracteres = texto;
+            Pattern p = Pattern.compile(caracteres);
+            Matcher m = p.matcher(cadena);
+            while (m.find()) {
+                h.addHighlight(m.start(), m.end(), highlightPainter);
+            }
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
